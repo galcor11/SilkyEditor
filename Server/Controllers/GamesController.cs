@@ -42,7 +42,7 @@ namespace AuthTemplate.Server.Controllers
                 }
                 else
                 {
-                    return BadRequest("הרשימה ריקה. אין משחקים למשתמש הזה");
+                    return BadRequest("No games for this user");
                 }
             }
             else

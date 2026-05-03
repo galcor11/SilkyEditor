@@ -23,7 +23,7 @@
     List<GameListDto> gameList;
     string msg = ""; 
     int userId = 0;
-    
+        //לאחר התחברות המשתמש
     protected override async Task OnParametersSetAsync()
     {
         if (user != null && user.Id > 0)
@@ -32,8 +32,25 @@
             var gameResponse = await Http.GetAsync("api/Games");
             if (gameResponse.IsSuccessStatusCode)
             {
+                //השמת הנתונים במופע שפתחנו
                 gameList = gameResponse.Content.ReadFromJsonAsync<List<GameListDto>>().Result;
             }
+            else
+            {
+                //נטפל במצבים שהיוזר לא רשאי לגשת אל המידע ונאכלס משתנה של הודעה בהתאם
+                string error = gameResponse.Content.ReadAsStringAsync().Result;
+                switch (error)
+                {
+                case "No games for this user":
+                    msg = "עדיין לא יצרת משחקים. זה הזמן ליצור את המשחק הראשון... :)"; 
+                    break;
+                case "user is not authenticated":
+                    msg = "אירעה בעיה בעת אימות המשתמש";
+                    break;
+                }
+            }
+
+            
         }
     }
 }
