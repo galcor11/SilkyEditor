@@ -1,0 +1,8 @@
+# IDE Settings
+.idea/
+.vscode/
+.vs/
+
+# Build and Temporary Files
+bin/
+obj/
