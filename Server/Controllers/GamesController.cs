@@ -29,18 +29,27 @@ namespace AuthTemplate.Server.Controllers
         [HttpGet("GameList")]
         public async Task<ActionResult<int>> GetUserGames(int authUserId)
         {
-          object param = new { ID = authUserId };
-          string query = "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID group by Games.gameCode"; 
-           var record =await _db.GetRecordsAsync<GameListDto>(query, param);
-            List<GameListDto> gameList = record.ToList();
-            if (gameList.Count > 0)
+            if (authUserId > 0)
             {
-                return Ok(gameList);
+                object param = new { ID = authUserId };
+                string query =
+                    "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID group by Games.gameCode";
+                var record = await _db.GetRecordsAsync<GameListDto>(query, param);
+                List<GameListDto> gameList = record.ToList();
+                if (gameList.Count > 0)
+                {
+                    return Ok(gameList);
+                }
+                else
+                {
+                    return BadRequest("הרשימה ריקה. אין משחקים למשתמש הזה");
+                }
             }
-
-            return BadRequest("הרשימה ריקה"); 
-            
-            // return Ok(authUserId);
+            else
+            {
+                return Unauthorized("user is not authenticated");
+            }
+        
         }
     }
 }
