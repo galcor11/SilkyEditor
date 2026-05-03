@@ -27,7 +27,7 @@ namespace AuthTemplate.Server.Controllers
         
         //שיטת קונטרולר שנועדה לשלוף את כל המשחקים של משתמש מסוים
         [HttpGet("GameList")]
-        public async Task<ActionResult<int>> GetUserGames(int authUserId)
+        public async Task<ActionResult> GetUserGames(int authUserId)
         {
             if (authUserId > 0)
             {
