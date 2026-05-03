@@ -3,7 +3,8 @@
 @attribute [Authorize]
 @page "/GamesList"
 @inject HttpClient Http
-
+@using AuthTemplate.Shared.Models;
+@inject NavigationManager Nav;
 
 @if (user != null)
 {
@@ -17,18 +18,21 @@
 
     [CascadingParameter]
     private User user { get; set; }
-
+    
+// פתיחת מופע חדש של המחלקה
+    List<GameListDto> gameList;
+    string msg = ""; 
     int userId = 0;
     
     protected override async Task OnParametersSetAsync()
     {
         if (user != null && user.Id > 0)
         {
-            var userResponse = await Http.GetAsync("api/Games");
-            if (userResponse.IsSuccessStatusCode)
+            //פנייה לקונטרולר ושליפת המשחקים
+            var gameResponse = await Http.GetAsync("api/Games");
+            if (gameResponse.IsSuccessStatusCode)
             {
-                userId = await userResponse.Content.ReadFromJsonAsync<int>();
-                StateHasChanged();
+                gameList = gameResponse.Content.ReadFromJsonAsync<List<GameListDto>>().Result;
             }
         }
     }
