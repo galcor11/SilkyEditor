@@ -1,0 +1,21 @@
+/* /Shared/MainLayout.razor.rz.scp.css */
+.content[b-4ffzppdsc7]{
+    padding: 1rem;
+    width: 1280px;
+    margin: 0 auto;
+    background-color: white;
+}
+.page[b-4ffzppdsc7]{
+    background-color: lightgray;
+}
+/* /Shared/NavMenu.razor.rz.scp.css */
+.navbar-dark[b-fkrnxn2bk1]{
+    background-color: gray;
+
+}[b-fkrnxn2bk1] a.nav-link, button[b-fkrnxn2bk1]{
+     color: white;
+ }
+[b-fkrnxn2bk1] a.nav-link:hover, button:hover[b-fkrnxn2bk1]{
+    text-decoration: underline;
+    color: white;
+}

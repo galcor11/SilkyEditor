@@ -1,0 +1,35 @@
+﻿
+<!-- ניהול משתמשים - רק יוזר מחובר יכול להיכנס -->
+@attribute [Authorize]
+@page "/GamesList"
+@inject HttpClient Http
+
+
+@if (user != null)
+{
+    <h1>היי @user.FirstName</h1>
+    <p>כאן יופיע תוכן של משתמשים מחוברים</p>
+    <p>בבדיקה מול השרת הID שלך הוא: @userId</p>
+}
+
+
+@code {
+
+    [CascadingParameter]
+    private User user { get; set; }
+
+    int userId = 0;
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (user != null && user.Id > 0)
+        {
+            var userResponse = await Http.GetAsync("api/Games");
+            if (userResponse.IsSuccessStatusCode)
+            {
+                userId = await userResponse.Content.ReadFromJsonAsync<int>();
+                StateHasChanged();
+            }
+        }
+    }
+}

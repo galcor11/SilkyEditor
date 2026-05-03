@@ -1,0 +1,10 @@
+.navbar-dark[b-fkrnxn2bk1]{
+    background-color: gray;
+
+}[b-fkrnxn2bk1] a.nav-link, button[b-fkrnxn2bk1]{
+     color: white;
+ }
+[b-fkrnxn2bk1] a.nav-link:hover, button:hover[b-fkrnxn2bk1]{
+    text-decoration: underline;
+    color: white;
+}
