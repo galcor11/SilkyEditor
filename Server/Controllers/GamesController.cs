@@ -51,5 +51,59 @@ namespace AuthTemplate.Server.Controllers
             }
         
         }
+        //שיטת פוסט שתקבל מידע מסוג הDTO שיצרנו GameToAddDto. הוספנו לה כבר את בדיקת ההתחברות
+        [HttpPost("addGame")]
+        public async Task<IActionResult> AddGames(int authUserId, GameToAddDto gameToAdd)
+        {
+            if (authUserId > 0)
+            {
+                //ניצור משחק חדש בבסיס הנתונים
+                object newGameParam = new
+                {
+                    GameName = gameToAdd.gameName,
+                    GameCode = 0,
+                    IsPublish = false,
+                    TimePerItem = 60,
+                    UserId = authUserId,
+                    CanPublish = false,
+                    HasPotion = true
+                };
+                string insertGameQuery = "INSERT INTO Games (time, gameName, userID, canPublish, isPublish, hasPotion, gameCode) " +
+                                         "VALUES (@TimePerItem, @GameName, @UserId, @CanPublish, @IsPublish, @HasPotion, @GameCode)";
+                int newGameId = await _db.InsertReturnIdAsync(insertGameQuery, newGameParam);
+                if (newGameId != 0)
+                {
+                    //אם המשחק נוצר בהצלחה, נחשב את הקוד עבורו
+                    int gameCode = newGameId + 1000;
+                    object updateParam = new
+                    {
+                        ID = newGameId,
+                        GameCode = gameCode
+                    };
+                    string updateCodeQuery = "UPDATE Games SET gameCode = @GameCode WHERE gameID=@ID";
+                    int isUpdate = await _db.SaveDataAsync(updateCodeQuery, updateParam);
+                    if (isUpdate > 0)
+                    {
+                        //אם המשחק עודכן בהצלחה - נחזיר את הפרטים שלו לעורך
+                        object param2 = new
+                        {
+                            ID = newGameId
+                        };
+                        string gameQuery = "SELECT gameID, gameName, gameCode, isPublish, canPublish FROM Games WHERE gameID = @ID";
+                        var gameRecord = await _db.GetRecordsAsync<GameToTableDto>(gameQuery, param2);
+                        GameToTableDto newGame = gameRecord.FirstOrDefault();
+                        return Ok(newGame);
+                    }
+                    return BadRequest("Game code not created");
+                }
+                return BadRequest("Game not created");
+            }
+            else
+            {
+                return Unauthorized("user is not authenticated");
+            }
+        }
+        
+        
     }
 }
