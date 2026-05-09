@@ -66,7 +66,7 @@
 
 @code {
     // מופע של הDTO שיקושר לתיבת הטקסט
-    GameToAddDto gameToAdd = new GameToAddDto();
+    GameToAddDto gameToAdd = new GameToAddDto(){ time = 60 };
 
 
     [CascadingParameter]
@@ -112,6 +112,8 @@
             GameToTableDto newGame = newGameRes.Content.ReadFromJsonAsync<GameToTableDto>().Result;
             MyGamesList.Add(newGame);
             gameToAdd.gameName = "";
+            // איפוס המופע מחדש תוך שמירה על הדיפולט של 60!
+            gameToAdd = new GameToAddDto() { time = 60 }; 
         }
         else
         {

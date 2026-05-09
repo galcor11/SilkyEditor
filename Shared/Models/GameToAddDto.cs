@@ -9,9 +9,9 @@ public class GameToAddDto
     [StringLength(20, ErrorMessage = "מספר התווים המקסימלי הוא 20")]
     public string gameName { get; set; } 
    
-    
+    [Range(45, 180, ErrorMessage = "הזמן לשאלה חייב להיות בין 45 ל-180 שניות")]
     [Required(ErrorMessage = "חובה לבחור זמן לשאלה")]
-    public int time { get; set; }
+    public int? time { get; set; }
     
     public bool hasPotion { get; set; }
     
