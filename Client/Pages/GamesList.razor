@@ -85,17 +85,8 @@
             {
                 //נטפל במצבים שהיוזר לא רשאי לגשת אל המידע ונאכלס משתנה של הודעה בהתאם
                 string error = gameResponse.Content.ReadAsStringAsync().Result;
-                switch (error)
-                {
-                case "No games for this user":
-                    msg = "עדיין לא יצרת משחקים. זה הזמן ליצור את המשחק הראשון... :)"; 
-                    break;
-                case "user is not authenticated":
-                    msg = "אירעה בעיה בעת אימות המשתמש";
-                    break;
-                }
+                ShowError(error);
             }
-            
         }
     }
     async Task CreateGame()
@@ -120,7 +111,7 @@
             //המשך הקוד כאן
         }
     }
-   //יצור פונקציה שתקבל שגיאה ותציג הודעה בהתאם 
+   //ניצור פונקציה שתקבל שגיאה ותציג הודעה בהתאם 
     void ShowError(string error)
     {
         switch (error)
