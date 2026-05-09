@@ -7,6 +7,7 @@ public class GameToTableDto
     public int gameID{ get; set; }
     public bool canPublish { get; set; }
     public bool isPublish { get; set; }
+    public int questionCount { get; set; }
 
 
 }

@@ -14,6 +14,7 @@
             <th>ID</th>
             <th>שם המשחק</th>
             <th>קוד המשחק</th>
+            <th>מספר שאלות</th>
             <th>פרסום</th>
         </tr>
         </thead>
@@ -24,14 +25,15 @@
                 <td>@game.gameID</td>
                 <td>@game.gameName</td>
                 <td>@game.gameCode</td>
+                <td>@game.questionCount</td>
                 <td>
-                    @if (game.canPublish== false)
+                    @if (game.canPublish == false)
                     {
-                        <input type="checkbox" disabled />
+                        <input type="checkbox" disabled/>
                     }
                     else
                     {
-                        <input type="checkbox" checked=@game.isPublish />
+                        <input type="checkbox" checked=@game.isPublish/>
                     }
                 </td>
             </tr>
@@ -80,7 +82,6 @@
                     break;
                 }
             }
-
             
         }
     }
