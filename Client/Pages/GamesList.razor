@@ -45,9 +45,16 @@
 
 <EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
     <DataAnnotationsValidator />
+    <label> שם המשחק:</label>
     <InputText @bind-Value="gameToAdd.gameName" />
-    <ValidationMessage For="@(() => gameToAdd.gameName)"   />
-
+    <ValidationMessage For="@(() => gameToAdd.gameName)"/>
+    <label>זמן לשאלה (בשניות):</label>
+    <InputNumber @bind-Value="gameToAdd.time" />
+    <ValidationMessage For="@(() => gameToAdd.time)" />
+    <br />
+<label>מעוניין בשיקוי לשחקן?</label>
+    <InputCheckbox @bind-Value="gameToAdd.hasPotion" />
+    <br />
     <br />
     <input type="submit" value="יצירת משחק" />
 </EditForm>
@@ -108,7 +115,10 @@
         }
         else
         {
-            //המשך הקוד כאן
+            string error = newGameRes.Content.ReadAsStringAsync().Result;
+            //קוראים לפונקציה אם יש שגיאה
+            ShowError(error);
+            
         }
     }
    //ניצור פונקציה שתקבל שגיאה ותציג הודעה בהתאם 
