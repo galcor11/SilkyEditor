@@ -27,13 +27,13 @@ namespace AuthTemplate.Server.Controllers
         
         //שיטת קונטרולר שנועדה לשלוף את כל המשחקים של משתמש מסוים
         [HttpGet("GameList")]
-        public async Task<ActionResult> GetUserGames(int authUserId)
+        public async Task<IActionResult> GetUserGames(int authUserId)
         {
             if (authUserId > 0)
             {
                 object param = new { ID = authUserId };
                 string query =
-                    "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID group by Games.gameCode";
+                    "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID WHERE Games.userID=@ID group by Games.gameCode";
                 var record = await _db.GetRecordsAsync<GameToTableDto>(query, param);
                 List<GameToTableDto> gameList = record.ToList();
                 if (gameList.Count > 0)

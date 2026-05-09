@@ -36,7 +36,7 @@ namespace AuthTemplate.Server.Controllers
             //בדיקות תקינוּת             
             if (myGame == null)
             {
-                return NotFound("לא נמצא משחק עם הקוד שהוזן."); 
+                return BadRequest("לא נמצא משחק עם הקוד שהוזן."); 
             }
 
             if (myGame.isPublish == false)
