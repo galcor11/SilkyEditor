@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (GameListDto game in gameList)
+        @foreach (GameToTableDto game in gameList)
         {
             <tr>
                 <td>@game.gameID</td>
@@ -51,7 +51,7 @@
     private User user { get; set; }
     
 // פתיחת מופע חדש של המחלקה
-    List<GameListDto> gameList;
+    List<GameToTableDto> gameList;
     string msg = ""; 
     int userId = 0;
         //לאחר התחברות המשתמש
@@ -64,7 +64,7 @@
             if (gameResponse.IsSuccessStatusCode)
             {
                 //השמת הנתונים במופע שפתחנו
-                gameList = gameResponse.Content.ReadFromJsonAsync<List<GameListDto>>().Result;
+                gameList = gameResponse.Content.ReadFromJsonAsync<List<GameToTableDto>>().Result;
             }
             else
             {

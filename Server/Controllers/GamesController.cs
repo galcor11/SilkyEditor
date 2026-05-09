@@ -34,8 +34,8 @@ namespace AuthTemplate.Server.Controllers
                 object param = new { ID = authUserId };
                 string query =
                     "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID group by Games.gameCode";
-                var record = await _db.GetRecordsAsync<GameListDto>(query, param);
-                List<GameListDto> gameList = record.ToList();
+                var record = await _db.GetRecordsAsync<GameToTableDto>(query, param);
+                List<GameToTableDto> gameList = record.ToList();
                 if (gameList.Count > 0)
                 {
                     return Ok(gameList);
