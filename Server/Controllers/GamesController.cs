@@ -103,6 +103,61 @@ namespace AuthTemplate.Server.Controllers
                 return Unauthorized("user is not authenticated");
             }
         }
+        
+        [HttpPost("publishGame")]
+        public async Task<IActionResult> publishGame(int authUserId, PublishGame game){
+            if (authUserId > 0) {
+                object param = new {
+                    userID = authUserId,
+                    gameID = game.gameID
+                };
+
+                //שליפת שם המשחק לפי משתמש כדי לוודא שהמשחק המבוקש שייך למשתמש שמחובר
+                string checkQuery = "SELECT gameName FROM Games WHERE userID = @userID AND gameID=@gameID";
+                var checkRecords = await _db.GetRecordsAsync<string>(checkQuery, param);
+                string gameName = checkRecords.FirstOrDefault(); 
+                //שליפת שם המשחק כדי לוודא שהמשחק המבוקש שייך למשתמש המחובר
+                if (gameName != null){
+                    //אם יש רצון לפרסם את המשחק
+                    if (game.isPublish == true) {
+                        //נבדוק באמצעות פונקציית עזר שניתן לפרסם אותו
+                        bool canPublish = await CanPublishFunc(game.gameID);
+                        //אם לא ניתן לפרסם	
+                        if (canPublish == false) {
+                            //נחזיר הודעת שגיאה	
+                            return BadRequest("This game cannot be published");
+                        }
+                    }
+//המשך הקוד כאן - מחוץ לתנאי הראשון. אם רוצים להסיר פרסום, לא צריך לבדוק את הרשאת הפרסום
+                    //אם ניתן לפרסם את המשחק או שרוצים להסיר אותו מפרסום
+                    //נעדכן את בסיס הנתונים
+                    object updateParam = new {
+                        IsPublish = game.isPublish,
+                        ID = game.gameID
+                    };
+                    string updateQuery = "UPDATE Games SET isPublish=@IsPublish WHERE gameID=@ID";
+                    int isUpdate = await _db.SaveDataAsync(updateQuery, updateParam);
+                    if (isUpdate == 1) {                   
+                        return Ok();
+                    }
+                    return BadRequest("Update Failed");
+
+ 
+                }
+                return BadRequest("It's Not Your Game");
+            }
+            else 
+            { 
+                return Unauthorized("user is not authenticated");  
+            }
+        }
+
+        
+        
+        
+        
+        
+        
         //פונקציית עזר לפרסום, היא פרטית ואי אפשר לבדוק אותה בפוסטמן
         //שיטה שבודקת אם ניתן לפרסם את המשחק
         //אם נמצא שלא ניתן לפרסם - נוודא שהמשחק גם לא מפורסם
@@ -127,14 +182,16 @@ namespace AuthTemplate.Server.Controllers
             //נשמור משתנה ריק שיכיל את שאילתת העדכון בהתאם למספר השאלות
             string updateQuery;
             //אם יש מספיק שאלות במשחק
-            if (numberOfQuestions >= minQuestions) {
+            if (numberOfQuestions >= minQuestions) 
+            {
                 //נשנה את הסטטוס של האם ניתן לפרסום	
                 canPublish = true;
                 //נעדכן את השאילתה – אם המשחק מורשה לפרסום, לא נשנה את מצב הפרסום בפועל
                 updateQuery = "UPDATE Games SET canPublish=true WHERE questionID=@ID";
             }
             //אם אין מספיק שאלות
-            else{
+            else
+            {
                 //נעדכן את השאילתה כך שגם האם ניתן לפרסם וגם האם מפורסם שליליים
                 updateQuery = "UPDATE Games SET isPublish=false, canPublish=false WHERE questionD=@ID";
             }
