@@ -103,7 +103,52 @@ namespace AuthTemplate.Server.Controllers
                 return Unauthorized("user is not authenticated");
             }
         }
-        
-        
+        //פונקציית עזר לפרסום, היא פרטית ואי אפשר לבדוק אותה בפוסטמן
+        //שיטה שבודקת אם ניתן לפרסם את המשחק
+        //אם נמצא שלא ניתן לפרסם - נוודא שהמשחק גם לא מפורסם
+        private async Task<bool> CanPublishFunc(int gameId)
+        {
+            //במקרה שלנו - התנאי לפרסום משחק הוא לפחות שלוש שאלות
+            //יש לשנות את השיטה בהתאם לתנאי הפרסום עליהם החלטתם
+            int minQuestions = 3;
+
+            //משתנה לשמירה של הסטטוס - האם ניתן לפרסום
+            bool canPublish = false;
+
+            object param = new{
+                ID = gameId
+            };
+
+            //שאילתה שבודקת כמה שאלות יש במשחק
+            string queryQuestionCount = "SELECT Count(questionID) FROM Questions WHERE gameID=@ID";
+            var recordQuestionCount = await _db.GetRecordsAsync<int>(queryQuestionCount, param);
+            int numberOfQuestions = recordQuestionCount.FirstOrDefault();
+
+            //נשמור משתנה ריק שיכיל את שאילתת העדכון בהתאם למספר השאלות
+            string updateQuery;
+            //אם יש מספיק שאלות במשחק
+            if (numberOfQuestions >= minQuestions) {
+                //נשנה את הסטטוס של האם ניתן לפרסום	
+                canPublish = true;
+                //נעדכן את השאילתה – אם המשחק מורשה לפרסום, לא נשנה את מצב הפרסום בפועל
+                updateQuery = "UPDATE Games SET canPublish=true WHERE questionID=@ID";
+            }
+            //אם אין מספיק שאלות
+            else{
+                //נעדכן את השאילתה כך שגם האם ניתן לפרסם וגם האם מפורסם שליליים
+                updateQuery = "UPDATE Games SET isPublish=false, canPublish=false WHERE questionD=@ID";
+            }
+            //נעדכן את בסיס הנתונים
+            int isUpdate = await _db.SaveDataAsync(updateQuery, param);
+            //נחזיר משתנה בוליאני שאומר אם ניתן לפרסם את המשחק או לא
+            return canPublish;
+
+            //סוף שיטת הקונטרולר
+
+        }
+
+
+
+
     }
 }
