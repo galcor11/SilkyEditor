@@ -152,6 +152,31 @@ namespace AuthTemplate.Server.Controllers
             }
         }
 
+        //שיטה למחיקת רשומה חדשה של משחק
+        [HttpDelete("deleteGame/{idToDelete}")]
+        public async Task<IActionResult> GameDelete(int idToDelete)
+        {
+            //בדיקת תקינות
+            if (idToDelete <= 0)
+                return BadRequest("המזהה הייחודי של המשחק איננו תקין. חייב להיות מספר חיובי");
+
+            //אובייקט הפרמטרים לשאילתה מכיל רק איי די
+            object param = new
+            {
+                ID = idToDelete
+            };
+
+            string deleteQuery = "DELETE FROM Games WHERE gameID = @ID";
+            int isDeleted = await _db.SaveDataAsync(deleteQuery, param);
+
+            //אם המחיקה הצליחה
+            if (isDeleted > 0)
+            {
+                return Ok();
+            }
+    
+            return BadRequest("המחיקה נכשלה");
+        }
         
         
         
