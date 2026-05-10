@@ -15,6 +15,7 @@
             <th>שם המשחק</th>
             <th>קוד המשחק</th>
             <th>מספר שאלות</th>
+            <th> עריכה</th>
             <th>פרסום</th>
             <th>מחיקה</th>
         </tr>
@@ -27,6 +28,8 @@
                 <td>@game.gameName</td>
                 <td>@game.gameCode</td>
                 <td>@game.questionCount</td>
+                <td><input type="button" value="✏️" @onclick="(()=>EditGame(game))"/></td>
+
                 <td>
                     @if (game.canPublish == false)
                     {
@@ -35,10 +38,11 @@
                     else
                     {
                         <input type="checkbox" checked=@game.isPublish
-                        @onchange="(()=>changePublish(game))" />
+                                                @onchange="(()=>changePublish(game))" />
 
                     }
                 </td>
+                <td><input type="button" value="🗑️" @onclick="(()=>DeleteGame(game))"/></td>
             </tr>
         }
         </tbody>
@@ -126,6 +130,42 @@
             
         }
     }
+//פנייה לשיטת המחיקה שבקונטרולר
+    public async Task DeleteGame(GameToTableDto game)
+    {
+        if (game.gameID <= 0)
+        {
+            msg = "המזהה הייחודי איננו תקין"; 
+        }
+        else
+        {
+            msg = ""; 
+            //אנחנו פונים לקונטורלר ושולחים לו גם את ה-ID למחיקה
+            var deleteResponse = await Http.DeleteAsync("api/Games/deleteGame/" + game.gameID);
+            if (deleteResponse.IsSuccessStatusCode == true)
+            {
+                MyGamesList.Remove(game); //אנחנו מוחקים המשחק מרשימת המשחקים
+                msg = "המשחק נמחק בהצלחה"; 
+            }
+            else
+            {
+                //אם הסטטוס אינו תקין, המשתנה המחרוזתי מכיל את התוכן של השגיאה. 
+                msg = deleteResponse.Content.ReadAsStringAsync().Result; 
+            }
+
+
+
+        }
+    }
+
+    //פנייה לשיטת קונטרולר שמטפלת בעריכה. 
+    public async Task EditGame(GameToTableDto game)
+    {
+        ///
+    }
+    
+    
+    
     //שליחת בקשה לקונטרולר
      private async Task changePublish(GameToTableDto game)    {
         // בעת לחיצה על פרסום ניצור מופע של מחלקה עם מזהה המשחק ומצב הפרסום
