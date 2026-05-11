@@ -28,14 +28,12 @@
 
 <div class="popup-overlay">
     <section class="popup-content">
-        <h3>יצירת משחק חדש</h3>
+        <h3>שם המשחק:</h3>
         
        @* הטופס של יצירת שם המשחק שמחובר לDTO של ההוספה *@
         <EditForm Model="gameToAdd" OnValidSubmit="SubmitGame">
             <DataAnnotationsValidator />
-            
             <p>
-                <label>שם המשחק:</label><br />
                 @* תיבת הטקסט מקושרת לשם המשחק *@
                 <InputText @bind-Value="gameToAdd.gameName" />
             </p>
@@ -44,10 +42,10 @@
 
             <br /><br />
             @* כפתור אישור מפעיל את האון-ואליד סבמיט רק אם שם המשחק תקין *@
-            <input type="submit" value="אישור" style="background-color: lightgreen; padding: 5px 15px; margin-left: 10px;" />
+            <input type="submit" value="אישור" style="background-color: #ff8b03; padding: 5px 15px; margin-left: 10px;" />
             
             @* אם לוחצים על כפתור ביטול, חלונית הפופ-אפ תיסגר (בעזרת פונקציית CANCEL שקישרנו לכפתור) *@
-            <input type="button" value="ביטול" @onclick="Cancel" style="background-color: lightcoral; padding: 5px 15px;" />
+            <input type="button" value="ביטול" @onclick="Cancel" style="background-color: #ffffff; padding: 5px 15px; border: 2px solid #ff8b03;" />
         </EditForm>
     </section>
 </div>
