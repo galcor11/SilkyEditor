@@ -103,7 +103,7 @@ namespace AuthTemplate.Server.Controllers
                 return Unauthorized("user is not authenticated");
             }
         }
-        
+        //שיטת קונטרולר שנועה לטפל בפרסום המשחק
         [HttpPost("publishGame")]
         public async Task<IActionResult> publishGame(int authUserId, PublishGame game){
             if (authUserId > 0) {
@@ -191,6 +191,9 @@ namespace AuthTemplate.Server.Controllers
             //במקרה שלנו - התנאי לפרסום משחק הוא לפחות שלוש שאלות
             //יש לשנות את השיטה בהתאם לתנאי הפרסום עליהם החלטתם
             int minQuestions = 3;
+            //אצלנו יש מינימום 4 פריטים בשאלה כדי לפרסם את המשחק ומקסימום 8 פריטים בשאלה. 
+            int minItemsPerQuestion = 4;
+            int maxItemsPerQuestion = 8;
 
             //משתנה לשמירה של הסטטוס - האם ניתן לפרסום
             bool canPublish = false;
@@ -209,28 +212,48 @@ namespace AuthTemplate.Server.Controllers
             //אם יש מספיק שאלות במשחק
             if (numberOfQuestions >= minQuestions) 
             {
-                //נשנה את הסטטוס של האם ניתן לפרסום	
+                // אנחנו שולפים את המזהים של השאלות ששייכות למשחק הזה
+                string queryGetQuestions = "SELECT questionID FROM Questions WHERE gameID=@ID";
+                var questionIds = await _db.GetRecordsAsync<int>(queryGetQuestions, param);
+    
+                // נקודת המוצא היא שניתן לפרסם, אלא אם הלולאה תמצא שאלה לא תקינה
                 canPublish = true;
-                //נעדכן את השאילתה – אם המשחק מורשה לפרסום, לא נשנה את מצב הפרסום בפועל
-                updateQuery = "UPDATE Games SET canPublish=true WHERE questionID=@ID";
+
+                // לולאה שעוברת שאלה-שאלה ובודקת את הפריטים 
+                foreach (int qId in questionIds)
+                {
+                    // אובייקט פרמטרים שמכיל לנו את המזהה של השאלה הנוכחית בלולאה
+                    object itemParam = new { QID = qId };
+        
+                    // ספירת הפריטים ששייכים אך ורק לשאלה הספציפית הזו
+                    string queryItemCount = "SELECT Count(answerID) FROM Items WHERE questionID=@QID";
+                    var recordItemCount = await _db.GetRecordsAsync<int>(queryItemCount, itemParam);
+                    int itemsInThisQuestion = recordItemCount.FirstOrDefault(); // משתנה שמכיל בתוכו את מספר הפריטים שיש בשאלה
+
+                    // אנחנו בודקים אם כמות הפריטים חורגת מהטווח (פחות מהמינימום או יותר מהמקסימום שהגדרנו)
+                    if (itemsInThisQuestion < minItemsPerQuestion || itemsInThisQuestion > maxItemsPerQuestion)
+                    {
+                        canPublish = false; // המשחק נפסל לפרסום
+                        break; //יציאה מהלולאה
+                    }
+                }
             }
-            //אם אין מספיק שאלות
+            // אנחנו מעדכנים את מצב הפרסום בטבלת המשחקים בהתאם לתוצאה 
+            if (canPublish == true) 
+            {
+                updateQuery = "UPDATE Games SET canPublish=true WHERE gameID=@ID";
+            }
             else
             {
-                //נעדכן את השאילתה כך שגם האם ניתן לפרסם וגם האם מפורסם שליליים
-                updateQuery = "UPDATE Games SET isPublish=false, canPublish=false WHERE questionD=@ID";
+                updateQuery = "UPDATE Games SET isPublish=false, canPublish=false WHERE gameID=@ID";
             }
-            //נעדכן את בסיס הנתונים
+
+            //מעדכנים את בסיס הנתונים
             int isUpdate = await _db.SaveDataAsync(updateQuery, param);
+            
             //נחזיר משתנה בוליאני שאומר אם ניתן לפרסם את המשחק או לא
             return canPublish;
-
-            //סוף שיטת הקונטרולר
-
         }
-
-
-
-
+        
     }
 }

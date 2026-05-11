@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AuthTemplate.Client")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b6623157a9f76bc635e4e8d16ff26fca39689d29")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+012ccd7f41b8deaadcd4f1c08ca176a02788ce2a")]
 [assembly: System.Reflection.AssemblyProductAttribute("AuthTemplate.Client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AuthTemplate.Client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
