@@ -50,21 +50,31 @@
 }
 <p>הוספת משחק חדש</p>
 
-<EditForm Model="gameToAdd" OnValidSubmit="CreateGame">
-    <DataAnnotationsValidator />
-    <label> שם המשחק:</label>
-    <InputText @bind-Value="gameToAdd.gameName" />
-    <ValidationMessage For="@(() => gameToAdd.gameName)"/>
-    <label>זמן לשאלה (בשניות):</label>
-    <InputNumber @bind-Value="gameToAdd.time" />
-    <ValidationMessage For="@(() => gameToAdd.time)" />
-    <br />
-<label>רוצה שיקוי לשחקן?</label>
-    <InputCheckbox @bind-Value="gameToAdd.hasPotion" />
-    <br />
-    <br />
-    <input type="submit" value="יצירת משחק" />
-</EditForm>
+
+@* כפתור שעוזר לנו להציג את הפופ-אפ של ההוספה *@
+<input type="button" value="משחק חדש" @onclick="(() => showAddPopup = true)" />
+
+@* אנחנו קוראים לקומפוננטה של הפופ-אפ כאשר הערך הוא TRUE *@
+@if (showAddPopup)
+{
+    <AddGamePopup OnSave="CreateGame" OnCancel="(() => showAddPopup = false)" />
+}
+
+@* <EditForm Model="gameToAdd" OnValidSubmit="CreateGame"> *@
+@*     <DataAnnotationsValidator /> *@
+@*     <label> שם המשחק:</label> *@
+@*     <InputText @bind-Value="gameToAdd.gameName" /> *@
+@*     <ValidationMessage For="@(() => gameToAdd.gameName)"/> *@
+@*     <label>זמן לשאלה (בשניות):</label> *@
+@*     <InputNumber @bind-Value="gameToAdd.time" /> *@
+@*     <ValidationMessage For="@(() => gameToAdd.time)" /> *@
+@*     <br /> *@
+@* <label>רוצה שיקוי לשחקן?</label> *@
+@*     <InputCheckbox @bind-Value="gameToAdd.hasPotion" /> *@
+@*     <br /> *@
+@*     <br /> *@
+@*     <input type="submit" value="יצירת משחק" /> *@
+@* </EditForm> *@
 
 @if (msg != "")
 {
@@ -74,7 +84,8 @@
 @code {
     // מופע של הDTO שיקושר לתיבת הטקסט
     GameToAddDto gameToAdd = new GameToAddDto(){ time = 60 };
-
+// משתנה בוליאני בשביל תצוגת הפופ-אפ
+    bool showAddPopup = false; 
 
     [CascadingParameter]
     private User user { get; set; }
@@ -103,10 +114,11 @@
             }
         }
     }
-    async Task CreateGame()
+    //הפונקציה מקבלת את המשחק כפרמטר מהקומפוננטה
+    async Task CreateGame(GameToAddDto gameFromPopup)
     {
         //שליחת המשחק החדש לקונטרולר
-        var newGameRes = await Http.PostAsJsonAsync("api/Games/addGame/", gameToAdd);
+        var newGameRes = await Http.PostAsJsonAsync("api/Games/addGame/", gameFromPopup);
         if (newGameRes.IsSuccessStatusCode == true)
         {
             //אם הרשימה ריקה נאתחל אותה
@@ -118,9 +130,7 @@
             //החזרת המשחק והוספתו לרשימת המשחקים כדי שיתווסף לטבלה
             GameToTableDto newGame = newGameRes.Content.ReadFromJsonAsync<GameToTableDto>().Result;
             MyGamesList.Add(newGame);
-            gameToAdd.gameName = "";
-            // איפוס המופע מחדש תוך שמירה על הדיפולט של 60!
-            gameToAdd = new GameToAddDto() { time = 60 }; 
+            showAddPopup = false; 
         }
         else
         {
