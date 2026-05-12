@@ -209,8 +209,39 @@ namespace AuthTemplate.Server.Controllers
     
             return BadRequest("Game not found or it's not your game");
         }
-        
-        
+        //שיטה שנועדה לעדכן בבסיס הנתונים את הפרטים שמשנים בעמוד הגדרות כלליות: שם המשחק, זמן לשאלה, שיקויים
+        [HttpPost("updateGame/{id}")]
+        public async Task<IActionResult> UpdateGame(int id, int authUserId, GameToAddDto gameToUpdate)
+        {
+            // בדיקת תקינות מזהים: מזהה המשחק, המשתמש המחובר, ושהאובייקט עצמו לא ריק
+            if (id <= 0 || authUserId <= 0 || gameToUpdate == null)
+            {
+                return BadRequest("Invalid request");
+            }
+
+            // יצירת אובייקט הפרמטרים לשאילתה
+            object param = new {
+                gameName = gameToUpdate.gameName,
+                time = gameToUpdate.time, 
+                hasPotion = gameToUpdate.hasPotion,
+                gameID = id,
+                userId = authUserId
+            };
+
+            //שאילתת העדכון שלנו
+            string query = "UPDATE Games SET gameName = @gameName, time = @time, hasPotion = @hasPotion WHERE gameID = @gameID AND UserId = @userId";
+
+            // שמירת הנתונים באמצעות השיטה הייעודית ב-DbRepository שמחזירה את כמות הרשומות שהשתנו
+            int isUpdate = await _db.SaveDataAsync(query, param);
+            // בדיקה אם רשומה אחת אכן עודכנה בהצלחה
+            if (isUpdate == 1) 
+            {
+                return Ok(true);
+            }
+
+            // אם הגענו לפה, כנראה שהרשומה לא נמצאה או לא עודכנה
+            return BadRequest("Update Failed");
+        }
         
         
         
