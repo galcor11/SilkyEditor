@@ -130,6 +130,8 @@
             //החזרת המשחק והוספתו לרשימת המשחקים כדי שיתווסף לטבלה
             GameToTableDto newGame = newGameRes.Content.ReadFromJsonAsync<GameToTableDto>().Result;
             MyGamesList.Add(newGame);
+            //כדי שיהיה אפשר לנווט מהכפתור של יצירת משחק חדש אל העמוד של הגדרות כלליות יחד עם ה-ID של המשחק החדש
+            Nav.NavigateTo("./GeneralSettings/" + newGame.gameID.ToString());
             showAddPopup = false; 
         }
         else
