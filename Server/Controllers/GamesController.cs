@@ -178,6 +178,49 @@ namespace AuthTemplate.Server.Controllers
             return BadRequest("המחיקה נכשלה");
         }
         
+        //שיטה שנועדה לשלוף לנו את הפרטים הרלוונטיים לעמוד של הגדרות הכלליות: שם המשחק, זמן ושיקוי 
+        [HttpGet("byId/{id}")]
+        public async Task<IActionResult> GetGameById(int id, int authUserId)
+        {
+            // אנחנו בודקים שה-ID של המשחק תקין ושיש משתמש מחובר
+            if (id <= 0 || authUserId <= 0)
+            {
+                return BadRequest("Invalid request");
+            }
+
+            //אובייקט הפרמטרים לשאילתה שלנו
+            object param = new {
+                gameID = id,
+                userId = authUserId
+            };
+
+            //  שאילתת SQL שבודקת גם את ה-ID של המשחק וגם שהוא שייך למשתמש
+            string query = "SELECT gameName, hasPotion, time FROM Games WHERE gameID = @gameID AND userID = @userId";
+
+            // אנחנו שולפים מבסיס הנתונים
+            var records = await _db.GetRecordsAsync<GameToAddDto>(query, param);
+            GameToAddDto game = records.FirstOrDefault();
+
+            // אם המשחק נמצא והוא אכן של המשתמש, נחזיר אותו
+            if(game != null) 
+            {
+                return Ok(game);
+            }
+    
+            return BadRequest("Game not found or it's not your game");
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

@@ -4,12 +4,56 @@
 @inject HttpClient Http
 @using AuthTemplate.Shared.Models;
 @inject NavigationManager Nav;
-
-<h3>⚙️הגדרות כלליות️</h3>
 <a href="./GamesList">בחזרה למשחקים שלי</a>
+<h3>⚙️הגדרות כלליות️</h3>
+
+
+    
+
+@if (gameSettings != null)
+{
+    <label> שם המשחק: 
+    <div>
+        @if (isEditingName == true)
+        {
+            @* מצב עריכה: תיבת טקסט שמקושרת לשם, וכפתור אישור *@
+            <input type="text" @bind="gameSettings.gameName" />
+            <input type="button" value="✔️" @onclick="(() => isEditingName = false)" style="background: none; border: none; cursor: pointer;" />
+        }
+        else
+        {
+            @* מצב תצוגה: טקסט רגיל (בתור תת-כותרת) וכפתור עיפרון *@
+            <h4>@gameSettings.gameName</h4>
+            <input type="button" value="✏️" @onclick="(() => isEditingName = true)" style="background: none; border: none; cursor: pointer;" />
+        }
+    </div>
+    </label>
+}
+else
+{
+    <p>טוען נתונים...</p>
+}
 
 @code {
-    //הפרמטר שמוזרק לנתיב
+    //הפרמטר שמוזרק בנתיב
     [Parameter]
     public int gameID { get; set; } 
+    
+    // מופע של ה-DTO שמכיל את נתוני המשחק 
+    GameToAddDto gameSettings;
+    
+    // משתנה בוליאני שעוזר לנו לבדוק אם אנחנו במצב עריכה או בתצוגה רגילה
+    bool isEditingName = false;
+
+    // עם טעינת העמוד
+    protected override async Task OnInitializedAsync()
+    {
+        // קריאה לקונטרולר שיביא את המשחק הספציפי
+        var response = await Http.GetAsync("api/Games/byId/" + gameID.ToString());
+        
+        if (response.IsSuccessStatusCode == true)
+        {
+            gameSettings = response.Content.ReadFromJsonAsync<GameToAddDto>().Result;
+        }
+    }
 }

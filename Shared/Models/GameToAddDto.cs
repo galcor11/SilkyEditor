@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AuthTemplate.Shared.Models;
 // מחלקה שאנחנו מעבירים בה את הפרטים של המשחק לצורך יצירת משחק חדש
+//ה-DTO משמש אותנו גם לעמוד של הגדרות כלליות, שכן יש כאן כל התכונות הרלוונטיות
 public class GameToAddDto
 {
     [Required(ErrorMessage = "שדה חובה")]
