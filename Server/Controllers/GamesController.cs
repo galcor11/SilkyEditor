@@ -239,7 +239,7 @@ namespace AuthTemplate.Server.Controllers
                 return Ok(true);
             }
 
-            // אם הגענו לפה, כנראה שהרשומה לא נמצאה או לא עודכנה
+            // הרשומה לא נמצאה או לא עודכנה
             return BadRequest("Update Failed");
         }
         
