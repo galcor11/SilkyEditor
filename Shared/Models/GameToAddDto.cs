@@ -10,7 +10,6 @@ public class GameToAddDto
     public string gameName { get; set; } 
    
     [Range(45, 180, ErrorMessage = "הזמן לשאלה חייב להיות בין 45 ל-180 שניות")]
-    [Required(ErrorMessage = "חובה לבחור זמן לשאלה")]
     public int? time { get; set; }
     
     public bool hasPotion { get; set; }

@@ -1,0 +1,15 @@
+@page "/GeneralSettings/{gameID:int}"
+<!-- ניהול משתמשים - רק יוזר מחובר יכול להיכנס -->
+@attribute [Authorize]
+@inject HttpClient Http
+@using AuthTemplate.Shared.Models;
+@inject NavigationManager Nav;
+
+<h3>⚙️הגדרות כלליות️</h3>
+<a href="./GamesList">בחזרה למשחקים שלי</a>
+
+@code {
+    //הפרמטר שמוזרק לנתיב
+    [Parameter]
+    public int gameID { get; set; } 
+}

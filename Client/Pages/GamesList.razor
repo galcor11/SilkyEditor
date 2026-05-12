@@ -121,16 +121,17 @@
         var newGameRes = await Http.PostAsJsonAsync("api/Games/addGame/", gameFromPopup);
         if (newGameRes.IsSuccessStatusCode == true)
         {
-            //אם הרשימה ריקה נאתחל אותה
-            if (MyGamesList == null)
-            {
-                MyGamesList = new List<GameToTableDto>();
-            }
-            msg = "";
+            // העברתי כרגע להערה את כל מה שקשור לרשימה מכיוון שמייד לאחר "אישור" בפופ-אפ של יצירת משחק חדש עוברים לעמוד של הגדרות כלליות ואין צורך להציג את הרשימה
+             //אם הרשימה ריקה נאתחל אותה
+             if (MyGamesList == null)
+             {
+                 MyGamesList = new List<GameToTableDto>();
+             }
+             msg = "";
             //החזרת המשחק והוספתו לרשימת המשחקים כדי שיתווסף לטבלה
             GameToTableDto newGame = newGameRes.Content.ReadFromJsonAsync<GameToTableDto>().Result;
             MyGamesList.Add(newGame);
-            //כדי שיהיה אפשר לנווט מהכפתור של יצירת משחק חדש אל העמוד של הגדרות כלליות יחד עם ה-ID של המשחק החדש
+            //כדי שיהיה אפשר לנווט מהכפתור של יצירת משחק חדש אל העמוד של הגדרות כלליות יחד עם ה-ID של המשחק הֶחדש
             Nav.NavigateTo("./GeneralSettings/" + newGame.gameID.ToString());
             showAddPopup = false; 
         }
