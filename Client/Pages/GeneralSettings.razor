@@ -27,6 +27,43 @@
             <input type="button" value="✏️" @onclick="(() => isEditingName = true)" style="background: none; border: none; cursor: pointer;" />
         }
     </div>
+    
+    @* אזור הכרטיסים - מוגדר כ-flex כדי שישבו באותה שורה *@
+    <div style="display: flex; gap: 20px; margin-top: 30px; margin-bottom: 20px;">
+
+        @* כרטיס 1: זמן מענה *@
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <h4 style="margin-top: 0;">זמן מענה לשאלה</h4>
+        
+            <div style="display: flex; align-items: center; gap: 15px; margin-top: 15px;">
+                @* פקד מספר: מקושר לזמן, עם מינימום, מקסימום וקפיצות של 5. ננעל (disabled) אם סומן "ללא הגבלה" *@
+                <input type="number" 
+                       @bind="gameSettings.time" 
+                       min="45" max="180" step="5" 
+                       disabled="@isUnlimitedTime" 
+                       style="width: 80px; padding: 5px;" />
+                <span>שניות</span>
+
+                @* צ'קבוקס ללא הגבלה *@
+                <div style="margin-right: 20px;">
+                    <input type="checkbox" id="unlimited" @bind="isUnlimitedTime" />
+                    <label for="unlimited">ללא הגבלה</label>
+                </div>
+            </div>
+        </div>
+
+        @* כרטיס 2: שיקוי הצלה *@
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <h4 style="margin-top: 0;">שיקוי הצלה</h4>
+        
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+                @* צ'קבוקס שמקושר ישירות לשדה של השיקוי בבסיס הנתונים *@
+                <input type="checkbox" id="potion" @bind="gameSettings.hasPotion" style="width: 18px; height: 18px;" />
+                <label for="potion">השחקן זכאי לשיקוי הצלה במהלך המשחק</label>
+            </div>
+        </div>
+
+    </div>
    
 }
 else
@@ -51,6 +88,8 @@ else
     
     // משתנה בוליאני שעוזר לנו לבדוק אם אנחנו במצב עריכה או בתצוגה רגילה
     bool isEditingName = false;
+    //משתנה בוליאני שנועד לעזור לנו לאפשרות של בלי הגבלת זמן
+    bool isUnlimitedTime = false;
 
     // עם טעינת העמוד
     protected override async Task OnInitializedAsync()
