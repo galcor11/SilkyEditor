@@ -28,7 +28,7 @@
                 <td>@game.gameName</td>
                 <td>@game.gameCode</td>
                 <td>@game.questionCount</td>
-                <td><input type="button" value="✏️" @onclick="(()=>EditGame(game))"/></td>
+                <td><input type="button" value="✏️" @onclick="(()=>EditGame(game))"style="background: none; border: none; cursor: pointer;"/></td>
 
                 <td>
                     @if (game.canPublish == false)
@@ -42,7 +42,7 @@
 
                     }
                 </td>
-                <td><input type="button" value="🗑️" @onclick="(()=>DeleteGame(game))"/></td>
+                <td><input type="button" value="🗑️" @onclick="(()=>DeleteGame(game))"style="background: none; border: none; cursor: pointer;"/></td>
             </tr>
         }
         </tbody>
@@ -60,21 +60,6 @@
     <AddGamePopup OnSave="CreateGame" OnCancel="(() => showAddPopup = false)" />
 }
 
-@* <EditForm Model="gameToAdd" OnValidSubmit="CreateGame"> *@
-@*     <DataAnnotationsValidator /> *@
-@*     <label> שם המשחק:</label> *@
-@*     <InputText @bind-Value="gameToAdd.gameName" /> *@
-@*     <ValidationMessage For="@(() => gameToAdd.gameName)"/> *@
-@*     <label>זמן לשאלה (בשניות):</label> *@
-@*     <InputNumber @bind-Value="gameToAdd.time" /> *@
-@*     <ValidationMessage For="@(() => gameToAdd.time)" /> *@
-@*     <br /> *@
-@* <label>רוצה שיקוי לשחקן?</label> *@
-@*     <InputCheckbox @bind-Value="gameToAdd.hasPotion" /> *@
-@*     <br /> *@
-@*     <br /> *@
-@*     <input type="submit" value="יצירת משחק" /> *@
-@* </EditForm> *@
 
 @if (msg != "")
 {
@@ -170,7 +155,7 @@
 
         }
     }
-
+    
     //פנייה לשיטת קונטרולר שמטפלת בעריכה. 
     public async Task EditGame(GameToTableDto game)
     {

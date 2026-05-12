@@ -34,6 +34,12 @@ else
     <p>טוען נתונים...</p>
 }
 
+<br />
+@* כפתור השמירה שיפעיל את פונקציית העדכון מול הקונטרולר *@
+<input type="button" value="שמור" @onclick="SaveSettingsAndMove" />
+
+<p>@msg</p>
+
 @code
 {
     //הפרמטר שמוזרק בנתיב
@@ -55,6 +61,27 @@ else
         if (response.IsSuccessStatusCode == true)
         {
             gameSettings = response.Content.ReadFromJsonAsync<GameToAddDto>().Result;
+        }
+    }
+    
+    
+    string msg = "";
+//פונקציה שפונה לקונטרולר שמעדכן את הפרטים שקשורים להגדרות הכלליות: שם המשחק, זמן, שיקוי
+    async Task SaveSettingsAndMove()
+    {
+        // שליחת בקשת POST לנתיב שיצרנו, תוך שרשור ה-ID ושליחת האובייקט המעודכן
+        var updateResponse = await Http.PostAsJsonAsync("api/Games/updateGame/" + gameID.ToString(), gameSettings);
+//בדיקה אם העדכון הצליח        
+        if (updateResponse.IsSuccessStatusCode == true)
+        {
+            msg = "השינויים נשמרו בהצלחה!";
+            // כאן נוסיף את פקודת הניווט לעמוד הבא של יצירת השאלות
+            // Nav.NavigateTo("./QuestionsPage/" + gameId.ToString());
+        }
+        else 
+        {
+            // אם העדכון נכשל, נקרא את השגיאה שהשרת החזיר
+            msg = updateResponse.Content.ReadAsStringAsync().Result;
         }
     }
   }
