@@ -213,12 +213,16 @@ namespace AuthTemplate.Server.Controllers
         [HttpPost("updateGame/{id}")]
         public async Task<IActionResult> UpdateGame(int id, int authUserId, GameToAddDto gameToUpdate)
         {
-            // בדיקת תקינות מזהים: מזהה המשחק, המשתמש המחובר, ושהאובייקט עצמו לא ריק
+            // בדיקת תקינות של מזהה המשחק, המשתמש המחובר, ושהאובייקט עצמו לא ריק
             if (id <= 0 || authUserId <= 0 || gameToUpdate == null)
             {
                 return BadRequest("Invalid request");
             }
-
+            //בדיקת תקינות נוספת בשביל הטווח של הזמן
+            if (gameToUpdate.time != 1000 && (gameToUpdate.time < 45 || gameToUpdate.time > 180))
+            {
+                return BadRequest("הזמן לשאלה חייב להיות בין 45 ל-180 שניות");
+            }
             // יצירת אובייקט הפרמטרים לשאילתה
             object param = new {
                 gameName = gameToUpdate.gameName,

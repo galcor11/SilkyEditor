@@ -108,10 +108,10 @@ else
 //פונקציה שפונה לקונטרולר שמעדכן את הפרטים שקשורים להגדרות הכלליות: שם המשחק, זמן, שיקוי
     async Task SaveSettingsAndMove()
     {
-        //  אם המשתמש סימן ללא הגבלה, אנחנו משנים את ערך הזמן ל-0
+        //  אם המשתמש סימן ללא הגבלה, אנחנו משנים את ערך הזמן ל-1000
         if (isUnlimitedTime == true)
         {
-            gameSettings.time = 0;
+            gameSettings.time = 1000;
         }
         // שליחת בקשת POST לנתיב שיצרנו, תוך שרשור ה-ID ושליחת האובייקט המעודכן
         var updateResponse = await Http.PostAsJsonAsync("api/Games/updateGame/" + gameID.ToString(), gameSettings);
@@ -119,8 +119,8 @@ else
         if (updateResponse.IsSuccessStatusCode == true)
         {
             msg = "השינויים נשמרו בהצלחה!";
-            // כאן נוסיף את פקודת הניווט לעמוד הבא של יצירת השאלות
-            // Nav.NavigateTo("./QuestionsPage/" + gameId.ToString());
+            // בהמשך נוסיף לכאן את פקודת הניווט לעמוד הבא של עריכת השאלות
+            // Nav.NavigateTo("./QuestionsPage/" + gameID.ToString());
         }
         else 
         {
