@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AuthTemplate.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05791bc801a0d840ca34129876af1f080a9e5f6f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b4ad971554bf3161962cf5e42914f85a250917d")]
 [assembly: System.Reflection.AssemblyProductAttribute("AuthTemplate.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AuthTemplate.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
