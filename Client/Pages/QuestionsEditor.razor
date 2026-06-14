@@ -1,4 +1,4 @@
-@page "/EditGame/{GameID:int}"
+@page "/EditGame/{gameID:int}"
 <h1>עריכת השאלות</h1>
 <!-- ניהול משתמשים - רק יוזר מחובר יכול להיכנס -->
 @attribute [Authorize]
@@ -6,5 +6,18 @@
 @inject HttpClient Http
 
 @code {
+    //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
+    [Parameter]
+    public int gameID { get; set; }
+    
+//רשימה שנועדה לשמור את השאלות שחוזרות מהקונטרולר
+List<Question> questionsList;
+string errorMsg = "";
 
+    
+    
+    
+    
+    
+    
 }

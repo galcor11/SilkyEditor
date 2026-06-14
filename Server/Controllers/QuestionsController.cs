@@ -44,12 +44,12 @@ namespace AuthTemplate.Server.Controllers
             };
     //שאילתת SQL ששולפת את שם המשחק, כדי לוודא שהמשחק שייך כרגע למשתמש שמחובר כעת למערכת
             string checkQuery = "SELECT gameName FROM Games WHERE userID = @UserId AND gameID = @GameID";
-            var checkRecords = await _db.GetRecordsAsync<GameToTableDto>(checkQuery, authParam);
+            var checkRecords = await _db.GetRecordsAsync<string>(checkQuery, authParam);
             // משתנה שנועד לשמור לתוכו את התוצאה הראשונה, כלומר את שם המשחק
-            GameToTableDto gameName = checkRecords.FirstOrDefault();
+            string gameName = checkRecords.FirstOrDefault();
 
 //בדיקת תקינוּת              
-            if (gameName == null) 
+            if (string.IsNullOrWhiteSpace(gameName)) 
             {
                 return BadRequest("המשחק לא קיים או שאיננו שייך לך");
             }
