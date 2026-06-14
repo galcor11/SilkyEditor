@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\GameList.razor.css">
+    <None Update="Pages\GameList.razor.css">
       <DependentUpon>GamesList.razor</DependentUpon>
-    </Content>
+    </None>
   </ItemGroup>
 
 </Project>

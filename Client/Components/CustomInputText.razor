@@ -1,0 +1,47 @@
+@inherits Microsoft.AspNetCore.Components.Forms.InputText
+
+<input @attributes="@AdditionalAttributes" class="@CssClass default-input @inputClass" @bind="@CurrentValueAsString"  @bind:event="oninput" @onkeyup="countChars" maxlength="@maxLength" />
+@* ספירת תווים *@
+<span>@length.ToString()/@maxLength.ToString()</span>
+
+
+@code {
+    // פרמטר לקבלת אורך מחרוזת מינימלי
+    [Parameter]
+    public int minLength { get; set; } = 1;
+    // פרמטר לקבלת אורך מחרוזת להצגת אזהרה
+    [Parameter]
+    public int midLength { get; set; } = 10;
+    // פרמטר לקבלת אורך מחרוזת מקסימלי
+    [Parameter]
+    public int maxLength { get; set; } = 20;
+    // משתנה שיכיל את שם המחלקה הרלוונטי במידה ואורך המחרוזת תקין, דורש אזהרה או לא תקין
+    string inputClass = "";
+    // משתנה שיכיל את אורך המחרוזת
+    int length = 0;
+    
+    void countChars()
+    {
+        if (CurrentValueAsString != null)
+        {
+            length = CurrentValueAsString.Length;
+            if (length >= minLength && length < midLength)
+            {
+                inputClass = "good-input";
+            }
+            else if (length >= midLength && length <= maxLength)
+            {
+                inputClass = "warnning-input";
+            }
+            else 
+            {
+                inputClass = "danger-input";
+            }
+        }
+    }
+
+    
+    
+    
+    
+}
