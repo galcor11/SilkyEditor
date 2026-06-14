@@ -44,18 +44,19 @@ namespace AuthTemplate.Server.Controllers
             };
     //שאילתת SQL ששולפת את שם המשחק, כדי לוודא שהמשחק שייך כרגע למשתמש שמחובר כעת למערכת
             string checkQuery = "SELECT gameName FROM Games WHERE userID = @UserId AND gameID = @GameID";
-            var checkRecords = await _db.GetRecordsAsync<string>(checkQuery, authParam);
-            // משתנה שנועד לשמור לתוכו את התצואה הראשונה, כלומר את שם המשחק
-            string gameName = checkRecords.FirstOrDefault();
+            var checkRecords = await _db.GetRecordsAsync<GameToTableDto>(checkQuery, authParam);
+            // משתנה שנועד לשמור לתוכו את התוצאה הראשונה, כלומר את שם המשחק
+            GameToTableDto gameName = checkRecords.FirstOrDefault();
 
-//בדיקת תקינות              
+//בדיקת תקינוּת              
             if (gameName == null) 
             {
-                return BadRequest("It's Not Your Game");
+                return BadRequest("המשחק לא קיים או שאיננו שייך לך");
             }
+           
 
            //שאילתת SQL ששולפת לנו את כל השאלות ששייכות לַמשחק. 
-            string questionsQuery = "SELECT questionID, instruction FROM Questions WHERE gameID = @GameID";
+            string questionsQuery = "SELECT questionID, instruction, startLabel, endLabel FROM Questions WHERE gameID = @GameID";
             var questionsRecords = await _db.GetRecordsAsync<Question>(questionsQuery, authParam);
                 //אנחנו ממירים את המידע שחזר למבנה של רשימה
             List<Question> questionsList = questionsRecords.ToList();
@@ -67,8 +68,8 @@ namespace AuthTemplate.Server.Controllers
                 //אובייקט הפרמטרים לשאילתה
                 object itemParam = new { questionID = question.questionID };
         
-                //שאילתת SQL שנועדה לשלוף את התכונות הרלוונטיות של הפריטים
-                string itemsQuery = "SELECT answerID, content, isImage FROM Items WHERE questionID = @questionID";
+                //שאילתת SQL שנועדה לשלוף את התכונות הרלוונטיות של הפריטים. הוספנו את פקודת ORDERBY כדי למיין לפי הסדר של האינדקסים 
+                string itemsQuery = "SELECT answerID, content, isImage, orderIndex FROM Items WHERE questionID = @questionID ORDER BY orderIndex";
                 var itemsRecords = await _db.GetRecordsAsync<Item>(itemsQuery, itemParam);
         //אנחנו מכניסים את הפריטים ששלפנו אל הרשימה של השאלה הספציפית
                 question.Items = itemsRecords.ToList(); 
