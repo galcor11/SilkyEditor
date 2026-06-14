@@ -8,19 +8,32 @@
 @* בדיקה שיש שאלות להצגה, כלומר שהרשימה איננה ריקה *@
 @if (questionsList != null)
 {
-    //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות
-    @foreach (Question question in questionsList)
+    //בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה
+    @if (questionsList.Count > 0)
     {
-        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-            <h2>השאלה: @question.instruction</h2>
+     //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות
+     @foreach (Question question in questionsList)
+     {
+         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+             <h2>השאלה: @question.instruction</h2>
 
-            <ul>
-                @* לולאה שעוברת לנו על הפריטים של כל שאלה *@
-                @foreach (Item item in question.Items)
-                {
-                    <li>@item.content</li>
-                }
-            </ul>
+             <ul>
+                 @* לולאה שעוברת לנו על הפריטים של כל שאלה *@
+                 @foreach (Item item in question.Items)
+                 {
+                     <li>@item.content</li>
+                 }
+             </ul>
+         </div>
+     }   
+        
+    }
+    else
+    {
+        @* כאשר הרשימה ריקה משאלות *@
+        <div style="text-align: center; margin-top: 20px;">
+            <h3>עדיין אין שאלות במשחק זה ️</h3>
+            <p>זה הזמן להתחיל ליצור שאלות!</p>
         </div>
     }
 }
