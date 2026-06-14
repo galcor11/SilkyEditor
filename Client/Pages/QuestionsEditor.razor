@@ -16,7 +16,9 @@
      {
          <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
              <h2>השאלה: @question.instruction</h2>
-
+             @* הצגת תגיות הקיצון *@
+             <p><strong>תגית התחלה:</strong> @question.startLabel</p>
+             <p><strong>תגית סוף:</strong> @question.endLabel</p>
              <ul>
                  @* לולאה שעוברת לנו על הפריטים של כל שאלה *@
                  @foreach (Item item in question.Items)
