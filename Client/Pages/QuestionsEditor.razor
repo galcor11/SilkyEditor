@@ -5,6 +5,35 @@
 @using AuthTemplate.Shared.Models
 @inject HttpClient Http
 
+@* בדיקה שיש שאלות להצגה, כלומר שהרשימה איננה ריקה *@
+@if (questionsList != null)
+{
+    //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות
+    @foreach (Question question in questionsList)
+    {
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <h2>השאלה: @question.instruction</h2>
+
+            <ul>
+                @* לולאה שעוברת לנו על הפריטים של כל שאלה *@
+                @foreach (Item item in question.Items)
+                {
+                    <li>@item.content</li>
+                }
+            </ul>
+        </div>
+    }
+}
+else if (errorMsg != "")
+{
+    <p style="color:red;">שגיאה: @errorMsg</p>
+}
+else
+{
+    <p>טוען נתונים...</p>
+}
+
+
 @code {
     //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
     [Parameter]
@@ -14,10 +43,22 @@
 List<Question> questionsList;
 string errorMsg = "";
 
-    
-    
-    
-    
-    
-    
+   
+protected override async Task OnInitializedAsync()
+{
+    //אנחנו קוראים לשיטה בקונטולר של עריכת השאלות ומשרשרים את gameID שיתקבל בנתיב
+    var response = await Http.GetAsync("api/Questions/getQuestions/" + gameID);
+    //בדיקת אם סטטוס התשובה תקין
+    if (response.IsSuccessStatusCode == true)
+    {
+        // אנחנו ממירים את ה-JSON שחזר לרשימה של שאלות ושומרים במשתנה שלנו
+        questionsList = response.Content.ReadFromJsonAsync<List<Question>>().Result;
+    }
+    else
+    {
+        //המשתנה ERRORMSG מכיל בתוכו את התוכן המחרוזתי של השגיאה
+        errorMsg = response.Content.ReadAsStringAsync().Result;
+    }
+} 
+
 }

@@ -19,7 +19,6 @@ namespace AuthTemplate.Server.Controllers
         public QuestionsController( DbRepository db) 
         { 
             _db = db;
-            // בתוך הקיימות השיטות אל לפנות מאפשר DBRepository
         }
         // [HttpGet]
         // public async Task<ActionResult<int>> GetLoginUser(int authUserId)
