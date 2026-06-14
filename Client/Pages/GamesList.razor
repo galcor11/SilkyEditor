@@ -156,13 +156,6 @@
         }
     }
     
-    //פנייה לשיטת קונטרולר שמטפלת בעריכה. 
-    public async Task EditGame(GameToTableDto game)
-    {
-        ///
-    }
-
-
     //שליחת בקשה לקונטרולר שמטפל בפרסום
      private async Task changePublish(GameToTableDto game)    {
         // בעת לחיצה על פרסום ניצור מופע של מחלקה עם מזהה המשחק ומצב הפרסום
@@ -194,7 +187,12 @@
             }
         }
     }
-    
+    //מעבר לעמוד עריכת השאלות
+    void EditGame(GameToTableDto game)
+    {
+        // מעבר לעמוד החדש ושרשור ה-ID של המשחק לנתיב
+        Nav.NavigateTo("/QuestionsEditor/" + game.gameID); 
+    }
    //ניצור פונקציה שתקבל שגיאה ותציג הודעה בהתאם 
     void ShowError(string error)
     {
