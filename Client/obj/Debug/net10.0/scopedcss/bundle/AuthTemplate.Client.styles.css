@@ -26,6 +26,7 @@
 }
 /* /Pages/QuestionsEditor.razor.rz.scp.css */
 
+
 /* המחלקה הראשית של הטבלה - פורסת אותה על כל הרוחב, מאחדת גבולות ומיישרת טקסט לימין */
 .questions-table[b-0ine4pvf37] {
     width: 100%;
@@ -41,7 +42,7 @@
 
 /* צבע רקע אפרפר לשורת הכותרות העליונה של הטבלה */
 .questions-table thead tr[b-0ine4pvf37] {
-    background-color: #f1f3f5;
+    background-color: #94B65B;
 }
 
 /* עיצוב החץ של האקורדיון (הפתיחה/סגירה) - הופך את סמן העכבר לכף יד, מדגיש את הטקסט ומרחיק מעט שמאלה */
@@ -81,7 +82,7 @@
 /* התא הגדול של האקורדיון שמתפרס על כל העמודות - מוסיף ריווח פנימי ורקע טיפה שונה להבלטה */
 .accordion-cell[b-0ine4pvf37] {
     padding: 15px;
-    background-color: #fdfdfd;
+    background-color: #C5ECA5;
 }
 
 /* המיכל שעוטף את כל הפריטים יחד - הוא זה שדואג לפריסה האופקית המושלמת */
@@ -118,7 +119,7 @@
 .item-box[b-0ine4pvf37] {
     border: 2px solid #633c21; /* מסגרת חומה-כהה שתבלוט */
     padding: 15px 25px; /* ריווח פנימי גדול יותר שנותן את צורת האליפסה */
-    background-color: #efede1; /* צבע רקע צהבהב-קרם להבלטה */
+    background-color: #f3ecec; /* צבע רקע צהבהב-קרם להבלטה */
     min-width: 80px; /* רוחב מינימלי למשבצת כדי שייראה אחיד */
     text-align: center;
     border-radius: 50px; /* הפיכת הקופסה לאליפסה מעוגלת לחלוטין */
