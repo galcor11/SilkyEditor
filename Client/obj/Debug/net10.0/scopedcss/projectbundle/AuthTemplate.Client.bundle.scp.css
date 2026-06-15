@@ -39,9 +39,12 @@
 }
 
 .games-table thead tr[b-gihezm0wsz] {
-    background-color: #f1f3f5;
+    background-color: #C5ECA5;
 }
-
+/* הגדרת רקע לבן לכל תאי התוכן בטבלה (לא כולל הכותרת) */
+.games-table td[b-gihezm0wsz] {
+    background-color: white;
+}
 /* המחלקה לכפתורי העריכה והמחיקה */
 .action-btn[b-gihezm0wsz] {
     background: none;
