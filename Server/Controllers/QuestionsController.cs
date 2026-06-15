@@ -73,9 +73,14 @@ namespace AuthTemplate.Server.Controllers
         //אנחנו מכניסים את הפריטים ששלפנו אל הרשימה של השאלה הספציפית
                 question.Items = itemsRecords.ToList(); 
             }
-
-            //אנחנו מחזירים את רשימת השאלות המלאה עם הפריטים שבה, אם סטטוס הרשת תקין
-            return Ok(questionsList);
+            //מופע חדש של ה-DTO (יכיל את שם המשחק ואת רשימת השאלות)
+            GameEditDto gameData = new GameEditDto();
+                //אנחנו מכניסים את הנתונים (השם והשאלות) אל תוך התכונות של המופע
+            gameData.gameName = gameName; 
+            gameData.Questions = questionsList; 
+//אנחנו מחזירים את המופע אם סטטוס הרשת תקין
+            return Ok(gameData);
+          
         }
     }
 }

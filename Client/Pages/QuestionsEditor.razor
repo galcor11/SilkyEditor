@@ -1,18 +1,20 @@
 @page "/QuestionsEditor/{gameID:int}"
-<h1>עריכת השאלות</h1>
+<h2>עריכת השאלות</h2>
 <!-- ניהול משתמשים - רק יוזר מחובר יכול להיכנס -->
 @attribute [Authorize]
 @using AuthTemplate.Shared.Models
 @inject HttpClient Http
 
 @* בדיקה שיש שאלות להצגה, כלומר שהרשימה איננה ריקה *@
-@if (questionsList != null)
+@if (gameData != null)
 {
+    <h1>עריכת שאלות למשחק: @gameData.gameName</h1>
+
     //בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה
-    @if (questionsList.Count > 0)
+    @if (gameData.Questions.Count > 0)
     {
      //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות
-     @foreach (Question question in questionsList)
+     @foreach (Question question in gameData.Questions)
      {
          <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
              <h2>השאלה: @question.instruction</h2>
@@ -53,9 +55,9 @@ else
     //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
     [Parameter]
     public int gameID { get; set; }
-    
-//רשימה שנועדה לשמור את השאלות שחוזרות מהקונטרולר
-List<Question> questionsList;
+ //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
+GameEditDto gameData;
+
 string errorMsg = "";
 
    
@@ -66,8 +68,9 @@ protected override async Task OnInitializedAsync()
     //בדיקת אם סטטוס התשובה תקין
     if (response.IsSuccessStatusCode == true)
     {
-        // אנחנו ממירים את ה-JSON שחזר לרשימה של שאלות ושומרים במשתנה שלנו
-        questionsList = response.Content.ReadFromJsonAsync<List<Question>>().Result;
+        // אנחנו ממירים את ה-JSON שחזר ושומרים במופע שלנו
+        gameData = response.Content.ReadFromJsonAsync<GameEditDto>().Result;
+
     }
     else
     {
