@@ -13,24 +13,97 @@
     //בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה
     @if (gameData.Questions.Count > 0)
     {
-     //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות
-     @foreach (Question question in gameData.Questions)
-     {
-         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-             <h2>השאלה: @question.instruction</h2>
-             @* הצגת תגיות הקיצון *@
-             <p><strong>תגית התחלה:</strong> @question.startLabel</p>
-             <p><strong>תגית סוף:</strong> @question.endLabel</p>
-             <ul>
-                 @* לולאה שעוברת לנו על הפריטים של כל שאלה *@
-                 @foreach (Item item in question.Items)
-                 {
-                     <li>@item.content</li>
-                 }
-             </ul>
-         </div>
-     }   
-        
+       <table class="questions-table">
+            <thead>
+                <tr>
+                    <th>השאלה</th>
+                    <th>מספר פריטים</th>
+                    <th>מחיקה</th>
+                </tr>
+            </thead>
+            <tbody>
+            @* לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות *@
+            @foreach (Question question in gameData.Questions)
+            {
+                int itemsCount = question.Items.Count;
+
+                @* שורה 1: שורת התצוגה הראשית *@
+                <tr>
+                    <td>
+                        <span class="toggle-icon" @onclick="() => ToggleAccordion(question.questionID)">
+                            @(openQuestionId == question.questionID ? "▼" : "◀")
+                        </span>
+                        @question.instruction
+                    </td>
+                    <td>
+                        @itemsCount
+                        @if (itemsCount >= 4 && itemsCount <= 8)
+                        {
+                            <span class="leaf-icon good-count"> 🌿 </span>
+                        }
+                        else
+                        {
+                            <span class="leaf-icon bad-count"> 🌿 </span>
+                        }
+                    </td>
+                    <td class="center-text">
+                        <span class="delete-icon"> 🗑️ </span>
+                    </td>
+                </tr>
+
+                @* שורה 2: שורת האקורדיון של הפריטים *@
+                @if (openQuestionId == question.questionID)
+                {
+                    <tr>
+                        <td colspan="3" class="accordion-cell">
+                            <div class="items-container">
+                                @for (int i = 0; i < itemsCount; i++)
+                                {
+                                    <div class="item-wrapper">
+                                        @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
+                                        @if (i == 0)
+                                        {
+                                            <div class="item-label">@question.startLabel</div>
+                                        }
+                                        else if (i == itemsCount - 1)
+                                        {
+                                            <div class="item-label">@question.endLabel</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item-label-spacer">&nbsp;</div>
+                                        }
+
+                                        <div class="item-box">
+                                            @question.Items[i].content
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+     @* //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות *@
+     @* @foreach (Question question in gameData.Questions) *@
+     @* { *@
+     @*     <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;"> *@
+     @*         <h2>השאלה: @question.instruction</h2> *@
+     @*         $1$ הצגת תגיות הקיצון #1# *@
+     @*         <p><strong>תגית התחלה:</strong> @question.startLabel</p> *@
+     @*         <p><strong>תגית סוף:</strong> @question.endLabel</p> *@
+     @*         <ul> *@
+     @*             $1$ לולאה שעוברת לנו על הפריטים של כל שאלה #1# *@
+     @*             @foreach (Item item in question.Items) *@
+     @*             { *@
+     @*                 <li>@item.content</li> *@
+     @*             } *@
+     @*         </ul> *@
+     @*     </div> *@
+     @* }    *@
+     @*     *@
     }
     else
     {
@@ -59,6 +132,25 @@ else
 GameEditDto gameData;
 
 string errorMsg = "";
+
+
+
+// משתנה לשמירת ה-ID של השאלה הפתוחה כרגע. 0 אומר שהכל סגור.
+int openQuestionId = 0;
+
+// פונקציה לפתיחה וסגירה של האקורדיון בטבלה
+void ToggleAccordion(int questionId)
+{
+    // אם לחצו על השאלה שכבר פתוחה - נסגור אותה (נאפס ל-0)
+    if (openQuestionId == questionId)
+    {
+        openQuestionId = 0;
+    }
+    else // אחרת, נפתח את השאלה שעליה לחצו
+    {
+        openQuestionId = questionId;
+    }
+}
 
    
 protected override async Task OnInitializedAsync()

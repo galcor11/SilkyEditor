@@ -24,6 +24,99 @@
 .default-input.danger-input:focus[b-ke5wxkj6ev] {
     outline: 5px solid red !important;
 }
+/* /Pages/QuestionsEditor.razor.rz.scp.css */
+
+
+/* המחלקה הראשית של הטבלה - פורסת אותה על כל הרוחב, מאחדת גבולות ומיישרת טקסט לימין */
+.questions-table[b-0ine4pvf37] {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+/* עיצוב התאים בטבלה (גם כותרות th וגם תאים רגילים td) - מוסיף ריווח פנימי וגבול אפור עדין */
+.questions-table th[b-0ine4pvf37], .questions-table td[b-0ine4pvf37] {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* צבע רקע אפרפר לשורת הכותרות העליונה של הטבלה */
+.questions-table thead tr[b-0ine4pvf37] {
+    background-color: #f1f3f5;
+}
+
+/* עיצוב החץ של האקורדיון (הפתיחה/סגירה) - הופך את סמן העכבר לכף יד, מדגיש את הטקסט ומרחיק מעט שמאלה */
+.toggle-icon[b-0ine4pvf37] {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* הגדרת הגודל של אימוג'י העלה */
+.leaf-icon[b-0ine4pvf37] {
+    font-size: 20px;
+}
+
+/* צבע ירוק שמופעל כשיש כמות תקינה של פריטים (4 עד 8) */
+.good-count[b-0ine4pvf37] {
+    color: green;
+}
+
+/* צבע אפור שמופעל כשיש כמות לא תקינה של פריטים */
+.bad-count[b-0ine4pvf37] {
+    color: gray;
+}
+
+/* מחלקת עזר למרכוז טקסט (למשל עבור העמודה של כפתור המחיקה) */
+.center-text[b-0ine4pvf37] {
+    text-align: center;
+}
+
+/* עיצוב לאייקון פח האשפה - הופך אותו לאדום, משנה את סמן העכבר ומגדיל אותו */
+.delete-icon[b-0ine4pvf37] {
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+/* התא הגדול של האקורדיון שמתפרס על כל העמודות - מוסיף ריווח פנימי ורקע טיפה שונה להבלטה */
+.accordion-cell[b-0ine4pvf37] {
+    padding: 15px;
+    background-color: #fdfdfd;
+}
+
+/* מיכל האב של הפריטים - מסדר אותם בשורה אופקית (display: flex) עם רווח של 15 פיקסלים ביניהם, ומיישר אותם לתחתית כדי שהקופסאות יהיו באותו קו */
+.items-container[b-0ine4pvf37] {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+/* עוטף כל פריט בודד (הלייבל + הקופסה שלו) כדי שהטקסט בתוכו יהיה ממורכז */
+.item-wrapper[b-0ine4pvf37] {
+    text-align: center;
+}
+
+/* עיצוב תגיות הקצה (ההתחלה והסוף) שמופיעות מעל הפריטים - טקסט מודגש, צבע אפור כהה וריווח קטן מלמטה */
+.item-label[b-0ine4pvf37] {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* רווח שקוף (Spacer) לפריטים האמצעיים - שומר על גובה אחיד של הקופסאות גם כשאין מעליהן לייבל אמיתי */
+.item-label-spacer[b-0ine4pvf37] {
+    margin-bottom: 5px;
+}
+
+/* הקופסה שמכילה את התוכן של הפריט עצמו (המסיח) - מסגרת אפורה, ריווח פנימי, פינות מעוגלות ורקע לבן שיבלוט על הרקע של האקורדיון */
+.item-box[b-0ine4pvf37] {
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .content[b-4ffzppdsc7]{
     padding: 1rem;

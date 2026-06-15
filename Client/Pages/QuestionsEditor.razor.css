@@ -1,0 +1,92 @@
+
+
+/* המחלקה הראשית של הטבלה - פורסת אותה על כל הרוחב, מאחדת גבולות ומיישרת טקסט לימין */
+.questions-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+/* עיצוב התאים בטבלה (גם כותרות th וגם תאים רגילים td) - מוסיף ריווח פנימי וגבול אפור עדין */
+.questions-table th, .questions-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* צבע רקע אפרפר לשורת הכותרות העליונה של הטבלה */
+.questions-table thead tr {
+    background-color: #f1f3f5;
+}
+
+/* עיצוב החץ של האקורדיון (הפתיחה/סגירה) - הופך את סמן העכבר לכף יד, מדגיש את הטקסט ומרחיק מעט שמאלה */
+.toggle-icon {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* הגדרת הגודל של אימוג'י העלה */
+.leaf-icon {
+    font-size: 20px;
+}
+
+/* צבע ירוק שמופעל כשיש כמות תקינה של פריטים (4 עד 8) */
+.good-count {
+    color: green;
+}
+
+/* צבע אפור שמופעל כשיש כמות לא תקינה של פריטים */
+.bad-count {
+    color: gray;
+}
+
+/* מחלקת עזר למרכוז טקסט (למשל עבור העמודה של כפתור המחיקה) */
+.center-text {
+    text-align: center;
+}
+
+/* עיצוב לאייקון פח האשפה - הופך אותו לאדום, משנה את סמן העכבר ומגדיל אותו */
+.delete-icon {
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+/* התא הגדול של האקורדיון שמתפרס על כל העמודות - מוסיף ריווח פנימי ורקע טיפה שונה להבלטה */
+.accordion-cell {
+    padding: 15px;
+    background-color: #fdfdfd;
+}
+
+/* מיכל האב של הפריטים - מסדר אותם בשורה אופקית (display: flex) עם רווח של 15 פיקסלים ביניהם, ומיישר אותם לתחתית כדי שהקופסאות יהיו באותו קו */
+.items-container {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+/* עוטף כל פריט בודד (הלייבל + הקופסה שלו) כדי שהטקסט בתוכו יהיה ממורכז */
+.item-wrapper {
+    text-align: center;
+}
+
+/* עיצוב תגיות הקצה (ההתחלה והסוף) שמופיעות מעל הפריטים - טקסט מודגש, צבע אפור כהה וריווח קטן מלמטה */
+.item-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* רווח שקוף (Spacer) לפריטים האמצעיים - שומר על גובה אחיד של הקופסאות גם כשאין מעליהן לייבל אמיתי */
+.item-label-spacer {
+    margin-bottom: 5px;
+}
+
+/* הקופסה שמכילה את התוכן של הפריט עצמו (המסיח) - מסגרת אפורה, ריווח פנימי, פינות מעוגלות ורקע לבן שיבלוט על הרקע של האקורדיון */
+.item-box {
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
