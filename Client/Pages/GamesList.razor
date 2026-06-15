@@ -42,7 +42,7 @@
 
                     }
                 </td>
-                <td><input type="button" value="🗑️" @onclick="(()=>DeleteGame(game))"class="action-btn"/></td>
+                <td><input type="button" value="🗑️" @onclick="(()=>ShowDeleteConfirmation(game))" class="action-btn" /></td>
             </tr>
         }
         </tbody>
@@ -54,6 +54,11 @@
 @* כפתור שעוזר לנו להציג את הפופ-אפ של ההוספה *@
 <input type="button" value="משחק חדש" @onclick="(() => showAddPopup = true)" />
 
+@* אנחנו קוראים לקומפוננטה של הפופ-אפ כאשר הערך הוא TRUE *@
+@if (showDeletePopup)
+{
+    <DeleteGamePopup SelectedGame="gameToDelete" OnUserConfirm="ExecuteDelete" />
+}
 @* אנחנו קוראים לקומפוננטה של הפופ-אפ כאשר הערך הוא TRUE *@
 @if (showAddPopup)
 {
@@ -71,7 +76,10 @@
     GameToAddDto gameToAdd = new GameToAddDto(){ time = 60 };
 // משתנה בוליאני בשביל תצוגת הפופ-אפ
     bool showAddPopup = false; 
-
+        //משתנים בשביל המחיקה
+        bool showDeletePopup = false; 
+        GameToTableDto gameToDelete; 
+        
     [CascadingParameter]
     private User user { get; set; }
     
@@ -126,6 +134,28 @@
             //קוראים לפונקציה אם יש שגיאה
             ShowError(error);
             
+        }
+    }
+    
+    
+    // פונקציית עזר שרק פותחת את הפופ-אפ כשלוחצים על הפח בטבלה
+    void ShowDeleteConfirmation(GameToTableDto game)
+    {
+        gameToDelete = game;
+        showDeletePopup = true; 
+    }
+
+    //פונקציה שמקבלת משתנה בולאיני מהקומפוננטה, ובהתאם יודעת אם למחוק את המשחק או לא
+    async Task ExecuteDelete(bool isConfirmed)
+    {
+        // בכל מקרה סוגרים קודם כול את הפופ-אפ
+        showDeletePopup = false; 
+
+        // אם המשתמש לחץ "מחיקה"
+        if (isConfirmed == true)
+        {
+           //אנחנו קוראים לפונקציית המחיקה שלמטה
+            await DeleteGame(gameToDelete); 
         }
     }
 //פנייה לשיטת המחיקה שבקונטרולר

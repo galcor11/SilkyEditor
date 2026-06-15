@@ -1,6 +1,53 @@
 @using AuthTemplate.Shared.Models
 @* קומפוננטה שפתחנו בשביל ליצור פופ-אפ למחיקת משחק מטבלת "המשחקים שלי"  *@
 
+
+<style>
+    /* העיצוב של הרקע החצי-שקוף שמכסה את כל המסך */
+    .popup-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); display: flex;
+        justify-content: center; align-items: center; z-index: 1000;
+    }
+    /* העיצוב של הקופסה של ההודעה */
+    .popup-content {
+        background-color: white; padding: 30px; border-radius: 15px;
+        text-align: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 350px;
+    }
+    .popup-content input {
+        margin: 10px 5px; padding: 8px 15px; border-radius: 5px;
+        cursor: pointer; font-weight: bold;
+    }
+</style>
+
+<div class="popup-overlay">
+    <section class="popup-content">
+        <h2>אוי לא!</h2>
+        <h3>האם אתה בטוח שברצונך למחוק את המשחק: @SelectedGame.gameName?</h3>
+        
+        <input type="button" @onclick="ConfirmDelete" value="מחיקה" style="background-color: lightcoral;" />
+        <input type="button" @onclick="CancelDelete" value="ביטול" style="background-color: lightgray;" />
+    </section>
+</div>
+
 @code {
-    
+    // מקבלים את המשחק המיועד למחיקה מהעמוד הראשי
+    [Parameter]
+    public GameToTableDto SelectedGame { get; set; }
+
+    // פעמון שמתריע לעמוד הראשי אם המשתמש אישר או ביטל
+    [Parameter]
+    public EventCallback<bool> OnUserConfirm { get; set; }
+
+    // אם המשתמש לחץ "כן"
+    private async Task ConfirmDelete()
+    {
+        await OnUserConfirm.InvokeAsync(true);
+    }
+
+    // אם המשתמש לחץ "לא"
+    private async Task CancelDelete()
+    {
+        await OnUserConfirm.InvokeAsync(false);
+    }
 }
