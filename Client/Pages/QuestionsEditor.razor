@@ -86,24 +86,7 @@
             }
             </tbody>
         </table>
-     @* //לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות *@
-     @* @foreach (Question question in gameData.Questions) *@
-     @* { *@
-     @*     <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;"> *@
-     @*         <h2>השאלה: @question.instruction</h2> *@
-     @*         $1$ הצגת תגיות הקיצון #1# *@
-     @*         <p><strong>תגית התחלה:</strong> @question.startLabel</p> *@
-     @*         <p><strong>תגית סוף:</strong> @question.endLabel</p> *@
-     @*         <ul> *@
-     @*             $1$ לולאה שעוברת לנו על הפריטים של כל שאלה #1# *@
-     @*             @foreach (Item item in question.Items) *@
-     @*             { *@
-     @*                 <li>@item.content</li> *@
-     @*             } *@
-     @*         </ul> *@
-     @*     </div> *@
-     @* }    *@
-     @*     *@
+     
     }
     else
     {
