@@ -63,11 +63,17 @@
                                         @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
                                         @if (i == 0)
                                         {
-                                            <div class="item-label">@question.startLabel</div>
+                                            <div class="item-label">
+                                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
+                                                @question.startLabel
+                                            </div>
                                         }
                                         else if (i == itemsCount - 1)
                                         {
-                                            <div class="item-label">@question.endLabel</div>
+                                            <div class="item-label">
+                                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
+                                                @question.endLabel
+                                            </div>
                                         }
                                         else
                                         {

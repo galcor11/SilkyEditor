@@ -44,7 +44,10 @@
 .questions-table thead tr[b-0ine4pvf37] {
     background-color: #94B65B;
 }
-
+/* צבע רקע ירוק בהיר לשורות התוכן בטבלה */
+.questions-table tbody tr[b-0ine4pvf37] {
+    background-color: #eef7ee; /* קוד של ירוק בהיר ועדין */
+}
 /* עיצוב החץ של האקורדיון (הפתיחה/סגירה) - הופך את סמן העכבר לכף יד, מדגיש את הטקסט ומרחיק מעט שמאלה */
 .toggle-icon[b-0ine4pvf37] {
     cursor: pointer;
@@ -126,6 +129,17 @@
     font-weight: bold;
     color: #333;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* הצללה עדינה מתחת לאליפסה שתיתן תחושת תלת-ממד */
+}
+
+/* עיצוב לאייקון העריכה של הלייבלים (תגיות הקצה) */
+ .edit-icon[b-0ine4pvf37] {
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px; /* מרחיק את העיפרון מעט מהטקסט */
+    color: #666;
+}
+.edit-icon:hover[b-0ine4pvf37] {
+    color: #000; /* מחשיך מעט את העיפרון כשעוברים עליו עם העכבר */
 }
 /* /Shared/MainLayout.razor.rz.scp.css */
 .content[b-4ffzppdsc7]{
