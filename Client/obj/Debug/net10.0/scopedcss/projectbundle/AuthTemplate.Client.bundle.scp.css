@@ -24,6 +24,35 @@
 .default-input.danger-input:focus[b-ke5wxkj6ev] {
     outline: 5px solid red !important;
 }
+/* /Pages/GamesList.razor.rz.scp.css */
+/* עיצוב כללי לטבלת המשחקים */
+.games-table[b-gihezm0wsz] {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.games-table th[b-gihezm0wsz], .games-table td[b-gihezm0wsz] {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.games-table thead tr[b-gihezm0wsz] {
+    background-color: #f1f3f5;
+}
+
+/* המחלקה לכפתורי העריכה והמחיקה */
+.action-btn[b-gihezm0wsz] {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.action-btn:hover[b-gihezm0wsz] {
+    transform: scale(1.1); /* אפשרות להגדלה קלה במעבר עכבר */
+}
 /* /Pages/QuestionsEditor.razor.rz.scp.css */
 
 
@@ -146,10 +175,10 @@
     padding: 1rem;
     width: 1280px;
     margin: 0 auto;
-    background-color: white;
+    background-color: transparent;
 }
 .page[b-4ffzppdsc7]{
-    background-color: lightgray;
+    background-color: transparent;
 }
 /* /Shared/NavMenu.razor.rz.scp.css */
 .navbar-dark[b-fkrnxn2bk1]{

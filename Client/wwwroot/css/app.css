@@ -7,6 +7,8 @@ html, body {
     font-family: 'Alef', sans-serif;
     direction: rtl;
     text-align: right;
+    background-color: #E8FCFF; 
+
 }
 
 h1:focus {

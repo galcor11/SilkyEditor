@@ -8,7 +8,7 @@
 
 @if (MyGamesList != null)
 {
-    <table>
+    <table class="games-table">
         <thead>
         <tr>
             <th>ID</th>
@@ -28,7 +28,7 @@
                 <td>@game.gameName</td>
                 <td>@game.gameCode</td>
                 <td>@game.questionCount</td>
-                <td><input type="button" value="✏️" @onclick="(()=>EditGame(game))"style="background: none; border: none; cursor: pointer;"/></td>
+                <td><input type="button" value="✏️" @onclick="(()=>EditGame(game))"class="action-btn"/></td>
 
                 <td>
                     @if (game.canPublish == false)
@@ -42,7 +42,7 @@
 
                     }
                 </td>
-                <td><input type="button" value="🗑️" @onclick="(()=>DeleteGame(game))"style="background: none; border: none; cursor: pointer;"/></td>
+                <td><input type="button" value="🗑️" @onclick="(()=>DeleteGame(game))"class="action-btn"/></td>
             </tr>
         }
         </tbody>
