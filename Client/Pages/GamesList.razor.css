@@ -29,3 +29,13 @@
 .action-btn:hover {
     transform: scale(1.1); /* אפשרות להגדלה קלה במעבר עכבר */
 }
+
+/* עיצוב הקופסה שעוטפת את הפרפר וממקמת אותו מעל הטבלה בצד ימין */
+.butterfly-container {
+    display: flex;
+    justify-content: flex-start; /* מצמיד לימין */
+    margin-bottom: -15px; /* מושך את הטבלה קצת למעלה כדי שהפרפר יישב עליה */
+    padding-right: 20px; /* מרחיק קצת מהקצה הימני */
+    z-index: 1; /* מוודא שהפרפר מופיע מעל הרקע של הטבלה */
+    position: relative;
+}
