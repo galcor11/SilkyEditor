@@ -31,9 +31,13 @@ namespace AuthTemplate.Server.Controllers
         {
             if (authUserId > 0)
             {
-                object param = new { ID = authUserId };
-                string query =
-                    "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID WHERE Games.userID=@ID group by Games.gameCode";
+                object param = new { userID = authUserId };
+
+                // object param = new { ID = authUserId };
+                string query = "SELECT Games.gameID, Games.gameName, Games.gameCode, Games.isPublish, Games.canPublish, COUNT(Questions.questionID) AS questionCount FROM Games LEFT JOIN Questions ON Games.gameID = Questions.gameID WHERE Games.userID = @userID GROUP BY Games.gameID, Games.gameName, Games.gameCode, Games.isPublish, Games.canPublish";
+
+                // string query =
+                //     "SELECT Games.*, count(Questions.questionID) AS questionCount FROM Games LEFT OUTER JOIN Questions on Games.gameCode = Questions.gameID WHERE Games.userID=@ID group by Games.gameCode";
                 var record = await _db.GetRecordsAsync<GameToTableDto>(query, param);
                 List<GameToTableDto> gameList = record.ToList();
                 if (gameList.Count > 0)
