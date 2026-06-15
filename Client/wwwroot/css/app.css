@@ -1,7 +1,10 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+/* שורה חדשה שמייבאת את הפונט Alef מהשרתים של גוגל */
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* שינינו את הפונט ממשפחת ההלביטיקה הרגילה לפונט Alef שיובא למעלה */
+    font-family: 'Alef', sans-serif;
     direction: rtl;
     text-align: right;
 }
