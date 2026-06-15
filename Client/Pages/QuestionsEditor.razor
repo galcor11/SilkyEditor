@@ -1,5 +1,5 @@
 @page "/QuestionsEditor/{gameID:int}"
-<h2>עריכת השאלות</h2>
+<p>עריכת השאלות</p>
 <!-- ניהול משתמשים - רק יוזר מחובר יכול להיכנס -->
 @attribute [Authorize]
 @using AuthTemplate.Shared.Models
@@ -8,7 +8,7 @@
 @* בדיקה שיש שאלות להצגה, כלומר שהרשימה איננה ריקה *@
 @if (gameData != null)
 {
-    <h1>עריכת שאלות למשחק: @gameData.gameName</h1>
+    <h1>@gameData.gameName</h1>
 
     //בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה
     @if (gameData.Questions.Count > 0)
