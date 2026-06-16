@@ -266,6 +266,24 @@
     font-weight: bold;
     color: #333;
 }
+
+.silky-head[b-0ine4pvf37] {
+    display: flex;
+    width: 87px;
+    height: 87px;
+    justify-content: center;
+    align-items: center;
+
+    /* הנתיב לתמונה נשאר אותו דבר (אלא אם שינית גם את שם קובץ ה-SVG עצמו) */
+    background-image: url('svg/silkyHead.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    margin-left: -5px;
+    margin-right: 10px;
+    z-index: 2;
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .content[b-4ffzppdsc7]{
     padding: 1rem;
