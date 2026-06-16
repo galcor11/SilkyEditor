@@ -68,13 +68,7 @@
                                         <!--  הפעלת ולידציות -->
                                         <DataAnnotationsValidator />
 
-                                        <!-- תיבת הסימון (טוגל) לתמונה -->
-                                        <div>
-                                            <label>
-                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" />
-                                                תמונה 
-                                            </label>
-                                        </div>
+                                 
 
                                         <!-- תנאי - מה יוצג בהתאם לטוגל -->
                                         @if (currentStrawberryItem.isImage == false)
@@ -92,6 +86,14 @@
                                                 <p>כאן יהיה פקד העלאת תמונה</p>
                                             </div>
                                         }
+                                        <!-- אזור הטוגל (מתג) המעוצב -->
+                                        <div class="toggle-container">
+                                            <label class="toggle-switch">
+                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" class="toggle-checkbox" />
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <span class="toggle-label">תמונה</span>
+                                        </div>
 
                                         <!-- כפתור האישור של התות -->
                                         <button type="submit">אישור</button>

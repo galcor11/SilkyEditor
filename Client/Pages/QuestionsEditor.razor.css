@@ -119,6 +119,7 @@
 .items-container {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 15px; /* יוצר רווח נעים ואחיד בין התות לאליפסות ובין האליפסות לעצמן */
     overflow-x: auto; /* מאפשר גלילה אופקית למקרה שהתולעת תתארך מאוד */
     padding: 10px 0;
@@ -131,4 +132,68 @@
     padding: 20px;
     min-width: 250px; /* מוודא שהטופס לא יתכווץ ויישאר קריא */
     background-color: #fdfdfd; /* צבע רקע בהיר מאוד כדי להבליט מעט את אזור ההזנה */
+}
+/* סידור האזור של המתג והטקסט לידו */
+.toggle-container {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* העטיפה של הטוגל */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+/* הסתרת הצ'קבוקס המקורי של הדפדפן */
+.toggle-switch .toggle-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* העיצוב של הרקע (הסליידר עצמו) */
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px; /* יוצר פינות מעוגלות */
+}
+
+/* העיצוב של העיגול בתוך הטוגל */
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+/* צבע הרקע כשהצ'קבוקס מסומן (True) */
+.toggle-checkbox:checked + .toggle-slider {
+    background-color: #4CAF50; /* צבע ירוק כשזה דלוק */
+}
+
+/* הזזת העיגול הצידה כשזה מסומן (True) */
+.toggle-checkbox:checked + .toggle-slider:before {
+    transform: translateX(22px);
+}
+
+/* עיצוב הטקסט שליד הטוגל */
+.toggle-label {
+    margin-right: 10px; /* מרווח בין המתג לטקסט מימינו */
+    font-weight: bold;
+    color: #333;
 }
