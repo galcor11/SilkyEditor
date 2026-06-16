@@ -69,7 +69,7 @@ namespace AuthTemplate.Server.Controllers
         
                 //שאילתת SQL שנועדה לשלוף את התכונות הרלוונטיות של הפריטים. הוספנו את פקודת ORDERBY כדי למיין לפי הסדר של האינדקסים 
                 string itemsQuery = "SELECT answerID, content, isImage, orderIndex FROM Items WHERE questionID = @questionID ORDER BY orderIndex";
-                var itemsRecords = await _db.GetRecordsAsync<Item>(itemsQuery, itemParam);
+                var itemsRecords = await _db.GetRecordsAsync<SilkyItem>(itemsQuery, itemParam);
         //אנחנו מכניסים את הפריטים ששלפנו אל הרשימה של השאלה הספציפית
                 question.Items = itemsRecords.ToList(); 
             }

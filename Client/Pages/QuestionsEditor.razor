@@ -57,6 +57,50 @@
                     <tr>
                         <td colspan="3" class="accordion-cell">
                             <div class="items-container">
+                                <!-- אזור הוספת פריט ( התות) -->
+                                <div class="strawberry-container">
+                                    
+                                    <h3>הוספת פריט</h3>
+
+                                    <!-- פתיחת הטופס והגדרת הפונקציה שתפעל בשליחה -->
+                                    <EditForm Model="currentStrawberryItem" OnValidSubmit="() => AddItemToSilky(question)">
+
+                                        <!--  הפעלת ולידציות -->
+                                        <DataAnnotationsValidator />
+
+                                        <!-- תיבת הסימון (טוגל) לתמונה -->
+                                        <div>
+                                            <label>
+                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" />
+                                                זהו פריט תמונה (השאר ריק עבור טקסט)
+                                            </label>
+                                        </div>
+
+                                        <!-- תנאי - מה יוצג בהתאם לטוגל -->
+                                        @if (currentStrawberryItem.isImage == false)
+                                        {
+                                            <!-- תיבת הטקסט להזנת תוכן -->
+                                            <div>
+                                                <InputText @bind-Value="currentStrawberryItem.content" placeholder="הזן עד 30 תווים..." />
+                                                <ValidationMessage For="@(() => currentStrawberryItem.content)" />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <!-- אזור העלאת התמונה העתידי -->
+                                            <div>
+                                                <p>כאן יהיה פקד העלאת תמונה</p>
+                                            </div>
+                                        }
+
+                                        <!-- כפתור האישור של התות -->
+                                        <button type="submit">אישור</button>
+
+                                    </EditForm>
+
+                                </div>
+                                
+                                
                                 @for (int i = 0; i < itemsCount; i++)
                                 {
                                     <div class="item-wrapper">
@@ -81,7 +125,18 @@
                                         }
 
                                         <div class="item-box">
-                                            @question.Items[i].content
+                                            <!-- תנאי שבודק איזה סוג פריט יש לנו באליפסה -->
+                                            @if (question.Items[i].isImage == false)
+                                            {
+                                               
+                                                @question.Items[i].content
+                                            }
+                                            <!-- מה קורה אם הפריט הוא תמונה -->
+                                            else
+                                            {
+                                            <span>כאן תוצג תמונה</span>
+                                            }
+                                           
                                         </div>
                                     </div>
                                 }
@@ -114,50 +169,65 @@ else
 
 
 @code {
+
     //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
-    [Parameter]
-    public int gameID { get; set; }
- //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
-GameEditDto gameData;
+    [Parameter] public int gameID { get; set; }
 
-string errorMsg = "";
+    //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
+    GameEditDto gameData;
 
-
-
+    string errorMsg = "";
+    
 // משתנה לשמירת ה-ID של השאלה הפתוחה כרגע. 0 אומר שהכל סגור.
-int openQuestionId = 0;
+    int openQuestionId = 0;
 
 // פונקציה לפתיחה וסגירה של האקורדיון בטבלה
-void ToggleAccordion(int questionId)
-{
-    // אם לחצו על השאלה שכבר פתוחה - נסגור אותה (נאפס ל-0)
-    if (openQuestionId == questionId)
+    void ToggleAccordion(int questionId)
     {
-        openQuestionId = 0;
+        // אם לחצו על השאלה שכבר פתוחה - נסגור אותה (נאפס ל-0)
+        if (openQuestionId == questionId)
+        {
+            openQuestionId = 0;
+        }
+        else // אחרת, נפתח את השאלה שעליה לחצו
+        {
+            openQuestionId = questionId;
+        }
     }
-    else // אחרת, נפתח את השאלה שעליה לחצו
-    {
-        openQuestionId = questionId;
-    }
-}
 
-   
-protected override async Task OnInitializedAsync()
-{
-    //אנחנו קוראים לשיטה בקונטולר של עריכת השאלות ומשרשרים את gameID שיתקבל בנתיב
-    var response = await Http.GetAsync("api/Questions/getQuestions/" + gameID);
-    //בדיקת אם סטטוס התשובה תקין
-    if (response.IsSuccessStatusCode == true)
+
+    protected override async Task OnInitializedAsync()
     {
-        // אנחנו ממירים את ה-JSON שחזר ושומרים במופע שלנו
-        gameData = response.Content.ReadFromJsonAsync<GameEditDto>().Result;
+        //אנחנו קוראים לשיטה בקונטולר של עריכת השאלות ומשרשרים את gameID שיתקבל בנתיב
+        var response = await Http.GetAsync("api/Questions/getQuestions/" + gameID);
+        //בדיקת אם סטטוס התשובה תקין
+        if (response.IsSuccessStatusCode == true)
+        {
+            // אנחנו ממירים את ה-JSON שחזר ושומרים במופע שלנו
+            gameData = response.Content.ReadFromJsonAsync<GameEditDto>().Result;
+
+        }
+        else
+        {
+            //המשתנה ERRORMSG מכיל בתוכו את התוכן המחרוזתי של השגיאה
+            errorMsg = response.Content.ReadAsStringAsync().Result;
+        }
+    }
+
+
+
+
+// מופע של התות לקליטת הנתונים
+    SilkyItem currentStrawberryItem = new SilkyItem();
+
+// פונקציה להוספת פריט על גוף התולעת. היא מקבלת את השאלה הספציפית כפרמטר
+    void AddItemToSilky(Question currentQuestion)
+    {
+        // מוסיפים את הפריט מהתות ישירות אל רשימת הפריטים של השאלה הספציפית
+        currentQuestion.Items.Add(currentStrawberryItem); 
+        // מאפסים את התות כדי שתיבת הטקסט תתנקה ותהיה מוכנה לקליטת הפריט הבא
+        currentStrawberryItem = new SilkyItem(); // 
 
     }
-    else
-    {
-        //המשתנה ERRORMSG מכיל בתוכו את התוכן המחרוזתי של השגיאה
-        errorMsg = response.Content.ReadAsStringAsync().Result;
-    }
-} 
 
 }

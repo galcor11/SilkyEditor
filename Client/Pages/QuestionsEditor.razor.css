@@ -114,3 +114,21 @@
 .edit-icon:hover {
     color: #000; /* מחשיך מעט את העיפרון כשעוברים עליו עם העכבר */
 }
+
+/* הקונטיינר שמחזיק את התות והאליפסות יחד בשורה אחת */
+.items-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* יוצר רווח נעים ואחיד בין התות לאליפסות ובין האליפסות לעצמן */
+    overflow-x: auto; /* מאפשר גלילה אופקית למקרה שהתולעת תתארך מאוד */
+    padding: 10px 0;
+}
+
+/* העיצוב של קופסת התות (אזור ההזנה) */
+.strawberry-container {
+    border: 2px dashed gray;
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 250px; /* מוודא שהטופס לא יתכווץ ויישאר קריא */
+    background-color: #fdfdfd; /* צבע רקע בהיר מאוד כדי להבליט מעט את אזור ההזנה */
+}

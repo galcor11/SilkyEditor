@@ -8,6 +8,6 @@ public class Question
     public string endLabel { get; set; }
 
     //רשימה שמכילה את הפריטים
-    public List<Item> Items { get; set; } 
+    public List<SilkyItem> Items { get; set; } 
 
 }
