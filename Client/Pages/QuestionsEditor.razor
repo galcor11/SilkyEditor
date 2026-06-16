@@ -72,7 +72,7 @@
                                         <div>
                                             <label>
                                                 <InputCheckbox @bind-Value="currentStrawberryItem.isImage" />
-                                                זהו פריט תמונה (השאר ריק עבור טקסט)
+                                                תמונה 
                                             </label>
                                         </div>
 
@@ -131,12 +131,11 @@
                                                
                                                 @question.Items[i].content
                                             }
-                                            <!-- מה קורה אם הפריט הוא תמונה -->
                                             else
                                             {
-                                            <span>כאן תוצג תמונה</span>
+                                                <span>כאן תוצג תמונה</span>
                                             }
-                                           
+                                            
                                         </div>
                                     </div>
                                 }
