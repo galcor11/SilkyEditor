@@ -200,7 +200,8 @@
     border-radius: 15px;
     padding: 20px;
     min-width: 250px; /* מוודא שהטופס לא יתכווץ ויישאר קריא */
-    background-color: #fdfdfd; /* צבע רקע בהיר מאוד כדי להבליט מעט את אזור ההזנה */
+    background-color: rgba(255, 255, 255, 0.4); /* ה-0.4 קובע את רמת השקיפות: 0 זה שקוף לגמרי, 1 זה אטום לגמרי */
+    
 }
 /* סידור האזור של המתג והטקסט לידו */
 .toggle-container[b-0ine4pvf37] {
@@ -283,6 +284,41 @@
     margin-left: -5px;
     margin-right: 10px;
     z-index: 2;
+}
+
+/* העטיפה של התות עצמו שמופיע כרקע */
+.strawberry-input-wrapper[b-0ine4pvf37] {
+    background-image: url('svg/strawberry.svg'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 160px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+/* עיצוב תיבת הטקסט שיושבת בתוך התות */
+.inner-strawberry-input[b-0ine4pvf37] {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-weight: bold;
+
+    /* העיצוב התואם בדיוק לתיבת התמונה */
+    border-radius: 4px;
+    background: #FFF;
+
+    /* מידות מדויקות */
+    width: 97px;
+    height: 71px;
+
+    /* הגדרות קופסה */
+    box-sizing: border-box;
+    resize: none;
+    overflow: hidden;
 }
 /* /Shared/MainLayout.razor.rz.scp.css */
 .content[b-4ffzppdsc7]{

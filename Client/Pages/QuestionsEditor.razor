@@ -4,6 +4,9 @@
 @attribute [Authorize]
 @using AuthTemplate.Shared.Models
 @inject HttpClient Http
+@* הוספנו את זה בשביל סייר הקבצים וכפתור נסתר *@
+@inject IJSRuntime JS
+
 
 @* בדיקה שיש שאלות להצגה, כלומר שהרשימה איננה ריקה *@
 @if (gameData != null)
@@ -73,19 +76,23 @@
                                         <!-- תנאי - מה יוצג בהתאם לטוגל -->
                                         @if (currentStrawberryItem.isImage == false)
                                         {
-                                            <!-- תיבת הטקסט להזנת תוכן -->
-                                            <div>
-                                                <InputText @bind-Value="currentStrawberryItem.content" placeholder="אפשר להזין עד 30 תווים..." />
-                                                <ValidationMessage For="@(() => currentStrawberryItem.content)" />
+                                            @* מצב טקסט: תיבת הטקסט במרכז התות *@
+                                            <div class="strawberry-input-wrapper">
+                                                <InputTextArea @bind-Value="currentStrawberryItem.content" placeholder="הקלידו כאן..." class="inner-strawberry-input" maxlength="30" />
                                             </div>
+                                            <ValidationMessage For="@(() => currentStrawberryItem.content)" />
                                         }
                                         else
                                         {
-                                            <!-- אזור העלאת התמונה העתידי -->
-                                            <div>
-                                                <p>כאן יהיה פקד העלאת תמונה</p>
+                                            @* מצב תמונה: התות משמש בתור כפתור שפותח את סייר הקבצים *@
+                                            <div class="strawberry-input-wrapper clickable-wrapper" @onclick="TriggerFileInput">
+                                                <p class="inner-strawberry-input upload-text">לחצו להעלאת תמונה</p>
                                             </div>
+
+                                            @* פקד העלאת הקובץ האמיתי - מוסתר *@
+                                            <InputFile id="FileInputID" OnChange="UploadFile" hidden />
                                         }
+                                        
                                         <!-- אזור הטוגל (מתג) המעוצב -->
                                         <div class="toggle-container">
                                             <label class="toggle-switch">
@@ -216,10 +223,7 @@ else
             errorMsg = response.Content.ReadAsStringAsync().Result;
         }
     }
-
-
-
-
+    
 // מופע של התות לקליטת הנתונים
     SilkyItem currentStrawberryItem = new SilkyItem();
 
@@ -232,5 +236,21 @@ else
         currentStrawberryItem = new SilkyItem(); // 
 
     }
+    
+    // הפונקציה שמופעלת בלחיצה על התות ופותחת את סייר הקבצים
+    private async Task TriggerFileInput()
+    {
+        await JS.InvokeVoidAsync("triggerFileClick", "FileInputID");
+    }
+
+    // הפונקציה שמופעלת מייד לאחר שהמשתמש בחר תמונה
+    private async Task UploadFile(InputFileChangeEventArgs e)
+    {
+        // בינתיים נשאיר ריק, כאן בהמשך נכתוב את הקוד ששומר את התמונה
+    }
+    
+    
+    
+    
 
 }
