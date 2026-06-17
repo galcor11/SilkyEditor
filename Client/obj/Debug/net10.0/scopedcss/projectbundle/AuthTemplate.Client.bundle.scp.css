@@ -315,6 +315,7 @@
     overflow: hidden;
     outline: none;
     font-family: inherit;
+    transform: translate(14px, 4px);
 }
 
 /* התאמה ספציפית למצב טקסט (הפקד של בלייזור) */
