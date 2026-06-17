@@ -291,9 +291,9 @@
     background-image: url('svg/strawberry.svg'); 
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top center;
     width: 160px;
-    height: 180px;
+    height: 119px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,7 +315,7 @@
     overflow: hidden;
     outline: none;
     font-family: inherit;
-    transform: translate(14px, 4px);
+    transform: translate(14px,-8px);
 }
 
 /* התאמה ספציפית למצב טקסט (הפקד של בלייזור) */
