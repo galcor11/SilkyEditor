@@ -240,15 +240,20 @@ else
 // מופע של התות לקליטת הנתונים
     SilkyItem currentStrawberryItem = new SilkyItem();
 
-// פונקציה להוספת פריט על גוף התולעת. היא מקבלת את השאלה הספציפית כפרמטר
-    void AddItemToSilky(Question currentQuestion)
-    {
-        // מוסיפים את הפריט מהתות ישירות אל רשימת הפריטים של השאלה הספציפית
-        currentQuestion.Items.Add(currentStrawberryItem); 
-        // מאפסים את התות כדי שתיבת הטקסט תתנקה ותהיה מוכנה לקליטת הפריט הבא
-        currentStrawberryItem = new SilkyItem(); // 
+    
+    
+// // פונקציה להוספת פריט על גוף התולעת. היא מקבלת את השאלה הספציפית כפרמטר
+//     void AddItemToSilky(Question currentQuestion)
+//     {
+//         // מוסיפים את הפריט מהתות ישירות אל רשימת הפריטים של השאלה הספציפית
+//         currentQuestion.Items.Add(currentStrawberryItem); 
+//         // מאפסים את התות כדי שתיבת הטקסט תתנקה ותהיה מוכנה לקליטת הפריט הבא
+//         currentStrawberryItem = new SilkyItem(); // 
+//
+//     }
 
-    }
+
+
     
     // הפונקציה שמופעלת בלחיצה על התות ופותחת את סייר הקבצים
     private async Task TriggerFileInput()
@@ -296,12 +301,55 @@ else
         // אם לפריט יש ID גדול מ-0, סימן שהוא כבר קיים בבסיס הנתונים שלנו ואנחנו רק עורכים אותו
         if (currentStrawberryItem.answerID > 0)
         {
+            //מצב של עדכון פריט
             await UpdateItemInServer(currentStrawberryItem);
         }
         // אם אין לפריט ID, מדובר בפריט חדש שצריך להוסיף לתולעת
         else
         {
-            AddItemToSilky(question);
+            //מצב של הוספת פריט
+            await AddNewItemToServer(question);
+
         }
     }
+    
+    async Task AddNewItemToServer(Question currentQuestion)
+    {
+        // אנחנו מחשבים את האינדקס הבא, כלומר אנחנו לוקחים את כמות הפריטים שכבר קיימת ברשימה של השאלה
+        // למשל אם כבר יש 3 פריטים (ה-Count הוא 3), הפריט החדש יקבל אוטומטית את המספר 3 או 4 
+        int nextIndex = currentQuestion.Items.Count;
+        // ניצור את ה-DTO ליצירת פריט חדש 
+        SilkyItemToAdd newItemDto = new SilkyItemToAdd()
+        {
+            content = currentStrawberryItem.content,
+            isImage = currentStrawberryItem.isImage,
+            orderIndex = nextIndex, 
+            questionID = currentQuestion.questionID // מקשרים את הפריט לשאלה הנוכחית
+        };
+
+        // אנחנו שולחים קריאת POST לקונטרולר כדי לשמור את הפריט הֶחדש בבסיס הנתונים
+        var insertResponse = await Http.PostAsJsonAsync("api/Questions/addItem", newItemDto);
+
+        if (insertResponse.IsSuccessStatusCode == true)
+        {
+            // אם השמירה בשרת הצליחה, השרת אמור להחזיר לנו את הפריט הֶחדש 
+            SilkyItem savedItem = insertResponse.Content.ReadFromJsonAsync<SilkyItem>().Result;
+        
+            // אנחנו מוסיפים את הפריט שחזר מהקונטרולר אל התולעת שלנו כדי שהמשתמש יראה אותו
+            currentQuestion.Items.Add(savedItem);
+        
+            //  אנחנו מאפסים את התות לקראת הפריט הבא
+            currentStrawberryItem = new SilkyItem(); 
+        }
+        else
+        {
+            string error = insertResponse.Content.ReadAsStringAsync().Result;
+        }
+    } 
+    
+    
+    
+    
+    
+    
 }
