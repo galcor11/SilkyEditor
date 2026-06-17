@@ -82,5 +82,22 @@ namespace AuthTemplate.Server.Controllers
             return Ok(gameData);
           
         }
+        
+        //שיטת פוסט שתפקידה ליצור פריט חדש ולעדכן בבסיס הנתונים
+        [HttpPost("addItem")]
+        public async Task<IActionResult> InsertSilkyItem(int authUserId, SilkyItemToAdd newItem)
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 }
