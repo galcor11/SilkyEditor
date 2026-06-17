@@ -191,6 +191,63 @@ public async Task<IActionResult> UpdateSilkyItem(int authUserId, int itemId, Sil
     return Unauthorized("user is not authenticated");
 }     
         
+// שיטת פוסט שנועדה להוסיף פריט חדש לשאלה
+[HttpPost("addItem")]
+public async Task<IActionResult> AddSilkyItem(int authUserId,  SilkyItemToAdd itemToAdd)
+{
+    if (authUserId > 0)
+    {
+        //בדיקת אבטחה ובעלות: שולפים את ה-gameID של השאלה כדי לוודא שהיא קיימת
+        object qParam = new { QId = itemToAdd.questionID };
+        string getGameQuery = "SELECT gameID FROM Questions WHERE questionID = @QId";
+        var gameRecords = await _db.GetRecordsAsync<int>(getGameQuery, qParam);
+        int gameId = gameRecords.FirstOrDefault();
+
+        if (gameId > 0)
+        {
+            //  מוודאים שהמשחק שייך למשתמש המחובר
+            object authParam = new { GId = gameId, UId = authUserId };
+            string authQuery = "SELECT gameID FROM Games WHERE gameID = @GId AND userID = @UId";
+            var authRecords = await _db.GetRecordsAsync<int>(authQuery, authParam);
+            int isOwner = authRecords.FirstOrDefault();
+
+            if (isOwner > 0)
+            {
+                // יצירת אובייקט הפרמטרים להכנסה ל-DB
+                //  אנחנו מקשרים את הפריט ל-questionID שהגיע מהנתיב
+                object insertParam = new {
+                    Content = itemToAdd.content,
+                    IsImage = itemToAdd.isImage,
+                    OrderIndex = itemToAdd.orderIndex,
+                    QId = itemToAdd.questionID
+                };
+
+                // שאילתת ה-INSERT שמוסיפה את השורה החדשה לטבלת Items
+                string insertQuery = "INSERT INTO Items (content, isImage, orderIndex, questionID) VALUES (@Content, @IsImage, @OrderIndex, @QId)";
+                
+                int newAnswerId = await _db.InsertReturnIdAsync(insertQuery, insertParam);
+//בדיקה אם ההוספה הצליחה               
+                if (newAnswerId > 0)
+                {
+                    SilkyItem createdItem = new SilkyItem()
+                    {
+                        answerID = newAnswerId,
+                        content = itemToAdd.content,
+                        isImage = itemToAdd.isImage,
+                        orderIndex = itemToAdd.orderIndex
+                    };
+                    return Ok(createdItem); 
+                }
+                return BadRequest("Insert Item Failed");
+            }
+            return BadRequest("It's Not Your Game");
+        }
+        return BadRequest("Question not found");
+    }
+    return Unauthorized("user is not authenticated");
+}
+
+
 
     }
 }

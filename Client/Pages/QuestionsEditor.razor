@@ -62,11 +62,18 @@
                             <div class="items-container">
                                 <!-- אזור הוספת פריט ( התות) -->
                                 <div class="strawberry-container">
+                                      @if (currentStrawberryItem.answerID > 0)
+                                          {
+                                              <h3>עריכת פריט</h3>
+                                          }
+                                      else
+                                      {
+                                              <h3>הוספת פריט</h3>
+                                      } 
                                     
-                                    <h3>הוספת פריט</h3>
 
                                     <!-- פתיחת הטופס והגדרת הפונקציה שתפעל בשליחה -->
-                                    <EditForm Model="currentStrawberryItem" OnValidSubmit="() => AddItemToSilky(question)">
+                                    <EditForm Model="currentStrawberryItem" OnValidSubmit="() => HandleStrawberrySubmit(question)">
 
                                         <!--  הפעלת ולידציות -->
                                         <DataAnnotationsValidator />
@@ -101,10 +108,16 @@
                                             </label>
                                             <span class="toggle-label">תמונה</span>
                                         </div>
-
-                                        <!-- כפתור האישור של התות -->
-                                        <button type="submit">אישור</button>
-
+                                              <!-- כפתור ה-SUBMIT של התות שמשנה את הטקסט שלו -->
+                                              @if (currentStrawberryItem.answerID > 0)
+                                                  {
+                                                      <button type="submit">שמירת שינויים</button>
+                                                  }
+                                              else
+                                             {
+                                                      <button type="submit">אישור</button>
+                                             }
+                                        
                                     </EditForm>
 
                                 </div>
@@ -277,5 +290,18 @@ else
             string error = updateResponse.Content.ReadAsStringAsync().Result;
         }
     }
-    
+    //פונקציית עזר שפתחנו כדי לדעת אם אנחנו בפריט במצב עדכון או הוספה, שכן התות שלנו משמש גם בתור הוספה וגם עדכון
+    async Task HandleStrawberrySubmit(Question question)
+    {
+        // אם לפריט יש ID גדול מ-0, סימן שהוא כבר קיים בבסיס הנתונים שלנו ואנחנו רק עורכים אותו
+        if (currentStrawberryItem.answerID > 0)
+        {
+            await UpdateItemInServer(currentStrawberryItem);
+        }
+        // אם אין לפריט ID, מדובר בפריט חדש שצריך להוסיף לתולעת
+        else
+        {
+            AddItemToSilky(question);
+        }
+    }
 }
