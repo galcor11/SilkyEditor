@@ -191,15 +191,6 @@ public async Task<IActionResult> UpdateSilkyItem(int authUserId, int itemId, Sil
     return Unauthorized("user is not authenticated");
 }     
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     }
 }

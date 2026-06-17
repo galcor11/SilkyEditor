@@ -250,7 +250,32 @@ else
     }
     
     
-    
-    
+    //פונקציה א-סינכרונית שמיועדת למצב שבו המשתמש רוצה לשמור את השינויים בהוספת פריט
+    async Task UpdateItemInServer(SilkyItem currentItem) 
+    {
+        // אנחנו יוצרים מופע של ה-DTO הייעודי לעדכון 
+        // וממלאים אותו בנתונים המעודכנים שהמשתמש הזין בטופס
+        SilkyItemToUpdate itemToUpdate = new SilkyItemToUpdate()
+        {
+            content = currentItem.content,
+            isImage = currentItem.isImage,
+            orderIndex = currentItem.orderIndex
+        };
 
+        //אנחנו שולחים לקונטרולר את קריאת ה-POST 
+        // אנחנו משרשרים את ה-ID של הפריט בסוף הנתיב
+        var updateResponse = await Http.PostAsJsonAsync("api/Questions/updateItem/" + currentItem.answerID, itemToUpdate);
+
+       //בדיקת תקינוּת
+        if (updateResponse.IsSuccessStatusCode == true) 
+        {
+            // כאן תהיה הודעת "נשמר בהצלחה" 
+        } 
+        else 
+        {
+            // אם משהו השתבש, נשלוף את הודעת השגיאה
+            string error = updateResponse.Content.ReadAsStringAsync().Result;
+        }
+    }
+    
 }
