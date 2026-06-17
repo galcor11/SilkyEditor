@@ -83,11 +83,113 @@ namespace AuthTemplate.Server.Controllers
           
         }
         
-        //שיטת פוסט שתפקידה ליצור פריט חדש ולעדכן בבסיס הנתונים
-        [HttpPost("addItem")]
-        public async Task<IActionResult> InsertSilkyItem(int authUserId, SilkyItemToAdd newItem)
+        //שיטת פוסט שתפקידה לעדכן את פרָטי השאלה
+        [HttpPost("updateQuestion/{questionId}")]
+public async Task<IActionResult> UpdateQuestion(int authUserId, int questionId, QuestionToUpdate questionToUpdate)
+{
+    // כדי לוודא שהמשתמש מחובר
+    if (authUserId > 0)
+    {
+        //  בדיקת בעלות 
+        // אנחנו שולפים את ה-gameID של השאלה כדי לבדוק למי היא שייכת
+        object qParam = new { QId = questionId };
+        string getGameQuery = "SELECT gameID FROM Questions WHERE questionID = @QId";
+        var gameRecords = await _db.GetRecordsAsync<int>(getGameQuery, qParam);
+        int gameId = gameRecords.FirstOrDefault();
 
-        
+        if (gameId > 0)
+        {
+            // נבדוק אם המשחק שייך למשתמש המחובר
+            object authParam = new { GId = gameId, UId = authUserId };
+            string authQuery = "SELECT gameID FROM Games WHERE gameID = @GId AND userID = @UId";
+            var authRecords = await _db.GetRecordsAsync<int>(authQuery, authParam);
+            int isOwner = authRecords.FirstOrDefault();
+
+            if (isOwner > 0)
+            {
+                //  אובייקט פרמטרים לעדכון השאלה 
+                object updateParam = new {
+                    Instruction = questionToUpdate.instruction,
+                    StartLabel = questionToUpdate.startLabel,
+                    EndLabel = questionToUpdate.endLabel,
+                    QId = questionId
+                };
+
+                // שאילתת העדכון מעדכנת רק את העמודות הרלוונטיות לשאלה
+                string updateQuery = "UPDATE Questions SET instruction=@Instruction, startLabel=@StartLabel, endLabel=@EndLabel WHERE questionID=@QId";
+                
+                // SaveDataAsync מחזירה את כמות הרשומות שהושפעו
+                int isUpdated = await _db.SaveDataAsync(updateQuery, updateParam);
+
+                if (isUpdated > 0)
+                {
+                    return Ok(); // העדכון הצליח
+                }
+                return BadRequest("Update Failed");
+            }
+            return BadRequest("It's Not Your Game");
+        }
+        return BadRequest("Question not found");
+    }
+    return Unauthorized("user is not authenticated");
+}
+
+//שיטת פוסט שנועדה לעדכן פריט בודד
+   [HttpPost("updateItem/{itemId}")]
+public async Task<IActionResult> UpdateSilkyItem(int authUserId, int itemId, SilkyItemToUpdate itemToUpdate)
+{
+    if (authUserId > 0)
+    {
+        // בדיקות בעלות
+        // אנחנו שולפים את ה-questionID שאליו שייך הפריט
+        object iParam = new { Id = itemId };
+        string getQuestionQuery = "SELECT questionID FROM Items WHERE answerID = @Id";
+        var questionRecords = await _db.GetRecordsAsync<int>(getQuestionQuery, iParam);
+        int questionId = questionRecords.FirstOrDefault();
+
+        if (questionId > 0)
+        {
+            // אנחנו שולפים את ה-gameID שאליו שייכת השאלה
+            object qParam = new { QId = questionId };
+            string getGameQuery = "SELECT gameID FROM Questions WHERE questionID = @QId";
+            var gameRecords = await _db.GetRecordsAsync<int>(getGameQuery, qParam);
+            int gameId = gameRecords.FirstOrDefault();
+
+            if (gameId > 0)
+            {
+                // אנחנו מוודאים שהמשחק שייך למשתמש
+                object authParam = new { GId = gameId, UId = authUserId };
+                string authQuery = "SELECT gameID FROM Games WHERE gameID = @GId AND userID = @UId";
+                var authRecords = await _db.GetRecordsAsync<int>(authQuery, authParam);
+                int isOwner = authRecords.FirstOrDefault();
+
+                if (isOwner > 0)
+                {
+                    //  עדכון הפריט 
+                    // אנחנו משתמשים בנתונים שהגיעו מה-DTO (התוכן, התמונה, האינדקס)
+                    object updateParam = new {
+                        Content = itemToUpdate.content,
+                        IsImage = itemToUpdate.isImage,
+                        OrderIndex = itemToUpdate.orderIndex, 
+                        Id = itemId
+                    };
+
+                    string updateQuery = "UPDATE Items SET content=@Content, isImage=@IsImage, orderIndex=@OrderIndex WHERE answerID=@Id";
+                    int isUpdated = await _db.SaveDataAsync(updateQuery, updateParam);
+
+                    if (isUpdated > 0)
+                    {
+                        return Ok();
+                    }
+                    return BadRequest("Update Item Failed");
+                }
+                return BadRequest("It's Not Your Game");
+            }
+        }
+        return BadRequest("Item or Question not found");
+    }
+    return Unauthorized("user is not authenticated");
+}     
         
         
         
