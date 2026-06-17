@@ -130,7 +130,7 @@
     border: 2px dashed gray;
     border-radius: 15px;
     padding: 20px;
-    min-width: 250px; /* מוודא שהטופס לא יתכווץ ויישאר קריא */
+    width: fit-content; /*כדי שהטופס לא ימלא מקום מיותר*/
     background-color: rgba(255, 255, 255, 0.4); /* ה-0.4 קובע את רמת השקיפות: 0 זה שקוף לגמרי, 1 זה אטום לגמרי */
     
 }
