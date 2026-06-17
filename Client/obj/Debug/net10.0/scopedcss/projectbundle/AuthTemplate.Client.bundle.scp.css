@@ -162,15 +162,24 @@
 
 /* הקופסה שמכילה את התוכן של הפריט עצמו  */
 .item-box[b-0ine4pvf37] {
-    border: 2px solid #633c21; /* מסגרת חומה-כהה שתבלוט */
-    padding: 15px 25px; /* ריווח פנימי גדול יותר שנותן את צורת האליפסה */
-    background-color: #f3ecec; /* צבע רקע צהבהב-קרם להבלטה */
-    min-width: 80px; /* רוחב מינימלי למשבצת כדי שייראה אחיד */
+    width: 98px;
+    height: 73px;
+    /*רקע התמונה של גוף התולעת*/
+    background-image: url('svg/silkyBody.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+    /*הגדרות עיצוב לטקסט כך שיֵרֵד למטה*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    border-radius: 50px; /* הפיכת הקופסה לאליפסה מעוגלת לחלוטין */
+   white-space: normal;   /*מאפשר לטקסט לרדת שורה*/
+   word-wrap: break-word;  /*שובר מילים ארוכות אם צריך*/
+    line-height: 1.1; /*מצמצם מעט את הרווח שבין השורות*/
+    padding: 5px 10px; /* שומר שהטקסט לא יגע ממש בקבצוות של הצורה */
     font-weight: bold;
     color: #333;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* הצללה עדינה מתחת לאליפסה שתיתן תחושת תלת-ממד */
 }
 
 /* עיצוב לאייקון העריכה של הלייבלים (תגיות הקצה) */
@@ -189,7 +198,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 15px; /* יוצר רווח נעים ואחיד בין התות לאליפסות ובין האליפסות לעצמן */
+    gap: 0px; /* כדי להצמיד את חלקי הגוף */
     overflow-x: auto; /* מאפשר גלילה אופקית למקרה שהתולעת תתארך מאוד */
     padding: 10px 0;
 }
@@ -199,6 +208,7 @@
     border: 2px dashed gray;
     border-radius: 15px;
     padding: 20px;
+    margin-left: 30px; /*מפריד בין אזור ההזנה לתולעת*/
     width: fit-content; /*כדי שהטופס לא ימלא מקום מיותר*/
     background-color: rgba(255, 255, 255, 0.4); /* ה-0.4 קובע את רמת השקיפות: 0 זה שקוף לגמרי, 1 זה אטום לגמרי */
     
@@ -274,15 +284,13 @@
     height: 87px;
     justify-content: center;
     align-items: center;
-
     /* הנתיב לתמונה נשאר אותו דבר (אלא אם שינית גם את שם קובץ ה-SVG עצמו) */
     background-image: url('svg/silkyHead.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-
-    margin-left: -5px;
-    margin-right: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
     z-index: 2;
 }
 
