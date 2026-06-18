@@ -96,7 +96,7 @@
                                                 <p class="inner-strawberry-input upload-text">לחצו להעלאת תמונה</p>
                                             </div>
 
-                                            @* פקד העלאת הקובץ האמיתי - מוסתר *@
+                                            @* פקד מוסתר להעלאת הקובץ האמיתי  *@
                                             <InputFile id="FileInputID" OnChange="UploadFile" hidden />
                                         }
                                         
@@ -192,7 +192,8 @@ else
 
 
 @code {
-
+    string myFileImage = "";
+    long maxFileSize = 4194304;
     //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
     [Parameter] public int gameID { get; set; }
 
@@ -240,31 +241,41 @@ else
 // מופע של התות לקליטת הנתונים
     SilkyItem currentStrawberryItem = new SilkyItem();
 
-    
-    
-// // פונקציה להוספת פריט על גוף התולעת. היא מקבלת את השאלה הספציפית כפרמטר
-//     void AddItemToSilky(Question currentQuestion)
-//     {
-//         // מוסיפים את הפריט מהתות ישירות אל רשימת הפריטים של השאלה הספציפית
-//         currentQuestion.Items.Add(currentStrawberryItem); 
-//         // מאפסים את התות כדי שתיבת הטקסט תתנקה ותהיה מוכנה לקליטת הפריט הבא
-//         currentStrawberryItem = new SilkyItem(); // 
-//
-//     }
-
-
-
-    
     // הפונקציה שמופעלת בלחיצה על התות ופותחת את סייר הקבצים
-    private async Task TriggerFileInput()
+    async Task TriggerFileInput()
     {
+        // הפונקציה הזו מפעילה את קוד ה-JS שכתבנו, ואומרת לו ללחוץ על הפקד שה-ID שלו הוא FileInputID
         await JS.InvokeVoidAsync("triggerFileClick", "FileInputID");
     }
+    
 
     // הפונקציה שמופעלת מייד לאחר שהמשתמש בחר תמונה
     private async Task UploadFile(InputFileChangeEventArgs e)
     {
-        // בינתיים נשאיר ריק, כאן בהמשך נכתוב את הקוד ששומר את התמונה
+        //מעבר על כל תמונה ובדיקה שהגודל לא חורג מהמגבלה
+        var imageFiles = e.GetMultipleFiles(); 
+        foreach (var file in imageFiles)
+        {
+            if (file.Size <= maxFileSize)
+            {
+                // המרה של התמונה למערך של בתים ולאחר מכן למחרוזת Base64
+                var buffer = new byte[file.Size];
+                await file.OpenReadStream().ReadAsync(buffer);
+                var imageBase64 = Convert.ToBase64String(buffer);
+                // שליחת התמונה לקונטרולר התמונות
+                var saveResponse = await Http.PostAsJsonAsync("api/Media/upload", imageBase64);
+//אם ההעלאה הצליחה, אנחנו שומרים את השם של התמונה                  
+                if (saveResponse.IsSuccessStatusCode == true)
+                {
+                    // הקונטרולר שומר את התמונה בתיקייה ומחזיר לנו את השם החדש שלה
+                    string resizeUrl = saveResponse.Content.ReadAsStringAsync().Result;
+                    //  עדכון התות
+                    // אנחנו שומרים את שם הקובץ בתוך התוכן של הפריט, ומסמנים שמדובר בתמונה
+                    currentStrawberryItem.content = resizeUrl;
+                    currentStrawberryItem.isImage = true;
+                }   
+            }
+        }  
     }
     
     
