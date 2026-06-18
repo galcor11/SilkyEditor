@@ -156,17 +156,30 @@
                                         }
 
                                         <div class="item-box">
+                                            <!-- אזור האייקונים שלנו שמופיעים בריחוף -->
+                                            <div class="action-icons-overlay">
+                                                <!-- אייקון זכוכית מגדלת -->
+                                                <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" />
+
+                                                <!-- אייקון עיפרון לעריכה -->
+                                                <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" />
+
+                                                <!-- אייקון פח למחיקה -->
+                                                <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" />  
+                                                
+                                            </div>
                                             <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
                                             @if (question.Items[i].isImage == false)
                                             {
-                                               
+
                                                 @question.Items[i].content
                                             }
                                             else
                                             {
                                                 @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה  *@
-                                                <img src="uploadedFiles/@question.Items[i].content" width="100" />                                            }
-                                            
+                                                <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
+                                            }
+
                                         </div>
                                     </div>
                                 }
@@ -283,7 +296,7 @@ else
                     currentStrawberryItem.content = resizeUrl;
                     currentStrawberryItem.isImage = true; 
                     //פונקציה לרענון, גילינו אותה דרך חקירה עצמית
-                    StateHasChanged();
+                    // StateHasChanged();
                 }   
             }
         }  

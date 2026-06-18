@@ -92,27 +92,7 @@
     margin-bottom: 5px;
 }
 
-/* הקופסה שמכילה את התוכן של הפריט עצמו  */
-.item-box {
-    width: 98px;
-    height: 73px;
-    /*רקע התמונה של גוף התולעת*/
-    background-image: url('svg/silkyBody.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center; 
-    /*הגדרות עיצוב לטקסט כך שיֵרֵד למטה*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-   white-space: normal;   /*מאפשר לטקסט לרדת שורה*/
-   word-wrap: break-word;  /*שובר מילים ארוכות אם צריך*/
-    line-height: 1.1; /*מצמצם מעט את הרווח שבין השורות*/
-    padding: 5px 10px; /* שומר שהטקסט לא יגע ממש בקבצוות של הצורה */
-    font-weight: bold;
-    color: #333;
-}
+
 
 /* עיצוב לאייקון העריכה של הלייבלים (תגיות הקצה) */
  .edit-icon {
@@ -270,4 +250,82 @@
     align-items: center;
     margin: 0;
     cursor: pointer;
+}
+/*עיצוב לתצוגה של תמונה על התות*/
+.strawberry-preview-img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 10px;
+    object-fit: contain;
+    transform: translate(14px, -8px);
+}
+
+
+/* הקופסה שמכילה את התוכן של הפריט עצמו  */
+.item-box {
+    position: relative; /* כדי שהאייקונים יישארו בתוך התולעת  */
+    cursor: grab; /* סמן של יד שמרמז שאפשר לגרור */
+    width: 98px;
+    height: 73px;
+    /*רקע התמונה של גוף התולעת*/
+    background-image: url('svg/silkyBody.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    /*הגדרות עיצוב לטקסט כך שיֵרֵד למטה*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    white-space: normal;   /*מאפשר לטקסט לרדת שורה*/
+    word-wrap: break-word;  /*שובר מילים ארוכות אם צריך*/
+    line-height: 1.1; /*מצמצם מעט את הרווח שבין השורות*/
+    padding: 5px 10px; /* שומר שהטקסט לא יגע ממש בקבצוות של הצורה */
+    font-weight: bold;
+    color: #333;
+}
+
+/* יד סגורה כשלוחצים פיזית על הפריט */
+.item-box:active {
+    cursor: grabbing;
+}
+
+/* 2. המעטפת של האייקונים - מוסתרת כברירת מחדל */
+.action-icons-overlay {
+    position: absolute;
+    bottom: 5px; /* מרחק קטן מהלמעלה של הפריט */
+    right: 5px; /* מרחק קטן מהצד הימני של הפריט */
+    display: flex;
+    gap: 5px; /* רווח בין אייקון לאייקון */
+    opacity: 0; /* שקיפות 0 = מוסתר! */
+    transition: opacity 0.3s ease; /* עושה שההופעה תהיה רכה ולא קופצנית */
+    z-index: 10;
+}
+
+/* כשמרחפים על הפריט  */
+.item-box:hover .action-icons-overlay {
+    opacity: 1;
+}
+
+/* 4עיצוב האייקונים מ-Figma */
+.action-icon {
+    width:120%; 
+    height: 120%;
+    cursor: pointer;
+    padding: 3px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* כשמרחפים ספציפית על אחד האייקונים, הוא קצת גדל */
+.action-icon:hover {
+    background-color: white;
+    transform: scale(1.15);
+}
+
+/* המחלקה לתמונה האמיתית של הפריט (במקום ה-width=100) */
+.worm-image {
+    width: 100px;
+    height: auto;
+    border-radius: 8px; /* מעגל קצת את הפינות של התמונה */
+    object-fit: cover; /* מוודא שהתמונה לא נמעכת או נמתחת אם הפרופורציות שלה שונות */
 }
