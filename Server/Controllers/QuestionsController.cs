@@ -213,7 +213,7 @@ public async Task<IActionResult> AddSilkyItem(int authUserId,  SilkyItemToAdd it
 
             if (isOwner > 0)
             {
-                // יצירת אובייקט הפרמטרים להכנסה ל-DB
+                //  אובייקט הפרמטרים 
                 //  אנחנו מקשרים את הפריט ל-questionID שהגיע מהנתיב
                 object insertParam = new {
                     Content = itemToAdd.content,

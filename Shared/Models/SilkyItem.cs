@@ -7,9 +7,8 @@ public class SilkyItem
     // המזהה הייחודי של הפריט כדי שנדע איזה פריט לעדכן  
     public int answerID { get; set; } 
     // false = טקסט (ברירת מחדל), true = תמונה
-    public bool isImage { get; set; } = false; 
+    public bool isImage { get; set; }  
 
-    [StringLength(30, ErrorMessage = "התוכן יכול להכיל עד 30 תווים")]
     public string content { get; set; } 
     public int orderIndex { get; set; } 
 }

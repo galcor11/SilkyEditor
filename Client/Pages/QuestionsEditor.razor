@@ -77,9 +77,6 @@
 
                                         <!--  הפעלת ולידציות -->
                                         <DataAnnotationsValidator />
-
-                                 
-
                                         <!-- תנאי - מה יוצג בהתאם לטוגל -->
                                         @if (currentStrawberryItem.isImage == false)
                                         {
@@ -93,14 +90,24 @@
                                         {
                                             @* מצב תמונה: התות משמש בתור כפתור שפותח את סייר הקבצים *@
                                             <div class="strawberry-input-wrapper clickable-wrapper" @onclick="TriggerFileInput">
-                                                <p class="inner-strawberry-input upload-text">לחצו להעלאת תמונה</p>
+                                                @* בודקים אם המשתנה שלנו קיבל שם של תמונה מהשרת *@
+                                                @if (string.IsNullOrEmpty(currentStrawberryItem.content))
+                                                {
+                                                    @* אם אין עדיין תמונה, אנחנו מציגים את טקסט ברירת המחדל *@
+                                                    <p class="inner-strawberry-input upload-text">לחצו להעלאת תמונה</p>
+                                                }
+                                                else
+                                                {
+                                                    @* אם יש תמונה, אנחנו מציגים אותה על התות *@
+                                                    <img src="uploadedFiles/@currentStrawberryItem.content" class="strawberry-preview-img" />
+                                                }
                                             </div>
 
                                             @* פקד מוסתר להעלאת הקובץ האמיתי  *@
                                             <InputFile id="FileInputID" OnChange="UploadFile" hidden />
                                         }
                                         
-                                        <!-- אזור הטוגל (מתג) המעוצב -->
+                                        <!-- אזור הטוגל המעוצב -->
                                         <div class="toggle-container">
                                             <label class="toggle-switch">
                                                 <InputCheckbox @bind-Value="currentStrawberryItem.isImage" class="toggle-checkbox" />
@@ -149,7 +156,7 @@
                                         }
 
                                         <div class="item-box">
-                                            <!-- תנאי שבודק איזה סוג פריט יש לנו באליפסה -->
+                                            <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
                                             @if (question.Items[i].isImage == false)
                                             {
                                                
@@ -157,8 +164,8 @@
                                             }
                                             else
                                             {
-                                                <span>כאן תוצג תמונה</span>
-                                            }
+                                                @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה  *@
+                                                <img src="uploadedFiles/@question.Items[i].content" width="100" />                                            }
                                             
                                         </div>
                                     </div>
@@ -216,6 +223,8 @@ else
         else // אחרת, נפתח את השאלה שעליה לחצו
         {
             openQuestionId = questionId;
+            //הוספנו כדי לאפס את התות בכל פעם שפותחים שאלה חדשה
+            currentStrawberryItem = new SilkyItem();
         }
     }
 
@@ -260,7 +269,7 @@ else
             {
                 // המרה של התמונה למערך של בתים ולאחר מכן למחרוזת Base64
                 var buffer = new byte[file.Size];
-                await file.OpenReadStream().ReadAsync(buffer);
+                await file.OpenReadStream(maxFileSize).ReadAsync(buffer);
                 var imageBase64 = Convert.ToBase64String(buffer);
                 // שליחת התמונה לקונטרולר התמונות
                 var saveResponse = await Http.PostAsJsonAsync("api/Media/upload", imageBase64);
@@ -272,7 +281,9 @@ else
                     //  עדכון התות
                     // אנחנו שומרים את שם הקובץ בתוך התוכן של הפריט, ומסמנים שמדובר בתמונה
                     currentStrawberryItem.content = resizeUrl;
-                    currentStrawberryItem.isImage = true;
+                    currentStrawberryItem.isImage = true; 
+                    //פונקציה לרענון, גילינו אותה דרך חקירה עצמית
+                    StateHasChanged();
                 }   
             }
         }  
