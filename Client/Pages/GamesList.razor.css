@@ -30,12 +30,28 @@
     transform: scale(1.1); /* אפשרות להגדלה קלה במעבר עכבר */
 }
 
+/* ה"עוגן" בשביל הפרפר */
+.table-wrapper {
+    position: relative; /* זה מה שאומר לפרפר "תתמקם ביחס אליי!" */
+    margin-top: 50px; /* נותנים מעט רווח למעלה כדי שיהיה לפרפר מקום לשבת בלי להיתקע בכותרת */
+}
+
 /* עיצוב הקופסה שעוטפת את הפרפר וממקמת אותו מעל הטבלה בצד ימין */
 .butterfly-container {
+    background-image: url('svg/sweetButterfly.svg');
+    /* המידות של ה-div  */
+    width: 120px; 
+    height: 120px; 
     display: flex;
+    /* עוצר את השכפול, מציג את התמונה רק פעם אחת */
+    background-repeat: no-repeat;
+    /* מוודא שהפרפר ייכנס במלואו לקופסה ולא ייחתך */
+    background-size: contain;
     justify-content: flex-start; /* מצמיד לימין */
     margin-bottom: -15px; /* מושך את הטבלה קצת למעלה כדי שהפרפר יישב עליה */
     padding-right: 20px; /* מרחיק קצת מהקצה הימני */
     z-index: 1; /* מוודא שהפרפר מופיע מעל הרקע של הטבלה */
-    position: relative;
+    position: absolute;
+    top: -54px;
+    right: 195px;
 }
