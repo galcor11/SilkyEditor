@@ -1,0 +1,36 @@
+/* עיצוב בסיסי שמשותף לשני הכפתורים  */
+.my-btn {
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    /* הוספנו מעבר חלק כדי שאנימציית הלחיצה תיראה טבעית */
+    transition: all 0.1s ease;
+}
+
+/* --- הכפתור הראשי --- */
+.my-btn.primary {
+    background-color: #ff7300;
+    color: white;
+    border: none; /* הסרנו את המסגרת כדי שההצללה תעשה את כל העבודה */
+
+    /* הצללה חדה של 5 פיקסלים כלפי מטה, בצבע כתום כהה */
+    box-shadow: 0px 5px 0px #cc5c00;
+}
+
+/* אפקט הלחיצה  של הכפתור הראשי */
+.my-btn.primary:active {
+    /* מוריד את הכפתור 5 פיקסלים למטה בדיוק למקום של ההצללה */
+    transform: translateY(5px);
+    /* מעלים את ההצללה כשהכפתור "שקוע" */
+    box-shadow: 0px 0px 0px #cc5c00;
+}
+
+/* --- הכפתור המשני --- */
+.my-btn.secondary {
+    background-color: white;
+    color: #ff7300;
+    border: 2px solid #ff7300;
+    box-shadow: none;
+}

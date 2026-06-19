@@ -54,17 +54,18 @@
         </table>
     </div>
 }
-<p>הוספת משחק חדש</p>
 
+@* $1$ כפתור שעוזר לנו להציג את הפופ-אפ של ההוספה #1# *@
+@* <input type="button" value="משחק חדש" @onclick="(() => showAddPopup = true)" /> *@
 
 @* כפתור שעוזר לנו להציג את הפופ-אפ של ההוספה *@
-<input type="button" value="משחק חדש" @onclick="(() => showAddPopup = true)" />
+<MyButton ButtonStyle="primary" ButtonText="משחק חדש" OnClickAction="(() => showAddPopup = true)" />
 
 @* אנחנו קוראים לקומפוננטה של הפופ-אפ כאשר הערך הוא TRUE *@
 @if (showDeletePopup)
 {
     <GenericDeletePopup OnUserConfirm="ExecuteDelete">
-        @* כל מה שנמצא כאן ייכנס אוטומטית ל-ChildContent שבתוך הקומפוננטה! *@
+        @* כל מה שנמצא כאן ייכנס אוטומטית ל-ChildContent שבתוך הקומפוננטה *@
         <h2>אוי לא!</h2>
         <h3>האם אתה בטוח שברצונך למחוק את המשחק: @gameToDelete.gameName?</h3>
     </GenericDeletePopup>

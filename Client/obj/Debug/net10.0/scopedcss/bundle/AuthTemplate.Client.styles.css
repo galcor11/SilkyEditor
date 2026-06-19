@@ -24,28 +24,45 @@
 .default-input.danger-input:focus[b-ke5wxkj6ev] {
     outline: 5px solid red !important;
 }
+/* /Components/MyButton.razor.rz.scp.css */
+/* עיצוב בסיסי שמשותף לשני הכפתורים  */
+.my-btn[b-pzko1r2ajt] {
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    /* הוספנו מעבר חלק כדי שאנימציית הלחיצה תיראה טבעית */
+    transition: all 0.1s ease;
+}
+
+/* --- הכפתור הראשי --- */
+.my-btn.primary[b-pzko1r2ajt] {
+    background-color: #ff7300;
+    color: white;
+    border: none; /* הסרנו את המסגרת כדי שההצללה תעשה את כל העבודה */
+
+    /* הצללה חדה של 5 פיקסלים כלפי מטה, בצבע כתום כהה */
+    box-shadow: 0px 5px 0px #cc5c00;
+}
+
+/* אפקט הלחיצה  של הכפתור הראשי */
+.my-btn.primary:active[b-pzko1r2ajt] {
+    /* מוריד את הכפתור 5 פיקסלים למטה בדיוק למקום של ההצללה */
+    transform: translateY(5px);
+    /* מעלים את ההצללה כשהכפתור "שקוע" */
+    box-shadow: 0px 0px 0px #cc5c00;
+}
+
+/* --- הכפתור המשני --- */
+.my-btn.secondary[b-pzko1r2ajt] {
+    background-color: white;
+    color: #ff7300;
+    border: 2px solid #ff7300;
+    box-shadow: none;
+}
 /* /Pages/GamesList.razor.rz.scp.css */
 /* עיצוב כללי לטבלת המשחקים */
-/*.games-table {*/
-/*    width: 100%;*/
-/*    border-collapse: collapse;*/
-/*    text-align: right;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-
-/*.games-table th, .games-table td {*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ccc;*/
-/*}*/
-
-/*.games-table thead tr {*/
-/*    background-color: #C5ECA5;*/
-/*}*/
-/*!* הגדרת רקע לבן לכל תאי התוכן בטבלה (לא כולל הכותרת) *!*/
-/*.games-table td {*/
-/*    background-color: white;*/
-/*}*/
-/* --- עיצוב מודרני לטבלה --- */
 .games-table[b-gihezm0wsz] {
     width: 100%;
     /* משנים מ-collapse ל-separate כדי לאפשר פינות מעוגלות לכל הטבלה */
@@ -74,23 +91,23 @@
 
 /* עיצוב שורת הכותרת */
 .games-table thead tr th[b-gihezm0wsz] {
-    background-color: #C5ECA5; /* הירוק שלך */
-    color: #2c3e50; /* טקסט כהה ואלגנטי יותר משחור מוחלט */
+    background-color: #C5ECA5; 
+    color: #2c3e50; 
     font-weight: 600;
 }
 
-/* --- קסם לעיגול הפינות הספציפיות של הטבלה (בגלל ה-border-spacing) --- */
+/* עיגול הפינות הספציפיות של הטבלה  */
 .games-table thead tr th:first-child[b-gihezm0wsz] { border-top-right-radius: 12px; }
 .games-table thead tr th:last-child[b-gihezm0wsz] { border-top-left-radius: 12px; }
 .games-table tbody tr:last-child td:first-child[b-gihezm0wsz] { border-bottom-right-radius: 12px; }
 .games-table tbody tr:last-child td:last-child[b-gihezm0wsz] { border-bottom-left-radius: 12px; }
 
-/* --- אפקט מעבר עכבר מודרני --- */
+/* --- אפקט מעבר עכבר  --- */
 .games-table tbody tr[b-gihezm0wsz] {
-    transition: background-color 0.2s ease; /* מעבר צבע רך */
+    transition: background-color 0.2s ease; 
 }
 
-/* כשהעכבר עובר על שורה, היא תקבל גוון ירוק-אפרפר בהיר מאוד */
+/* כשהעכבר עובר על שורה, היא מקבלת גוון ירוק בהיר  */
 .games-table tbody tr:hover[b-gihezm0wsz] {
     background-color: #f9fdf5;
 }

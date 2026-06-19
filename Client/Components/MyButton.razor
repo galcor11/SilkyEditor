@@ -1,0 +1,19 @@
+@* קומפוננטה שפתחנו לכפתורים *@
+@* הכפתור מקבל את העיצוב שלו לפי המשתנה שאנחנו מעבירים לו *@
+<button class="my-btn @ButtonStyle" @onclick="OnClickAction">
+    @ButtonText
+</button>
+
+@code {
+    // הטקסט שמופיע על הכפתור
+    [Parameter]
+    public string ButtonText { get; set; }
+
+    // סגנון הכפתור: מקבל את הערך "primary" או "secondary"
+    [Parameter]
+    public string ButtonStyle { get; set; } = "primary"; // primary ברירת המחדל
+
+    // הפעמון שמפעיל את הפונקציה בעמוד הראשי כשלוחצים עליו
+    [Parameter]
+    public EventCallback OnClickAction { get; set; }
+}
