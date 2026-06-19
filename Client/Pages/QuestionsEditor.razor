@@ -77,7 +77,7 @@
 
                                         <!--  הפעלת ולידציות -->
                                         <DataAnnotationsValidator />
-                                        <!-- תנאי - מה יוצג בהתאם לטוגל -->
+                                        <!-- תנאי שקובע מה יוצג בהתאם לטוגל -->
                                         @if (currentStrawberryItem.isImage == false)
                                         {
                                             @* מצב טקסט: תיבת הטקסט במרכז התות *@
@@ -110,7 +110,8 @@
                                         <!-- אזור הטוגל המעוצב -->
                                         <div class="toggle-container">
                                             <label class="toggle-switch">
-                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" class="toggle-checkbox" />
+                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" @onclick="ClearContent" class="toggle-checkbox" />
+
                                                 <span class="toggle-slider"></span>
                                             </label>
                                             <span class="toggle-label">תמונה</span>
@@ -134,6 +135,11 @@
                                 @* לולאת FOR שמייצרת את גוף התולעת *@
                                 @for (int i = 0; i < itemsCount; i++)
                                 {
+                                    @* משתנה עזר שפתחנו כדי לשמור את הפריט הנוכחי *@
+                                    var currentItemForAction = question.Items[i];
+ 
+                                    
+                                    
                                     <div class="item-wrapper">
                                         @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
                                         @if (i == 0)
@@ -162,11 +168,11 @@
                                                 <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" />
 
                                                 <!-- אייקון עיפרון לעריכה -->
-                                                <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" />
+                                                <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
 
                                                 <!-- אייקון פח למחיקה -->
-                                                <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" />  
-                                                
+                                                <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
+
                                             </div>
                                             <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
                                             @if (question.Items[i].isImage == false)
@@ -211,6 +217,18 @@ else
 }
 
 
+@* אזור הפופ-אפ למחיקת תמונה מהתולעת *@
+@if (showDeletePopup == true && itemToDelete != null)
+{
+    <GenericDeletePopup OnUserConfirm="ConfirmDelete">
+
+        <h2>אוי לא!</h2>
+        <p>האם אתה בטוח שברצונך למחוק את התמונה הזו מהתולעת?</p>
+        <img src="uploadedFiles/@itemToDelete.content" width="100" style="border-radius: 8px; margin: 10px 0;" />
+
+    </GenericDeletePopup>
+}
+
 @code {
     string myFileImage = "";
     long maxFileSize = 4194304;
@@ -222,13 +240,60 @@ else
 
     string errorMsg = "";
     
-// משתנה לשמירת ה-ID של השאלה הפתוחה כרגע. 0 אומר שהכל סגור.
+// משתנה לשמירת ה-ID של השאלה הפתוחה כרגע. 0 אומר שהכול סגור.
     int openQuestionId = 0;
+    
+    // משתני עזר לפופ-אפ 
+    bool showDeletePopup = false; 
+    SilkyItem itemToDelete = null; 
 
-// פונקציה לפתיחה וסגירה של האקורדיון בטבלה
+// הפונקציה שמקבלת את "הצלצול" מהקומפוננטה
+    void ConfirmDelete(bool isConfirmed)
+    {
+        // אם המשתמשת לחצה על "מחיקה" (הגיע true)
+        if (isConfirmed == true)
+        {
+            ExecuteDeletion(itemToDelete); // שולחים את הפריט לפונקציית המחיקה מול השרת
+        }
+
+        // בכל מקרה (גם אם לחצה לא, וגם אחרי מחיקה), אנחנו סוגרים את הפופ-אפ ומנקים את המשתנה
+        showDeletePopup = false;
+        itemToDelete = null;
+    }
+
+//  הפונקציה שמפעילה את פופ-אפ המחיקה כשלוחצים על הפח בתולעת
+    void DeleteItemFromSilky(SilkyItem itemClicked)
+    {
+        if (itemClicked.isImage == true)
+        {
+            // מצב תמונה: שומרים את הפריט במשתנה העזר, ופותחים את הפופ-אפ
+            itemToDelete = itemClicked;
+            showDeletePopup = true; 
+        }
+        else
+        {
+            // מצב טקסט: מוחקים מייד (קריאה ישירה לפונקציית המחיקה)
+            ExecuteDeletion(itemClicked); 
+        }
+    }
+
+//  פונקציית המחיקה האמיתית מול השרת 
+    void ExecuteDeletion(SilkyItem item)
+    {
+        // כאן יהיה קוד המחיקה מול השרת
+    }
+    
+    
+    
+    
+    
+    
+    
+
+// פונקציה לפתיחה ולסגירה של האקורדיון בטבלה
     void ToggleAccordion(int questionId)
     {
-        // אם לחצו על השאלה שכבר פתוחה - נסגור אותה (נאפס ל-0)
+        // אם לחצו על השאלה שכבר פתוחה, נסגור אותה (נאפס ל-0)
         if (openQuestionId == questionId)
         {
             openQuestionId = 0;
@@ -236,7 +301,7 @@ else
         else // אחרת, נפתח את השאלה שעליה לחצו
         {
             openQuestionId = questionId;
-            //הוספנו כדי לאפס את התות בכל פעם שפותחים שאלה חדשה
+            //הוספנו כדי לאפס את התות בכל פעם כשפותחים שאלה חדשה
             currentStrawberryItem = new SilkyItem();
         }
     }
@@ -296,7 +361,7 @@ else
                     currentStrawberryItem.content = resizeUrl;
                     currentStrawberryItem.isImage = true; 
                     //פונקציה לרענון, גילינו אותה דרך חקירה עצמית
-                    // StateHasChanged();
+                    StateHasChanged();
                 }   
             }
         }  
@@ -382,9 +447,25 @@ else
         }
     } 
     
+    //פונקציה שמופעלת בעת לחיצה על העיפרון שעל גוף התולעת. בעת לחיצה על העיפרון התוכן של הפריט "משוכפל" ומופיע גם על התות שבצד ימין
+    void EditItem(SilkyItem itemToEdit)
+    {
+        // משכפלים את הנתונים של הפריט הנבחר מהתולעת אל תוך התות
+        currentStrawberryItem = new SilkyItem()
+        {
+            answerID = itemToEdit.answerID,
+            content = itemToEdit.content,
+            isImage = itemToEdit.isImage,
+            orderIndex = itemToEdit.orderIndex,
+        };
+    }
     
-    
-    
+    //פונקציה שפתחנו כדי לנקות את התוכן של המשתנה. בכל לחיצה על הטוגל התוכן מתאפס. 
+    void ClearContent()
+    {
+      // הפונקציה מנקה את הטקסט או את נתיב התמונה מהשדה 
+        currentStrawberryItem.content = "";
+    }
     
     
 }

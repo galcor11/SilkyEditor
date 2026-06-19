@@ -1,6 +1,5 @@
 @using AuthTemplate.Shared.Models
-@* קומפוננטה שפתחנו בשביל ליצור פופ-אפ למחיקת משחק מטבלת "המשחקים שלי"  *@
-
+@* קומפוננטה שפתחנו בשביל ליצור פופ-אפ גנרי למחיקה  *@
 
 <style>
     /* העיצוב של הרקע החצי-שקוף שמכסה את כל המסך */
@@ -22,8 +21,9 @@
 
 <div class="popup-overlay">
     <section class="popup-content">
-        <h2>אוי לא!</h2>
-        <h3>האם אתה בטוח שברצונך למחוק את המשחק: @SelectedGame.gameName?</h3>
+        
+        @* לכאן ייכנס התוכן הדינמי שנעביר מבחוץ בכל פעם *@
+        @ChildContent
         
         <input type="button" @onclick="ConfirmDelete" value="מחיקה" style="background-color: lightcoral;" />
         <input type="button" @onclick="CancelDelete" value="ביטול" style="background-color: lightgray;" />
@@ -31,21 +31,19 @@
 </div>
 
 @code {
-    // מקבלים את המשחק המיועד למחיקה מהעמוד הראשי
+    //אנחנו משתמשים ב-CHILDCONTENT כדי להעביר תוכן שלם של HTML לתוך הקומפוננטה, כלומר תוכן מתחלף
     [Parameter]
-    public GameToTableDto SelectedGame { get; set; }
+    public RenderFragment ChildContent { get; set; }
 
-    // פעמון שמתריע לעמוד הראשי אם המשתמש אישר או ביטל
+    // פעמון שמודיע לעמוד הראשי אם המשתמש אישר או ביטל
     [Parameter]
     public EventCallback<bool> OnUserConfirm { get; set; }
 
-    // אם המשתמש לחץ "כן"
     private async Task ConfirmDelete()
     {
         await OnUserConfirm.InvokeAsync(true);
     }
 
-    // אם המשתמש לחץ "לא"
     private async Task CancelDelete()
     {
         await OnUserConfirm.InvokeAsync(false);

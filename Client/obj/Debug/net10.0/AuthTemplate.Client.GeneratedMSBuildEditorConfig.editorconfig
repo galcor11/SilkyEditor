@@ -40,8 +40,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZGRHYW1lUG9wdXAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/DeleteGamePopup.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEZWxldGVHYW1lUG9wdXAucmF6b3I=
+[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/GenericDeletePopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xHZW5lcmljRGVsZXRlUG9wdXAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/GeneralSettings.razor]

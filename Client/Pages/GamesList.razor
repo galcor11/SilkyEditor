@@ -262,8 +262,13 @@
 @* אנחנו קוראים לקומפוננטה של הפופ-אפ כאשר הערך הוא TRUE *@
 @if (showDeletePopup)
 {
-    <DeleteGamePopup SelectedGame="gameToDelete" OnUserConfirm="ExecuteDelete" />
+    <GenericDeletePopup OnUserConfirm="ExecuteDelete">
+        @* כל מה שנמצא כאן ייכנס אוטומטית ל-ChildContent שבתוך הקומפוננטה! *@
+        <h2>אוי לא!</h2>
+        <h3>האם אתה בטוח שברצונך למחוק את המשחק: @gameToDelete.gameName?</h3>
+    </GenericDeletePopup>
 }
+
 @* אנחנו קוראים לקומפוננטה של הפופ-אפ כאשר הערך הוא TRUE *@
 @if (showAddPopup)
 {
