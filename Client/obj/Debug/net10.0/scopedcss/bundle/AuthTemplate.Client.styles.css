@@ -38,7 +38,7 @@
 
 /* --- הכפתור הראשי --- */
 .my-btn.primary[b-pzko1r2ajt] {
-    background-color: #ff7300;
+    background-color: #fd8a03;
     color: white;
     border: none; /* הסרנו את המסגרת כדי שההצללה תעשה את כל העבודה */
 
@@ -59,7 +59,17 @@
     background-color: white;
     color: #ff7300;
     border: 2px solid #ff7300;
-    box-shadow: none;
+
+    /* הצללה  בצבע כתום בהיר/פסטלי */
+    box-shadow: 0px 4px 0px #ffe3cc;
+}
+
+/* אפקט הלחיצה של הכפתור המשני */
+.my-btn.secondary:active[b-pzko1r2ajt] {
+    /* מוריד את הכפתור קצת למטה בזמן הלחיצה */
+    transform: translateY(4px);
+    /* מעלים את ההצללה הבהירה כשהוא שקוע */
+    box-shadow: 0px 0px 0px #ffe3cc;
 }
 /* /Pages/GamesList.razor.rz.scp.css */
 /* עיצוב כללי לטבלת המשחקים */
