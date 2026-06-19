@@ -1,4 +1,8 @@
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\AuthTemplate.Client.runtimeconfig.json
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.lj4yh1r2l5.wasm
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.tkg9yc4y4g.pdb
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.ld122ma4du.pdb
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.umqkju8g88.wasm
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.mrojqw2yhh.wasm
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Components.5yorhp2rya.wasm
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Components.Authorization.7ilgpiasal.wasm
@@ -252,6 +256,7 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\www
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Threading.Tasks.Parallel.4n1o4dxc9j.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Private.Xml.zese355etl.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Net.NameResolution.dxybkhgvzf.wasm.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.umqkju8g88.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Diagnostics.FileVersionInfo.3alwgrae57.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Dynamic.Runtime.9fcftni5l9.wasm.gz
@@ -297,6 +302,7 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\www
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.AppContext.hb972rswn2.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\blazor.webassembly.js.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.Extensions.DependencyInjection.Abstractions.2omqzali0c.wasm.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.lj4yh1r2l5.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.VisualBasic.Core.5wrvi89jl9.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Reflection.Metadata.9jlh4rmm5n.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.Extensions.Configuration.Json.by0khg80dz.wasm.gz
@@ -330,6 +336,7 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\www
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Linq.Parallel.lbbvcapr26.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.mrojqw2yhh.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.Extensions.Validation.iiwnap85de.wasm.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.ld122ma4du.pdb.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Data.Common.u1paws2ie5.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Security.AccessControl.rv6iq87t46.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Xml.Serialization.ygdmhmuqdp.wasm.gz
@@ -405,6 +412,7 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\www
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Net.Quic.dj8trc6yee.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.Extensions.Logging.Abstractions.bc5j2yr4c8.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Security.hy6omngq8z.wasm.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.tkg9yc4y4g.pdb.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\System.Security.Principal.5ic1w2xffg.wasm.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.DotNet.HotReload.WebAssembly.Browser.9sdmuz89zv.wasm.gz
@@ -877,6 +885,7 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\com
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\xjtzr8zkco-{0}-odp1kg5v1g-odp1kg5v1g.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\6yi5ybi5c0-{0}-msl47xcz9g-msl47xcz9g.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\57vw4fg2j0-{0}-ohuqgue0gy-ohuqgue0gy.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\g73s5u0z9n-{0}-hj1o6fzdji-hj1o6fzdji.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\h55u90jbed-{0}-4rjxp0q4yq-4rjxp0q4yq.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\76gp36hzb7-{0}-lm7tnpck00-lm7tnpck00.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\ij16bgz02d-{0}-6ficqfnt2c-6ficqfnt2c.gz
@@ -1094,6 +1103,11 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\com
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\xxh9vl97sb-{0}-tjcz0u77k5-tjcz0u77k5.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\899hjgaaj0-{0}-tptq2av103-tptq2av103.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\48syc8rlun-{0}-lfu7j35m59-lfu7j35m59.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\7xknw55z2d-{0}-umqkju8g88-umqkju8g88.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\j1nt5fk2cd-{0}-ld122ma4du-ld122ma4du.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\eqoczzabb7-{0}-lj4yh1r2l5-lj4yh1r2l5.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\xoa82oevvl-{0}-tkg9yc4y4g-tkg9yc4y4g.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\u6yfda54ch-{0}-ystlrwasvs-ystlrwasvs.gz
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\staticwebassets.development.json
@@ -1104,18 +1118,5 @@ C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\Aut
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\refint\AuthTemplate.Client.dll
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\AuthTemplate.Client.pdb
 C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\ref\AuthTemplate.Client.dll
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.pjpimgr4vn.pdb
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.qfqn57spaf.wasm
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.qfqn57spaf.wasm.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Shared.pjpimgr4vn.pdb.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\7xknw55z2d-{0}-qfqn57spaf-qfqn57spaf.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\j1nt5fk2cd-{0}-pjpimgr4vn-pjpimgr4vn.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.5grgcr5zxh.pdb
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.d8rkpnbbfu.wasm
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.d8rkpnbbfu.wasm.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\bin\Debug\net10.0\wwwroot\_framework\AuthTemplate.Client.5grgcr5zxh.pdb.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\eqoczzabb7-{0}-d8rkpnbbfu-d8rkpnbbfu.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\xoa82oevvl-{0}-5grgcr5zxh-5grgcr5zxh.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\u6yfda54ch-{0}-x7pgu8k40l-x7pgu8k40l.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\vltr9ihn5l-{0}-6qsmlsvwdo-6qsmlsvwdo.gz
-C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\hg0ygfyyf6-{0}-6qsmlsvwdo-6qsmlsvwdo.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\vltr9ihn5l-{0}-rdf913au86-rdf913au86.gz
+C:\Users\galgr\Downloads\PortelemTemplate_net10 (1)\Client\obj\Debug\net10.0\compressed\hg0ygfyyf6-{0}-rdf913au86-rdf913au86.gz

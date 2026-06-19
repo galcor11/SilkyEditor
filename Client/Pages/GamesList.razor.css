@@ -1,23 +1,73 @@
 /* עיצוב כללי לטבלת המשחקים */
+/*.games-table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    text-align: right;*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.games-table th, .games-table td {*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*}*/
+
+/*.games-table thead tr {*/
+/*    background-color: #C5ECA5;*/
+/*}*/
+/*!* הגדרת רקע לבן לכל תאי התוכן בטבלה (לא כולל הכותרת) *!*/
+/*.games-table td {*/
+/*    background-color: white;*/
+/*}*/
+/* --- עיצוב מודרני לטבלה --- */
 .games-table {
     width: 100%;
-    border-collapse: collapse;
+    /* משנים מ-collapse ל-separate כדי לאפשר פינות מעוגלות לכל הטבלה */
+    border-collapse: separate;
+    border-spacing: 0;
     text-align: right;
+    background-color: white;
+
+    /* הפינות המעוגלות וההצללה העדינה */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
 }
 
+/* מרווחים פנימיים - הורדנו קצת גובה כדי שהשורות לא יהיו "שמנות" מדי */
 .games-table th, .games-table td {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 12px 20px;
+    /* קו הפרדה אופקי עדין מאוד בין השורות במקום משבצות */
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.games-table thead tr {
-    background-color: #C5ECA5;
+/* מסיר את הקו התחתון מהשורה האחרונה כדי שלא יחתוך את הפינות המעוגלות */
+.games-table tr:last-child td {
+    border-bottom: none;
 }
-/* הגדרת רקע לבן לכל תאי התוכן בטבלה (לא כולל הכותרת) */
-.games-table td {
-    background-color: white;
+
+/* עיצוב שורת הכותרת */
+.games-table thead tr th {
+    background-color: #C5ECA5; /* הירוק שלך */
+    color: #2c3e50; /* טקסט כהה ואלגנטי יותר משחור מוחלט */
+    font-weight: 600;
 }
+
+/* --- קסם לעיגול הפינות הספציפיות של הטבלה (בגלל ה-border-spacing) --- */
+.games-table thead tr th:first-child { border-top-right-radius: 12px; }
+.games-table thead tr th:last-child { border-top-left-radius: 12px; }
+.games-table tbody tr:last-child td:first-child { border-bottom-right-radius: 12px; }
+.games-table tbody tr:last-child td:last-child { border-bottom-left-radius: 12px; }
+
+/* --- אפקט מעבר עכבר מודרני --- */
+.games-table tbody tr {
+    transition: background-color 0.2s ease; /* מעבר צבע רך */
+}
+
+/* כשהעכבר עובר על שורה, היא תקבל גוון ירוק-אפרפר בהיר מאוד */
+.games-table tbody tr:hover {
+    background-color: #f9fdf5;
+}
+
 /* המחלקה לכפתורי העריכה והמחיקה */
 .action-btn {
     background: none;
@@ -54,4 +104,23 @@
     position: absolute;
     top: -54px;
     right: 195px;
+}
+
+
+
+.falling-leaves-bg {
+    /* מיקום שמקבע את הדיב על כל המסך */
+    position: fixed ;
+    top: 0 ;
+    left: 0 ;
+    width: 100vw;  /* 100% מרוחב המסך */
+    height: 100vh ; /* 100% מגובה המסך */
+
+    /* שכבת הרקע */
+    z-index: -1; /* שולח את העלים אל מאחורי הטבלה, הכפתורים והטקסט */
+
+    /* הגדרות התבנית */
+    background-image: url('svg/leaf.svg'); /* נתיב העלה שלך */
+    background-repeat: repeat; /* משכפל את העלה לכל עבר */
+    background-size:500px; /* קובע את הגודל של כל עלה בתוך הפאטרן */
 }
