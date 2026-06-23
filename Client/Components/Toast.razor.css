@@ -1,10 +1,18 @@
+
+/*   (גילינו בחקירה עצמית) אנימציה של דהייה */
+@keyframes fadeOutEffect {
+    0% { opacity: 1; }
+    90% { opacity: 1; } /* הטוסט נשאר בולט לגמרי במשך 9 השניות הראשונות */
+    100% { opacity: 0; } /* בשנייה האחרונה הוא דוהה לאפס שקיפות */
+}
+
 .toast-container {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #6eb9a5; /* צבע טורקיז */
-    color: #ffffff; 
+    background-color: #6eb9a5;
+    color: #ffffff;
     padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -13,7 +21,10 @@
     align-items: center;
     gap: 20px;
     min-width: 300px;
-    direction: rtl; /* יישור לימין */
+    direction: rtl;
+
+    /* השורה החדשה שמפעילה את האנימציה ל-10 שניות: */
+    animation: fadeOutEffect 10s forwards;
 }
 
 .close-btn {

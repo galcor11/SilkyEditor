@@ -290,11 +290,10 @@ else
         }
     }
 
-    
     //פונקציה א-סינכרונית שמטפלת במחיקת פריט ופונה לקונטרולר של המחיקה
     async Task ExecuteDeletion(SilkyItem item) 
     {
-        //  אם מדובר בתמונה, אנחנו קודם כול מוחקים את התמונה עצמה 
+        // אם מדובר בתמונה, אנחנו קודם כול מוחקים את התמונה עצמה 
         if (item.isImage == true)
         {
             List<string> imageToDelete = new List<string>();
@@ -307,6 +306,7 @@ else
                 errorMsg = "שגיאה במחיקת קובץ התמונה מהשרת";
             }
         }
+        
         // אנחנו מוחקים את הפריט מבסיס הנתונים 
         var deleteDbRes = await Http.DeleteAsync("api/Questions/deleteItem/" + item.answerID); 
 
@@ -314,19 +314,30 @@ else
         if (deleteDbRes.IsSuccessStatusCode == true) 
         { 
             // לולאת FOREACH שעוברת לנו על כל השאלות במשחק כדי למצוא איפה הפריט נמצא 
-                foreach (var question in gameData.Questions)
+            foreach (var question in gameData.Questions)
+            {
+                // אם השאלה הנוכחית מכילה את הפריט שאנחנו רוצים למחוק
+                if (question.Items.Contains(item))
                 {
-                    // אם השאלה הנוכחית מכילה את הפריט שאנחנו רוצים למחוק
-                    if (question.Items.Contains(item))
-                    {
-                        // אנחנו מסירים אותו מהרשימה הפנימית של השאלה הזו 
-                        question.Items.Remove(item);
-                        break; 
-                    }
+                    // אנחנו מסירים אותו מהרשימה הפנימית של השאלה הזו 
+                    question.Items.Remove(item);
+                    break; 
                 }
+            }
 
-                showToast = true;
-                errorMsg = ""; 
+            //עדכון הטוסט (גילינו בחקירה עצמית)
+            errorMsg = ""; 
+            showToast = true; // מדליקים את הטוסט
+            StateHasChanged(); // מודיעים ל-Blazor לרענן את המסך מייד כדי שהטוסט יופיע
+
+            await Task.Delay(10000); // השהייה של 10 שניות 
+
+            // אם אחרי 10 שניות הטוסט עדיין דלוק (כלומר, המשתמש לא סגר אותו מהאיקס), נכבה אותו
+            if (showToast == true)
+            {
+                showToast = false;
+                StateHasChanged(); //פונקציית רענון שעוזרת להעלים את הטוסט
+            }
         }
         else 
         {
