@@ -13,7 +13,7 @@
 {
     <h1>@gameData.gameName</h1>
 
-    //בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה
+    @* בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה *@
     @if (gameData.Questions.Count > 0)
     {
        <table class="questions-table">
@@ -207,6 +207,7 @@
         </div>
     }
 }
+
 else if (errorMsg != "")
 {
     <p style="color:red;">שגיאה: @errorMsg</p>
@@ -228,7 +229,12 @@ else
 
     </GenericDeletePopup>
 }
-
+@if (showToast)
+{
+    <Toast OnCloseToast="HideToast">
+        הפריט נמחק בהצלחה!
+    </Toast>
+}
 @code {
     string myFileImage = "";
     long maxFileSize = 4194304;
@@ -237,7 +243,7 @@ else
 
     //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
     GameEditDto gameData;
-
+    string successMsg = ""; 
     string errorMsg = "";
     
 // משתנה לשמירת ה-ID של השאלה הפתוחה כרגע. 0 אומר שהכול סגור.
@@ -246,7 +252,14 @@ else
     // משתני עזר לפופ-אפ 
     bool showDeletePopup = false; 
     SilkyItem itemToDelete = null; 
+    // משתנה בוליאני שפתחנו לצורך התצוגה של הטוסט
+    bool showToast = false;
 
+    // הפונקציה שתופעל כשהקומפוננטה "תצלצל בפעמון" (לחיצה על X)
+    void HideToast()
+    {
+        showToast = false;
+    }
 // הפונקציה שמקבלת את "הצלצול" מהקומפוננטה
     void ConfirmDelete(bool isConfirmed)
     {
@@ -311,12 +324,14 @@ else
                         break; 
                     }
                 }
-            
-                errorMsg = "הפריט נמחק בהצלחה!"; 
+
+                showToast = true;
+                errorMsg = ""; 
         }
         else 
         {
-            errorMsg = deleteDbRes.Content.ReadAsStringAsync().Result; 
+            errorMsg = deleteDbRes.Content.ReadAsStringAsync().Result;
+            showToast = false; 
         }
     }
     

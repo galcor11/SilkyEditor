@@ -1,0 +1,27 @@
+@* קומפוננטה שפתחנו בשביל הודעות ה-TOAST שלנו *@
+
+<div class="toast-container">
+    @* כפתור ה-X לסגירה, מפעיל את הפונקציה הפנימית ש"מצלצלת בפעמון"  *@
+    <button class="close-btn" @onclick="CloseClicked">X</button>
+
+    @* לכאן נכנס התוכן שנעביר מהעמוד*@
+    <div>
+        @ChildContent
+    </div>
+</div>
+
+@code {
+
+    // פרמטר מיוחד המאפשר לקבל תגיות HTML ותוכן מתוך תגיות הפתיחה והסגירה של הקומפוננטה 
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    // אירוע המאפשר לקומפוננטה להתריע לעמוד הראשי שצריך לסגור אותה 
+    [Parameter] public EventCallback OnCloseToast { get; set; }
+
+    // הפונקציה שמופעלת בלחיצה על ה-X ומפעילה את האירוע
+    async Task CloseClicked()
+    {
+        await OnCloseToast.InvokeAsync();
+    }
+
+}
