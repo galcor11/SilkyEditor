@@ -190,7 +190,54 @@ public async Task<IActionResult> UpdateSilkyItem(int authUserId, int itemId, Sil
     }
     return Unauthorized("user is not authenticated");
 }     
+
+//שיטת פוסט לצורך יצירה של שאלה חדשה
+[HttpPost("addQuestion")]
+public async Task<IActionResult> AddQuestion([FromBody] QuestionToAdd questionToAdd) 
+{
+    // בדיקות תקינות
+    if (questionToAdd == null || string.IsNullOrWhiteSpace(questionToAdd.instruction))
+    {
+        return BadRequest("יש להזין הנחיה לשאלה");
+    }
+
+    // 2. הכנת האובייקט לשאילתת ההוספה נטו לפי חומרי הקורס
+    object insertParam = new {
+        instruction = questionToAdd.instruction,
+        gameID = questionToAdd.gameID,
+        startLabel = questionToAdd.startLabel,
+        endLabel = questionToAdd.endLabel
+    };
         
+    // שאילתת ההוספה
+    string insertQuery = "INSERT INTO Questions (instruction, gameID, startLabel, endLabel) VALUES (@instruction, @gameID, @startLabel, @endLabel)";
+        
+    // ה-ID החדש שנוצר
+    int newId = await _db.InsertReturnIdAsync(insertQuery, insertParam);
+        
+    if (newId > 0)
+    {
+        //אנחנו שולפים את השאלה החדשה שנוצרה כדי להחזיר אותה לעמוד
+        object selectParam = new { id = newId };
+        string selectQuery = "SELECT * FROM Questions WHERE questionID = @id"; 
+        var records = await _db.GetRecordsAsync<Question>(selectQuery, selectParam); 
+        var createdQuestion = records.FirstOrDefault();
+            
+        return Ok(createdQuestion);
+    }
+        
+    return BadRequest("שגיאה ביצירת השאלה בבסיס הנתונים");
+}
+
+
+
+
+
+
+
+
+
+
 // שיטת פוסט שנועדה להוסיף פריט חדש לשאלה
 [HttpPost("addItem")]
 public async Task<IActionResult> AddSilkyItem(int authUserId,  SilkyItemToAdd itemToAdd)
@@ -275,13 +322,7 @@ public async Task<IActionResult> DeleteQuestion(int questionId)
 }
 
 
-
-
-
-
-
-
-      // שיטת מחיקה שתפקידה למחוק פריט בודד מגוף התולעת מתוך טבלת הפריטים שבבסיס הנתונים 
+// שיטת מחיקה שתפקידה למחוק פריט בודד מגוף התולעת מתוך טבלת הפריטים שבבסיס הנתונים 
         [HttpDelete("deleteItem/{itemId}")]
         public async Task<IActionResult> DeleteItem(int authUserId, int itemId)
         {

@@ -190,7 +190,7 @@
                                             }
                                             else
                                             {
-                                                @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה [cite: 426] *@
+                                                @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה  *@
                                                 <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
                                             }
                                         </div>
@@ -203,20 +203,44 @@
             }
             </tbody>
         </table>
+        @* כפתור המשני שפותח את חלונית ההוספה *@
+        @if (isAddingQuestion == false)
+        {
+            @* קוראים לקומפוננטה ומעבירים לה את כל הפרמטרים שהגדרת  *@
+            <MyButton ButtonStyle="secondary"
+                      ButtonText="+ ליצור שאלה"
+                      OnClickAction="StartAddingQuestion" />
+        }
+
+        @* שורת ההוספה שנפתחת  *@
+        @if (isAddingQuestion == true)
+        {
+            <div class="new-question-row">
+                @* תיבת טקסט להזנת ההנחיה *@
+                <input type="text" @bind="questionToAdd.instruction" maxlength="20" placeholder="הקלידי הנחיה (עד 20 תווים)..." />
+
+                @* כפתור האישור הראשי המעוצב שלך *@
+                <MyButton ButtonStyle="primary"
+                          ButtonText="אישור"
+                          OnClickAction="ConfirmNewQuestion" />
+            </div>
+        } @* <--- כאן הוספתי את הסוגר שהיה חסר! *@
+
         @if (showQuestionDeletePopup)
         {
             @* אנחנו קוראים לקומפוננטה הכללית של המחיקה ומשתמשים ב-ChildContent להעברת הטקסט  *@
             <GenericDeletePopup OnUserConfirm="ConfirmQuestionDelete">
                 <h3 style="color: black;">בטוח שברצונך למחוק את השאלה?</h3>
-                <p>@questionToDelete.instruction</p> 
+                <p>@questionToDelete.instruction</p>
             </GenericDeletePopup>
         }
-        //תצוגת פופ-אפ הגדלת תמונה
+
+        @* תצוגת פופ-אפ הגדלת תמונה *@
         @if (showImagePopup)
         {
             <ImagePreviewPopup ImageUrl="@currentImageUrl" OnClosePopup="CloseImagePreview" />
         }
-     
+
     }
     else
     {
@@ -227,7 +251,6 @@
         </div>
     }
 }
-
 else if (errorMsg != "")
 {
     <p style="color:red;">שגיאה: @errorMsg</p>
@@ -236,7 +259,6 @@ else
 {
     <p>טוען נתונים...</p>
 }
-
 
 @* אזור הפופ-אפ למחיקת תמונה מהתולעת *@
 @if (showDeletePopup == true && itemToDelete != null)
@@ -257,29 +279,37 @@ else
 }
 @code {
     string myFileImage = "";
+
     long maxFileSize = 4194304;
+
     //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
     [Parameter] public int gameID { get; set; }
 
     //משתנים שנועדו לעזור לנו לפופ-אפ מחיקת שאלה
     bool showQuestionDeletePopup = false;
-    Question questionToDelete = null; 
-    
+    Question questionToDelete = null;
+
     // משתני עזר לפופ-אפ הגדלת תמונה
     bool showImagePopup = false;
     string currentImageUrl = "";
-    
+
+    //משתנים לצורך הוספה של שאלה חדשה 
+    bool isAddingQuestion = false;
+    QuestionToAdd questionToAdd = new QuestionToAdd();
+
     //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
     GameEditDto gameData;
-    string successMsg = ""; 
+    string successMsg = "";
     string errorMsg = "";
-    
+
 // משתנה לשמירת ה-ID של השאלה הפתוחה כרגע. 0 אומר שהכול סגור.
     int openQuestionId = 0;
-    
+
     // משתני עזר לפופ-אפ 
-    bool showDeletePopup = false; 
-    SilkyItem itemToDelete = null; 
+    bool showDeletePopup = false;
+
+    SilkyItem itemToDelete = null;
+
     // משתנה בוליאני שפתחנו לצורך התצוגה של הטוסט
     bool showToast = false;
 
@@ -287,27 +317,88 @@ else
     void HideToast(bool isClosed)
     {
         showToast = false;
-        StateHasChanged(); 
+        StateHasChanged();
     }
+
     // פונקציה שמופעלת בלחיצה על זכוכית המגדלת
     void OpenImagePreview(string imageUrl)
     {
         currentImageUrl = imageUrl;
         showImagePopup = true;
     }
+
     // פונקציה שסוגרת את פופ-אפ הגדלת התמונה
     void CloseImagePreview()
     {
         showImagePopup = false;
         currentImageUrl = "";
     }
+
+    // פונקציה שמופעלת בלחיצה על הכפתור המשני "+ ליצור שאלה"
+    void StartAddingQuestion()
+    {
+        isAddingQuestion = true;
+
+        // אנחנו מאתחלים את המופע עם ערכי ברירת המחדל ושיוך למשחק הנוכחי 
+        questionToAdd = new QuestionToAdd
+        {
+            instruction = "",
+            //הוסםנו את המילה this מכיוון שגם לתכונה במודל קוראים gameID. נעזרנו בחקירה עצמית
+            gameID = this.gameID,
+            startLabel = "ראשון",
+            endLabel = "אחרון",
+            Items = new List<SilkyItemToAdd>()
+        };
+    }
+
+    // פונקציה לביטול ההוספה וסגירת השורה
+    void CancelNewQuestion()
+    {
+        isAddingQuestion = false;
+    }
+
+    // פונקציה שמופעלת בלחיצה על כפתור "אישור" הראשי
+    async Task ConfirmNewQuestion()
+    {
+//בדיקת תקינוּת         
+        if (string.IsNullOrWhiteSpace(questionToAdd.instruction))
+        {
+            errorMsg = "יש להזין הנחיה לשאלה";
+            return;
+        }
+
+        //אנחנו קוראים לשיטת העדכון בקונטרולר שמטפלת בהוספת שאלה
+        var addRes = await Http.PostAsJsonAsync("api/Questions/addQuestion", questionToAdd);
+
+        if (addRes.IsSuccessStatusCode == true)
+        {
+            // קריאת השאלה החדשה שחזרה מהשרת 
+            var createdQuestion = addRes.Content.ReadFromJsonAsync<Question>().Result;
+
+            // הוספת השאלה החדשה לרשימה 
+            gameData.Questions.Add(createdQuestion);
+
+            // סגירת שורת ההוספה והעלמת הודעות שגיאה
+            isAddingQuestion = false;
+            errorMsg = "";
+        }
+        else
+        {
+            errorMsg = "שגיאה ביצירת השאלה בשרת";
+        }
+    }
+
+
+
+
+
     // פונקציה שמופעלת מלחיצה על כפתור הפח ומפעילה את הפופ-אפ
     void DeleteQuestionClicked(Question questionClicked)
     {
         questionToDelete = questionClicked;
-        showQuestionDeletePopup = true; 
+        showQuestionDeletePopup = true;
     }
-    
+
     // הפונקציה שמקבלת את ה"פעמון" מהקומפוננטה הגנרית לאישור המחיקה 
     async Task ConfirmQuestionDelete(bool isConfirmed)
     {
@@ -321,17 +412,17 @@ else
                 // אנחנו מסירים את השאלה מהרשימה כדי שהתצוגה תתעדכן
                 gameData.Questions.Remove(questionToDelete);
 
-              //שימוש בטוסט שלנו
+                //שימוש בטוסט שלנו
                 errorMsg = "";
                 showToast = true;
-                StateHasChanged(); 
-                
-                await Task.Delay(10000); 
-                
+                StateHasChanged();
+
+                await Task.Delay(10000);
+
                 if (showToast == true)
                 {
                     showToast = false;
-                    StateHasChanged(); 
+                    StateHasChanged();
                 }
             }
             else
@@ -339,11 +430,12 @@ else
                 errorMsg = "שגיאה במחיקת השאלה מהשרת";
             }
         }
+
         // סגירת הפופ-אפ
         showQuestionDeletePopup = false;
         questionToDelete = null;
     }
-    
+
 // הפונקציה שמקבלת את "הצלצול" מהקומפוננטה
     void ConfirmDelete(bool isConfirmed)
     {
@@ -365,38 +457,38 @@ else
         {
             // מצב תמונה: שומרים את הפריט במשתנה העזר, ופותחים את הפופ-אפ
             itemToDelete = itemClicked;
-            showDeletePopup = true; 
+            showDeletePopup = true;
         }
         else
         {
             // מצב טקסט: מוחקים מייד (קריאה ישירה לפונקציית המחיקה)
-            ExecuteDeletion(itemClicked); 
+            ExecuteDeletion(itemClicked);
         }
     }
 
     //פונקציה א-סינכרונית שמטפלת במחיקת פריט ופונה לקונטרולר של המחיקה
-    async Task ExecuteDeletion(SilkyItem item) 
+    async Task ExecuteDeletion(SilkyItem item)
     {
         // אם מדובר בתמונה, אנחנו קודם כול מוחקים את התמונה עצמה 
         if (item.isImage == true)
         {
             List<string> imageToDelete = new List<string>();
-            imageToDelete.Add(item.content); 
-        
+            imageToDelete.Add(item.content);
+
             var deleteImageRes = await Http.PostAsJsonAsync("api/Media/deleteImages", imageToDelete);
-        
+
             if (deleteImageRes.IsSuccessStatusCode == false)
             {
                 errorMsg = "שגיאה במחיקת קובץ התמונה מהשרת";
             }
         }
-        
+
         // אנחנו מוחקים את הפריט מבסיס הנתונים 
-        var deleteDbRes = await Http.DeleteAsync("api/Questions/deleteItem/" + item.answerID); 
+        var deleteDbRes = await Http.DeleteAsync("api/Questions/deleteItem/" + item.answerID);
 
         // כדי להסיר מהתצוגה 
-        if (deleteDbRes.IsSuccessStatusCode == true) 
-        { 
+        if (deleteDbRes.IsSuccessStatusCode == true)
+        {
             // לולאת FOREACH שעוברת לנו על כל השאלות במשחק כדי למצוא איפה הפריט נמצא 
             foreach (var question in gameData.Questions)
             {
@@ -405,12 +497,12 @@ else
                 {
                     // אנחנו מסירים אותו מהרשימה הפנימית של השאלה הזו 
                     question.Items.Remove(item);
-                    break; 
+                    break;
                 }
             }
 
             //עדכון הטוסט (גילינו בחקירה עצמית)
-            errorMsg = ""; 
+            errorMsg = "";
             showToast = true; // מדליקים את הטוסט
             StateHasChanged(); //פונקציית רענון שגילינו בחקירה עצמית
 
@@ -423,13 +515,13 @@ else
                 StateHasChanged(); //פונקציית רענון שעוזרת להעלים את הטוסט
             }
         }
-        else 
+        else
         {
             errorMsg = deleteDbRes.Content.ReadAsStringAsync().Result;
-            showToast = false; 
+            showToast = false;
         }
     }
-    
+
 // פונקציה לפתיחה ולסגירה של האקורדיון בטבלה
     void ToggleAccordion(int questionId)
     {
@@ -464,7 +556,7 @@ else
             errorMsg = response.Content.ReadAsStringAsync().Result;
         }
     }
-    
+
 // מופע של התות לקליטת הנתונים
     SilkyItem currentStrawberryItem = new SilkyItem();
 
@@ -474,13 +566,13 @@ else
         // הפונקציה הזו מפעילה את קוד ה-JS שכתבנו, ואומרת לו ללחוץ על הפקד שה-ID שלו הוא FileInputID
         await JS.InvokeVoidAsync("triggerFileClick", "FileInputID");
     }
-    
+
 
     // הפונקציה שמופעלת מייד לאחר שהמשתמש בחר תמונה
     private async Task UploadFile(InputFileChangeEventArgs e)
     {
         //מעבר על כל תמונה ובדיקה שהגודל לא חורג מהמגבלה
-        var imageFiles = e.GetMultipleFiles(); 
+        var imageFiles = e.GetMultipleFiles();
         foreach (var file in imageFiles)
         {
             if (file.Size <= maxFileSize)
@@ -499,17 +591,17 @@ else
                     //  עדכון התות
                     // אנחנו שומרים את שם הקובץ בתוך התוכן של הפריט, ומסמנים שמדובר בתמונה
                     currentStrawberryItem.content = resizeUrl;
-                    currentStrawberryItem.isImage = true; 
+                    currentStrawberryItem.isImage = true;
                     //פונקציה לרענון, גילינו אותה דרך חקירה עצמית
                     StateHasChanged();
-                }   
+                }
             }
-        }  
+        }
     }
-    
-    
+
+
     //פונקציה א-סינכרונית שמיועדת למצב שבו המשתמש רוצה לשמור את השינויים בהוספת פריט
-    async Task UpdateItemInServer(SilkyItem currentItem) 
+    async Task UpdateItemInServer(SilkyItem currentItem)
     {
         // אנחנו יוצרים מופע של ה-DTO הייעודי לעדכון 
         // וממלאים אותו בנתונים המעודכנים שהמשתמש הזין בטופס
@@ -524,17 +616,18 @@ else
         // אנחנו משרשרים את ה-ID של הפריט בסוף הנתיב
         var updateResponse = await Http.PostAsJsonAsync("api/Questions/updateItem/" + currentItem.answerID, itemToUpdate);
 
-       //בדיקת תקינוּת
-        if (updateResponse.IsSuccessStatusCode == true) 
+        //בדיקת תקינוּת
+        if (updateResponse.IsSuccessStatusCode == true)
         {
             // כאן תהיה הודעת "נשמר בהצלחה" 
-        } 
-        else 
+        }
+        else
         {
             // אם משהו השתבש, נשלוף את הודעת השגיאה
             string error = updateResponse.Content.ReadAsStringAsync().Result;
         }
     }
+
     //פונקציית עזר שפתחנו כדי לדעת אם אנחנו בפריט במצב עדכון או הוספה, שכן התות שלנו משמש גם בתור הוספה וגם עדכון
     async Task HandleStrawberrySubmit(Question question)
     {
@@ -552,7 +645,7 @@ else
 
         }
     }
-    
+
     async Task AddNewItemToServer(Question currentQuestion)
     {
         // אנחנו מחשבים את האינדקס הבא, כלומר אנחנו לוקחים את כמות הפריטים שכבר קיימת ברשימה של השאלה
@@ -563,7 +656,7 @@ else
         {
             content = currentStrawberryItem.content,
             isImage = currentStrawberryItem.isImage,
-            orderIndex = nextIndex, 
+            orderIndex = nextIndex,
             questionID = currentQuestion.questionID // מקשרים את הפריט לשאלה הנוכחית
         };
 
@@ -574,19 +667,19 @@ else
         {
             // אם השמירה בשרת הצליחה, השרת אמור להחזיר לנו את הפריט הֶחדש 
             SilkyItem savedItem = insertResponse.Content.ReadFromJsonAsync<SilkyItem>().Result;
-        
+
             // אנחנו מוסיפים את הפריט שחזר מהקונטרולר אל התולעת שלנו כדי שהמשתמש יראה אותו
             currentQuestion.Items.Add(savedItem);
-        
+
             //  אנחנו מאפסים את התות לקראת הפריט הבא
-            currentStrawberryItem = new SilkyItem(); 
+            currentStrawberryItem = new SilkyItem();
         }
         else
         {
             string error = insertResponse.Content.ReadAsStringAsync().Result;
         }
-    } 
-    
+    }
+
     //פונקציה שמופעלת בעת לחיצה על העיפרון שעל גוף התולעת. בעת לחיצה על העיפרון התוכן של הפריט "משוכפל" ומופיע גם על התות שבצד ימין
     void EditItem(SilkyItem itemToEdit)
     {
@@ -599,13 +692,11 @@ else
             orderIndex = itemToEdit.orderIndex,
         };
     }
-    
+
     //פונקציה שפתחנו כדי לנקות את התוכן של המשתנה. בכל לחיצה על הטוגל התוכן מתאפס. 
     void ClearContent()
     {
-      // הפונקציה מנקה את הטקסט או את נתיב התמונה מהשדה 
+        // הפונקציה מנקה את הטקסט או את נתיב התמונה מהשדה 
         currentStrawberryItem.content = "";
     }
-    
-    
 }
