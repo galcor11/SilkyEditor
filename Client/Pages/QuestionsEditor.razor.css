@@ -110,6 +110,10 @@
     cursor: pointer;
     font-size: 20px;
     transition: transform 0.2s ease, color 0.2s ease;
+    /* מעלים את הכפתור האפור */
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 .delete-icon:hover {
     color: #CC0000; /* אדום חזק יותר בריחוף (נגישות) */

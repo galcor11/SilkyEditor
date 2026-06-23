@@ -1,0 +1,24 @@
+@* קומפוננטה שפתחנו בשביל תצוגה מוגדלת של תמונה *@
+<div class="popup-overlay">
+    <section class="image-preview-content">
+        @* כפתור הסגירה יפעיל את הפעמון ויסגור את הפופ-אפ *@
+        <input type="button" class="close-btn" value="X" @onclick="ClosePopup" />
+        
+        @* תצוגת התמונה עצמה *@
+        <img src="uploadedFiles/@ImageUrl" class="enlarged-image" alt="תמונה מוגדלת" />
+
+    </section>
+</div>
+
+@code {
+    // פרמטר שמקבל את הכתובת של התמונה שרוצים להציג
+    [Parameter] public string ImageUrl { get; set; }
+    
+    // פעמון שמודיע לעמוד הראשי לסגור את הפופ-אפ 
+    [Parameter] public EventCallback OnClosePopup { get; set; }
+
+    async Task ClosePopup()
+    {
+        await OnClosePopup.InvokeAsync();
+    }
+}

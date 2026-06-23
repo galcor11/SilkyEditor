@@ -16,13 +16,13 @@
     @* בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה *@
     @if (gameData.Questions.Count > 0)
     {
-       <table class="questions-table">
+        <table class="questions-table">
             <thead>
-                <tr>
-                    <th>השאלה</th>
-                    <th>מספר פריטים</th>
-                    <th>מחיקה</th>
-                </tr>
+            <tr>
+                <th>השאלה</th>
+                <th>מספר פריטים</th>
+                <th>מחיקה</th>
+            </tr>
             </thead>
             <tbody>
             @* לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות *@
@@ -50,7 +50,9 @@
                         }
                     </td>
                     <td class="center-text">
-                        <span class="delete-icon"> 🗑️ </span>
+                        <button type="button" class="delete-icon" @onclick="() => DeleteQuestionClicked(question)">
+                            🗑️
+                        </button>
                     </td>
                 </tr>
 
@@ -62,14 +64,14 @@
                             <div class="items-container">
                                 <!-- אזור הוספת פריט ( התות) -->
                                 <div class="strawberry-container">
-                                      @if (currentStrawberryItem.answerID > 0)
-                                          {
-                                              <h3>עריכת פריט</h3>
-                                          }
-                                      else
-                                      {
-                                              <h3>הוספת פריט</h3>
-                                      } 
+                                    @if (currentStrawberryItem.answerID > 0)
+                                    {
+                                        <h3>עריכת פריט</h3>
+                                    }
+                                    else
+                                    {
+                                        <h3>הוספת פריט</h3>
+                                    } 
                                     
 
                                     <!-- פתיחת הטופס והגדרת הפונקציה שתפעל בשליחה -->
@@ -116,15 +118,15 @@
                                             </label>
                                             <span class="toggle-label">תמונה</span>
                                         </div>
-                                              <!-- כפתור ה-SUBMIT של התות שמשנה את הטקסט שלו -->
-                                              @if (currentStrawberryItem.answerID > 0)
-                                                  {
-                                                      <button type="submit">שמירת שינויים</button>
-                                                  }
-                                              else
-                                             {
-                                                      <button type="submit">אישור</button>
-                                             }
+                                        <!-- כפתור ה-SUBMIT של התות שמשנה את הטקסט שלו -->
+                                        @if (currentStrawberryItem.answerID > 0)
+                                        {
+                                            <button type="submit">שמירת שינויים</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit">אישור</button>
+                                        }
                                         
                                     </EditForm>
 
@@ -164,8 +166,14 @@
                                         <div class="item-box">
                                             <!-- אזור האייקונים שלנו שמופיעים בריחוף -->
                                             <div class="action-icons-overlay">
-                                                <!-- אייקון זכוכית מגדלת -->
-                                                <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" />
+
+                                                @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
+                                                @if (question.Items[i].isImage == true)
+                                                {
+                                                    <!-- אייקון זכוכית מגדלת המפעיל את הפופ-אפ עם פונקציית חץ  -->
+                                                    <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)" />
+
+                                                }
 
                                                 <!-- אייקון עיפרון לעריכה -->
                                                 <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
@@ -174,18 +182,17 @@
                                                 <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
 
                                             </div>
+
                                             <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
                                             @if (question.Items[i].isImage == false)
                                             {
-
                                                 @question.Items[i].content
                                             }
                                             else
                                             {
-                                                @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה  *@
+                                                @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה [cite: 426] *@
                                                 <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
                                             }
-
                                         </div>
                                     </div>
                                 }
@@ -196,6 +203,19 @@
             }
             </tbody>
         </table>
+        @if (showQuestionDeletePopup)
+        {
+            @* אנחנו קוראים לקומפוננטה הכללית של המחיקה ומשתמשים ב-ChildContent להעברת הטקסט  *@
+            <GenericDeletePopup OnUserConfirm="ConfirmQuestionDelete">
+                <h3 style="color: black;">בטוח שברצונך למחוק את השאלה?</h3>
+                <p>@questionToDelete.instruction</p> 
+            </GenericDeletePopup>
+        }
+        //תצוגת פופ-אפ הגדלת תמונה
+        @if (showImagePopup)
+        {
+            <ImagePreviewPopup ImageUrl="@currentImageUrl" OnClosePopup="CloseImagePreview" />
+        }
      
     }
     else
@@ -232,7 +252,7 @@ else
 @if (showToast)
 {
     <Toast OnCloseToast="HideToast">
-        הפריט נמחק בהצלחה!
+        המחיקה בוצעה בהצלחה!
     </Toast>
 }
 @code {
@@ -241,6 +261,14 @@ else
     //הפרמטר שמתקבל מהנתיב (מזהה המשחק)
     [Parameter] public int gameID { get; set; }
 
+    //משתנים שנועדו לעזור לנו לפופ-אפ מחיקת שאלה
+    bool showQuestionDeletePopup = false;
+    Question questionToDelete = null; 
+    
+    // משתני עזר לפופ-אפ הגדלת תמונה
+    bool showImagePopup = false;
+    string currentImageUrl = "";
+    
     //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
     GameEditDto gameData;
     string successMsg = ""; 
@@ -261,6 +289,61 @@ else
         showToast = false;
         StateHasChanged(); 
     }
+    // פונקציה שמופעלת בלחיצה על זכוכית המגדלת
+    void OpenImagePreview(string imageUrl)
+    {
+        currentImageUrl = imageUrl;
+        showImagePopup = true;
+    }
+    // פונקציה שסוגרת את פופ-אפ הגדלת התמונה
+    void CloseImagePreview()
+    {
+        showImagePopup = false;
+        currentImageUrl = "";
+    }
+    // פונקציה שמופעלת מלחיצה על כפתור הפח ומפעילה את הפופ-אפ
+    void DeleteQuestionClicked(Question questionClicked)
+    {
+        questionToDelete = questionClicked;
+        showQuestionDeletePopup = true; 
+    }
+    
+    // הפונקציה שמקבלת את ה"פעמון" מהקומפוננטה הגנרית לאישור המחיקה 
+    async Task ConfirmQuestionDelete(bool isConfirmed)
+    {
+        if (isConfirmed == true)
+        {
+            // אנחנו פונים לשיטת קונטרולר שמיועדת למחיקת שאלה
+            var deleteRes = await Http.DeleteAsync("api/Questions/deleteQuestion/" + questionToDelete.questionID);
+
+            if (deleteRes.IsSuccessStatusCode == true)
+            {
+                // אנחנו מסירים את השאלה מהרשימה כדי שהתצוגה תתעדכן
+                gameData.Questions.Remove(questionToDelete);
+
+              //שימוש בטוסט שלנו
+                errorMsg = "";
+                showToast = true;
+                StateHasChanged(); 
+                
+                await Task.Delay(10000); 
+                
+                if (showToast == true)
+                {
+                    showToast = false;
+                    StateHasChanged(); 
+                }
+            }
+            else
+            {
+                errorMsg = "שגיאה במחיקת השאלה מהשרת";
+            }
+        }
+        // סגירת הפופ-אפ
+        showQuestionDeletePopup = false;
+        questionToDelete = null;
+    }
+    
 // הפונקציה שמקבלת את "הצלצול" מהקומפוננטה
     void ConfirmDelete(bool isConfirmed)
     {

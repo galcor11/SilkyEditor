@@ -36,14 +36,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXV0aFBhZ2VzXE5vdEFsbG93ZWQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/AddGamePopup.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZGRHYW1lUG9wdXAucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/GenericDeletePopup.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xHZW5lcmljRGVsZXRlUG9wdXAucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/GeneralSettings.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2VuZXJhbFNldHRpbmdzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -56,9 +48,21 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/AddGamePopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBZGRHYW1lUG9wdXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-acy9pudik0
+
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/CustomInputText.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDdXN0b21JbnB1dFRleHQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ke5wxkj6ev
+
+[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/GenericDeletePopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xHZW5lcmljRGVsZXRlUG9wdXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-tng6v7zfht
+
+[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/ImagePreviewPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xJbWFnZVByZXZpZXdQb3B1cC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-dx2whab7t4
 
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Components/MyButton.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xNeUJ1dHRvbi5yYXpvcg==

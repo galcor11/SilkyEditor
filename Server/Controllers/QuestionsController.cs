@@ -247,6 +247,40 @@ public async Task<IActionResult> AddSilkyItem(int authUserId,  SilkyItemToAdd it
     return Unauthorized("user is not authenticated");
 }
 
+// שיטה שמיועדת למחוק שאלה שלמה
+[HttpDelete("deleteQuestion/{questionId}")]
+public async Task<IActionResult> DeleteQuestion(int questionId)
+{
+    // בדיקת תקינות בסיסית
+    if (questionId <= 0)
+    {
+        return BadRequest("מזהה שאלה לא תקין");
+    }
+
+    //אובייקט הפרמטרים
+    object param = new { id = questionId };
+
+   //שאילתת SQL למחיקה
+    string query = "DELETE FROM Questions WHERE questionID=@id";
+
+    // הפעלת השאילתה מול בסיס הנתונים 
+    int isDeleted = await _db.SaveDataAsync(query, param);
+//בדיקה אם המחיקה הצליחה     
+    if (isDeleted > 0)
+    {
+        return Ok();
+    }
+        
+    return BadRequest("המחיקה נכשלה. ייתכן שהמזהה איננו קיים");
+}
+
+
+
+
+
+
+
+
       // שיטת מחיקה שתפקידה למחוק פריט בודד מגוף התולעת מתוך טבלת הפריטים שבבסיס הנתונים 
         [HttpDelete("deleteItem/{itemId}")]
         public async Task<IActionResult> DeleteItem(int authUserId, int itemId)
