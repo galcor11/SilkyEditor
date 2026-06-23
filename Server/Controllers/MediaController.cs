@@ -29,5 +29,39 @@ namespace AuthTemplate.Server.Controllers
             return Ok(fileName);
         }
         
+        // שיטת POST שמקבלת רשימת שמות של תמונות ומוחקת אותן מתיקיית הקבצים בשרת
+        [HttpPost("deleteImages")]
+        public async Task<IActionResult> DeleteImages([FromBody] List<string> images)
+        {
+            var countFalseTry = 0;
+            
+            // לולאה שעוברת לנו על כל תמונה ברשימה ומבצעת מחיקה
+            foreach (string img in images)
+            {
+                // אנחנו קוראים לפונקציית המחיקה ממחלקת העזר
+                if (_filesManage.DeleteFile(img, "uploadedFiles") == false)
+                {
+                    countFalseTry++; // אם המחיקה כשלה, נספור את הניסיון 
+                }
+            }
+            
+            // אם נכשלנו בביצוע של מחיקה אחת או יותר, נחזיר שגיאה
+            if (countFalseTry > 0)
+            {
+                // לעורך אין גישה לשרת ולא יוכל לתקן דבר. הבדיקה משמשת אותנו לצורך דיווח וידיעה
+                return BadRequest("problem with " + countFalseTry.ToString() + " images");
+            }
+            
+            // אם המחיקה עברה בהצלחה
+            return Ok("deleted");
+        }
+        
+        
+        
+        
+        
+        
+        
+        
     }
 }

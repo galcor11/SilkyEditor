@@ -1,32 +1,407 @@
 
 
-/* המחלקה הראשית של הטבלה - פורסת אותה על כל הרוחב, מאחדת גבולות ומיישרת טקסט לימין */
+/*!* המחלקה הראשית של הטבלה - פורסת אותה על כל הרוחב, מאחדת גבולות ומיישרת טקסט לימין *!*/
+/*.questions-table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    text-align: right;*/
+/*}*/
+
+/*!* עיצוב התאים בטבלה (גם כותרות th וגם תאים רגילים td) - מוסיף ריווח פנימי וגבול אפור עדין *!*/
+/*.questions-table th, .questions-table td {*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*}*/
+
+/*!* צבע רקע אפרפר לשורת הכותרות העליונה של הטבלה *!*/
+/*.questions-table thead tr {*/
+/*    background-color: #94B65B;*/
+/*}*/
+/*!* צבע רקע ירוק בהיר לשורות התוכן בטבלה *!*/
+/*.questions-table tbody tr {*/
+/*    background-color: #E9FDD9; !* קוד של ירוק בהיר ועדין *!*/
+/*}*/
+/*!* עיצוב החץ של האקורדיון (הפתיחה/סגירה) - הופך את סמן העכבר לכף יד, מדגיש את הטקסט ומרחיק מעט שמאלה *!*/
+/*.toggle-icon {*/
+/*    cursor: pointer;*/
+/*    font-weight: bold;*/
+/*    margin-left: 5px;*/
+/*}*/
+
+/*!* הגדרת הגודל של אימוג'י העלה *!*/
+/*.leaf-icon {*/
+/*    font-size: 20px;*/
+/*}*/
+
+/*!* צבע ירוק שמופעל כשיש כמות תקינה של פריטים (4 עד 8) *!*/
+/*.good-count {*/
+/*    color: green;*/
+/*}*/
+
+/*!* צבע אפור שמופעל כשיש כמות לא תקינה של פריטים *!*/
+/*.bad-count {*/
+/*    color: gray;*/
+/*}*/
+
+/*!* מחלקת עזר למרכוז טקסט (למשל לעמודה של כפתור המחיקה) *!*/
+/*.center-text {*/
+/*    text-align: center;*/
+/*}*/
+
+/*!* עיצוב לאייקון פח האשפה - הופך אותו לאדום, משנה את סמן העכבר ומגדיל אותו *!*/
+/*.delete-icon {*/
+/*    color: red;*/
+/*    cursor: pointer;*/
+/*    font-size: 20px;*/
+/*}*/
+
+/*!* התא הגדול של האקורדיון שמתפרס על כל העמודות - מוסיף ריווח פנימי ורקע טיפה שונה להבלטה *!*/
+/*.accordion-cell {*/
+/*    padding: 15px;*/
+/*    background-color: #C5ECA5;*/
+/*}*/
+
+/*!* המיכל שעוטף את כל הפריטים יחד - הוא זה שדואג לפריסה האופקית המושלמת *!*/
+/*.items-container {*/
+/*    display: flex;*/
+/*    flex-direction: row; !* מסדר את הפריטים בשורה אופקית (ימינה-שמאלה) *!*/
+/*    justify-content: center; !* ממורכז את כל שורת הפריטים באמצע התא *!*/
+/*    gap: 20px; !* ריווח אופקי שווה וגדול יותר בין פריט לפריט *!*/
+/*    align-items: flex-end; !* מיישר את כולם כלפי מטה כדי שהלייבלים לא יהרסו את הקו *!*/
+/*    flex-wrap: wrap; !* אם יש המון פריטים שלא נכנסים במסך אחד, הוא יוריד אותם לשורה חדשה בצורה מסודרת *!*/
+/*}*/
+
+/*!* עוטף כל פריט בודד (הלייבל + האליפסה שלו) כדי שהטקסט בתוכו יהיה ממורכז *!*/
+/*.item-wrapper {*/
+/*    text-align: center;*/
+/*    display: flex;*/
+/*    flex-direction: column; !* שומר על כך שהלייבל יהיה מעל האליפסה *!*/
+/*    align-items: center;*/
+/*    margin-bottom: 25px;*/
+/*}*/
+
+/*!* עיצוב תגיות הקצה (ההתחלה והסוף) שמופיעות מעל הפריטים - טקסט מודגש, צבע אפור כהה וריווח קטן מלמטה *!*/
+/*.item-label {*/
+/*    font-weight: bold;*/
+/*    color: #555;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*!* רווח שקוף (Spacer) לפריטים האמצעיים - שומר על גובה אחיד של הקופסאות גם כשאין מעליהן לייבל אמיתי *!*/
+/*.item-label-spacer {*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+
+
+/*!* עיצוב לאייקון העריכה של הלייבלים (תגיות הקצה) *!*/
+/* .edit-icon {*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    margin-left: 5px; !* מרחיק את העיפרון מעט מהטקסט *!*/
+/*    color: #666;*/
+/*}*/
+/*.edit-icon:hover {*/
+/*    color: #000; !* מחשיך מעט את העיפרון כשעוברים עליו עם העכבר *!*/
+/*}*/
+
+/*!* הקונטיינר שמחזיק את התות והאליפסות יחד בשורה אחת *!*/
+/*.items-container {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: flex-start;*/
+/*    gap: 0px; !* כדי להצמיד את חלקי הגוף *!*/
+/*    overflow-x: auto; !* מאפשר גלילה אופקית למקרה שהתולעת תתארך מאוד *!*/
+/*    padding: 10px 0;*/
+/*}*/
+
+/*!* העיצוב של קופסת התות (אזור ההזנה) *!*/
+/*.strawberry-container {*/
+/*    border: 2px dashed gray;*/
+/*    border-radius: 15px;*/
+/*    padding: 20px;*/
+/*    margin-left: 30px; !*מפריד בין אזור ההזנה לתולעת*!*/
+/*    width: fit-content; !*כדי שהטופס לא ימלא מקום מיותר*!*/
+/*    background-color: rgba(255, 255, 255, 0.4); !* ה-0.4 קובע את רמת השקיפות: 0 זה שקוף לגמרי, 1 זה אטום לגמרי *!*/
+/*    */
+/*}*/
+/*!* סידור האזור של המתג והטקסט לידו *!*/
+/*.toggle-container {*/
+/*    margin-bottom: 15px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+
+/*!* העטיפה של הטוגל *!*/
+/*.toggle-switch {*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*    width: 46px;*/
+/*    height: 24px;*/
+/*}*/
+
+/*!* הסתרת הצ'קבוקס המקורי של הדפדפן *!*/
+/*.toggle-switch .toggle-checkbox {*/
+/*    opacity: 0;*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*}*/
+
+/*!* העיצוב של הרקע (הסליידר עצמו) *!*/
+/*.toggle-slider {*/
+/*    position: absolute;*/
+/*    cursor: pointer;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    background-color: #ccc;*/
+/*    transition: .4s;*/
+/*    border-radius: 24px; !* יוצר פינות מעוגלות *!*/
+/*}*/
+
+/*!* העיצוב של העיגול בתוך הטוגל *!*/
+/*.toggle-slider:before {*/
+/*    position: absolute;*/
+/*    content: "";*/
+/*    height: 18px;*/
+/*    width: 18px;*/
+/*    left: 3px;*/
+/*    bottom: 3px;*/
+/*    background-color: white;*/
+/*    transition: .4s;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+/*!* צבע הרקע כשהצ'קבוקס מסומן (True) *!*/
+/*.toggle-checkbox:checked + .toggle-slider {*/
+/*    background-color: #4CAF50; !* צבע ירוק כשזה דלוק *!*/
+/*}*/
+
+/*!* הזזת העיגול הצידה כשזה מסומן (True) *!*/
+/*.toggle-checkbox:checked + .toggle-slider:before {*/
+/*    transform: translateX(22px);*/
+/*}*/
+
+/*!* עיצוב הטקסט שליד הטוגל *!*/
+/*.toggle-label {*/
+/*    margin-right: 10px; !* מרווח בין המתג לטקסט מימינו *!*/
+/*    font-weight: bold;*/
+/*    color: #333;*/
+/*}*/
+
+/*.silky-head {*/
+/*    display: flex;*/
+/*    width: 87px;*/
+/*    height: 87px;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    !* הנתיב לתמונה נשאר אותו דבר (אלא אם שינית גם את שם קובץ ה-SVG עצמו) *!*/
+/*    background-image: url('svg/silkyHead.svg');*/
+/*    background-size: contain;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    margin-left: 0px;*/
+/*    margin-right: 0px;*/
+/*    z-index: 2;*/
+/*}*/
+
+/*!* העטיפה של התות עצמו שמופיע כרקע *!*/
+/*.strawberry-input-wrapper {*/
+/*    background-image: url('svg/strawberry.svg'); */
+/*    background-size: contain;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: top center;*/
+/*    width: 160px;*/
+/*    height: 119px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    padding: 15px;*/
+/*}*/
+
+/*!* עיצוב תיבת הטקסט שיושבת בתוך התות *!*/
+/*!* העיצוב המשותף לשני הפקדים *!*/
+/*::deep .inner-strawberry-input {*/
+/*    text-align: center;*/
+/*    border: 1px solid #ccc;*/
+/*    font-weight: bold;*/
+/*    border-radius: 8px !important; !* כופה את העיגול *!*/
+/*    background: #FFF;*/
+/*    width: 97px;*/
+/*    height: 71px;*/
+/*    box-sizing: border-box;*/
+/*    resize: none !important; !* כופה את העלמת צ'ופצ'יק המתיחה *!*/
+/*    overflow: hidden;*/
+/*    outline: none;*/
+/*    font-family: inherit;*/
+/*    transform: translate(14px,-8px);*/
+/*}*/
+
+/*!* התאמה ספציפית למצב טקסט (הפקד של בלייזור) *!*/
+/*::deep textarea.inner-strawberry-input {*/
+/*    padding: 16px 5px;*/
+/*}*/
+
+/*!* התאמה ספציפית למצב תמונה (תגית ה-P) *!*/
+/*::deep p.inner-strawberry-input {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    margin: 0;*/
+/*    cursor: pointer;*/
+/*}*/
+/*!*עיצוב לתצוגה של תמונה על התות*!*/
+/*.strawberry-preview-img {*/
+/*    max-width: 80%;*/
+/*    max-height: 80%;*/
+/*    border-radius: 10px;*/
+/*    object-fit: contain;*/
+/*    transform: translate(14px, -8px);*/
+/*}*/
+
+
+/*!* הקופסה שמכילה את התוכן של הפריט עצמו  *!*/
+/*.item-box {*/
+/*    position: relative; !* כדי שהאייקונים יישארו בתוך התולעת  *!*/
+/*    cursor: grab; !* סמן של יד שמרמז שאפשר לגרור *!*/
+/*    width: 98px;*/
+/*    height: 73px;*/
+/*    !*רקע התמונה של גוף התולעת*!*/
+/*    background-image: url('svg/silkyBody.svg');*/
+/*    background-size: contain;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    !*הגדרות עיצוב לטקסט כך שיֵרֵד למטה*!*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+/*    white-space: normal;   !*מאפשר לטקסט לרדת שורה*!*/
+/*    word-wrap: break-word;  !*שובר מילים ארוכות אם צריך*!*/
+/*    line-height: 1.1; !*מצמצם מעט את הרווח שבין השורות*!*/
+/*    padding: 5px 10px; !* שומר שהטקסט לא יגע ממש בקבצוות של הצורה *!*/
+/*    font-weight: bold;*/
+/*    color: #333;*/
+/*}*/
+
+/*!* יד סגורה כשלוחצים פיזית על הפריט *!*/
+/*.item-box:active {*/
+/*    cursor: grabbing;*/
+/*}*/
+
+/*!* 2. המעטפת של האייקונים - מוסתרת כברירת מחדל *!*/
+/*.action-icons-overlay {*/
+/*    position: absolute;*/
+/*    bottom: 5px; !* מרחק קטן מהלמעלה של הפריט *!*/
+/*    right: 5px; !* מרחק קטן מהצד הימני של הפריט *!*/
+/*    display: flex;*/
+/*    gap: 5px; !* רווח בין אייקון לאייקון *!*/
+/*    opacity: 0; !* שקיפות 0 = מוסתר! *!*/
+/*    transition: opacity 0.3s ease; !* עושה שההופעה תהיה רכה ולא קופצנית *!*/
+/*    z-index: 10;*/
+/*}*/
+
+/*!* כשמרחפים על הפריט  *!*/
+/*.item-box:hover .action-icons-overlay {*/
+/*    opacity: 1;*/
+/*}*/
+
+/*!* 4עיצוב האייקונים מ-Figma *!*/
+/*.action-icon {*/
+/*    width:120%; */
+/*    height: 120%;*/
+/*    cursor: pointer;*/
+/*    padding: 3px;*/
+/*    transition: transform 0.2s ease, background-color 0.2s ease;*/
+/*}*/
+
+/*!* כשמרחפים ספציפית על אחד האייקונים, הוא קצת גדל *!*/
+/*.action-icon:hover {*/
+/*    background-color: white;*/
+/*    transform: scale(1.15);*/
+/*}*/
+
+/*!* המחלקה לתמונה האמיתית של הפריט (במקום ה-width=100) *!*/
+/*.worm-image {*/
+/*    width: 100px;*/
+/*    height: auto;*/
+/*    border-radius: 8px; !* מעגל קצת את הפינות של התמונה *!*/
+/*    object-fit: cover; !* מוודא שהתמונה לא נמעכת או נמתחת אם הפרופורציות שלה שונות *!*/
+/*}*/
+
+
+/*עיצוב הטבלה והאקורדיון*/
+/* המחלקה הראשית של הטבלה */
 .questions-table {
     width: 100%;
-    border-collapse: collapse;
+    /* שינוי חשוב: מפרידים גבולות כדי לאפשר פינות מעוגלות */
+    border-collapse: separate;
+    border-spacing: 0;
     text-align: right;
+    background-color: #ffffff;
+    /* מראה מודרני: פינות מעוגלות והצללה עדינה */
+    border-radius: 12px;
+    overflow: hidden; /* שומר שהצבע של השורות לא יפרוץ את הפינות המעוגלות */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #eaeaea;
 }
 
-/* עיצוב התאים בטבלה (גם כותרות th וגם תאים רגילים td) - מוסיף ריווח פנימי וגבול אפור עדין */
+/* עיצוב התאים בטבלה (גם כותרות th וגם תאים רגילים td) */
 .questions-table th, .questions-table td {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 18px 15px; /* ריווח נדיב יותר למראה "נושם" */
+    /* משאירים רק קו תחתון עדין במקום מסגרת שלמה */
+    border-bottom: 1px solid #f0f0f0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
 }
 
-/* צבע רקע אפרפר לשורת הכותרות העליונה של הטבלה */
+/* ביטול הקו התחתון בשורה האחרונה של הטבלה כדי שלא ייווצר קו כפול עם המסגרת */
+.questions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* צבע רקע לשורת הכותרות העליונה של הטבלה */
 .questions-table thead tr {
-    background-color: #94B65B;
+    background-color: #C5ECA5;
+    color: #131212; /* טקסט  */
+    font-weight: 600;
 }
-/* צבע רקע ירוק בהיר לשורות התוכן בטבלה */
+
+/* צבע רקע לשורות התוכן בטבלה */
 .questions-table tbody tr {
-    background-color: #E9FDD9; /* קוד של ירוק בהיר ועדין */
+    background-color: #E9FDD9;
+    transition: background-color 0.2s ease; /* מעבר צבע חלק */
+    cursor: pointer; /* סמן של "יד לחיצה" לכל שורת הכותרת (נגישות/שימושיות) */
 }
-/* עיצוב החץ של האקורדיון (הפתיחה/סגירה) - הופך את סמן העכבר לכף יד, מדגיש את הטקסט ומרחיק מעט שמאלה */
+
+/* אפקט מודרני ונגיש: כשהעכבר עובר על השורה היא משנה את צבעה  */
+.questions-table tbody tr:hover {
+    background-color: rgba(157, 242, 245, 0.5);
+}
+
+/* התא הגדול של האקורדיון שמתפרס על כל העמודות */
+.accordion-cell {
+    padding: 25px 15px;
+    /* מעבר צבעים רך באלכסון */
+    background-color: #C5ECA5;
+    border-bottom: 1px solid #E2E8F0;
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.03);
+}
+
+/* עיצוב החץ של האקורדיון (הפתיחה/סגירה) */
 .toggle-icon {
     cursor: pointer;
     font-weight: bold;
-    margin-left: 5px;
+    margin-left: 8px;
+    color: #4a5c2d; /* צבע כהה ומשתלב במקום שחור נוקשה */
+    transition: color 0.2s ease;
 }
+.toggle-icon:hover {
+    color: #000;
+}
+
 
 /* הגדרת הגודל של אימוג'י העלה */
 .leaf-icon {
@@ -50,59 +425,56 @@
 
 /* עיצוב לאייקון פח האשפה - הופך אותו לאדום, משנה את סמן העכבר ומגדיל אותו */
 .delete-icon {
-    color: red;
+    color: #ff4d4d; /* אדום קצת יותר רך ומודרני מ-'red' הרגיל */
     cursor: pointer;
     font-size: 20px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.delete-icon:hover {
+    color: #CC0000; /* אדום חזק יותר בריחוף (נגישות) */
+    transform: scale(1.15); /* גדל קצת במעבר עכבר כדי לבלוט */
 }
 
-/* התא הגדול של האקורדיון שמתפרס על כל העמודות - מוסיף ריווח פנימי ורקע טיפה שונה להבלטה */
-.accordion-cell {
-    padding: 15px;
-    background-color: #C5ECA5;
-}
-
-/* המיכל שעוטף את כל הפריטים יחד - הוא זה שדואג לפריסה האופקית המושלמת */
-.items-container {
+/* המכל שעוטף את כל הפריטים יחד - הוא זה שדואג לפריסה האופקית המושלמת */
+.items-container-wrapper {
     display: flex;
-    flex-direction: row; /* מסדר את הפריטים בשורה אופקית (ימינה-שמאלה) */
-    justify-content: center; /* ממורכז את כל שורת הפריטים באמצע התא */
-    gap: 20px; /* ריווח אופקי שווה וגדול יותר בין פריט לפריט */
-    align-items: flex-end; /* מיישר את כולם כלפי מטה כדי שהלייבלים לא יהרסו את הקו */
-    flex-wrap: wrap; /* אם יש המון פריטים שלא נכנסים במסך אחד, הוא יוריד אותם לשורה חדשה בצורה מסודרת */
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 /* עוטף כל פריט בודד (הלייבל + האליפסה שלו) כדי שהטקסט בתוכו יהיה ממורכז */
 .item-wrapper {
     text-align: center;
     display: flex;
-    flex-direction: column; /* שומר על כך שהלייבל יהיה מעל האליפסה */
+    flex-direction: column;
     align-items: center;
     margin-bottom: 25px;
 }
 
-/* עיצוב תגיות הקצה (ההתחלה והסוף) שמופיעות מעל הפריטים - טקסט מודגש, צבע אפור כהה וריווח קטן מלמטה */
+/* עיצוב תגיות הקצה (ההתחלה והסוף) שמופיעות מעל הפריטים */
 .item-label {
     font-weight: bold;
     color: #555;
     margin-bottom: 5px;
 }
 
-/* רווח שקוף (Spacer) לפריטים האמצעיים - שומר על גובה אחיד של הקופסאות גם כשאין מעליהן לייבל אמיתי */
+/* רווח שקוף (Spacer) לפריטים האמצעיים */
 .item-label-spacer {
     margin-bottom: 5px;
 }
 
-
-
 /* עיצוב לאייקון העריכה של הלייבלים (תגיות הקצה) */
- .edit-icon {
+.edit-icon {
     cursor: pointer;
     font-size: 16px;
-    margin-left: 5px; /* מרחיק את העיפרון מעט מהטקסט */
+    margin-left: 5px;
     color: #666;
 }
 .edit-icon:hover {
-    color: #000; /* מחשיך מעט את העיפרון כשעוברים עליו עם העכבר */
+    color: #000;
 }
 
 /* הקונטיינר שמחזיק את התות והאליפסות יחד בשורה אחת */
@@ -110,8 +482,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 0px; /* כדי להצמיד את חלקי הגוף */
-    overflow-x: auto; /* מאפשר גלילה אופקית למקרה שהתולעת תתארך מאוד */
+    gap: 0px;
+    overflow-x: auto;
     padding: 10px 0;
 }
 
@@ -120,11 +492,11 @@
     border: 2px dashed gray;
     border-radius: 15px;
     padding: 20px;
-    margin-left: 30px; /*מפריד בין אזור ההזנה לתולעת*/
-    width: fit-content; /*כדי שהטופס לא ימלא מקום מיותר*/
-    background-color: rgba(255, 255, 255, 0.4); /* ה-0.4 קובע את רמת השקיפות: 0 זה שקוף לגמרי, 1 זה אטום לגמרי */
-    
+    margin-left: 30px;
+    width: fit-content;
+    background-color: rgba(255, 255, 255, 0.4);
 }
+
 /* סידור האזור של המתג והטקסט לידו */
 .toggle-container {
     margin-bottom: 15px;
@@ -157,7 +529,7 @@
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 24px; /* יוצר פינות מעוגלות */
+    border-radius: 24px;
 }
 
 /* העיצוב של העיגול בתוך הטוגל */
@@ -175,7 +547,7 @@
 
 /* צבע הרקע כשהצ'קבוקס מסומן (True) */
 .toggle-checkbox:checked + .toggle-slider {
-    background-color: #4CAF50; /* צבע ירוק כשזה דלוק */
+    background-color: #4CAF50;
 }
 
 /* הזזת העיגול הצידה כשזה מסומן (True) */
@@ -185,7 +557,7 @@
 
 /* עיצוב הטקסט שליד הטוגל */
 .toggle-label {
-    margin-right: 10px; /* מרווח בין המתג לטקסט מימינו */
+    margin-right: 10px;
     font-weight: bold;
     color: #333;
 }
@@ -196,7 +568,6 @@
     height: 87px;
     justify-content: center;
     align-items: center;
-    /* הנתיב לתמונה נשאר אותו דבר (אלא אם שינית גם את שם קובץ ה-SVG עצמו) */
     background-image: url('svg/silkyHead.svg');
     background-size: contain;
     background-repeat: no-repeat;
@@ -208,7 +579,7 @@
 
 /* העטיפה של התות עצמו שמופיע כרקע */
 .strawberry-input-wrapper {
-    background-image: url('svg/strawberry.svg'); 
+    background-image: url('svg/strawberry.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: top center;
@@ -220,18 +591,17 @@
     padding: 15px;
 }
 
-/* עיצוב תיבת הטקסט שיושבת בתוך התות */
 /* העיצוב המשותף לשני הפקדים */
 ::deep .inner-strawberry-input {
     text-align: center;
     border: 1px solid #ccc;
     font-weight: bold;
-    border-radius: 8px !important; /* כופה את העיגול */
+    border-radius: 8px !important;
     background: #FFF;
     width: 97px;
     height: 71px;
     box-sizing: border-box;
-    resize: none !important; /* כופה את העלמת צ'ופצ'יק המתיחה */
+    resize: none !important;
     overflow: hidden;
     outline: none;
     font-family: inherit;
@@ -251,6 +621,7 @@
     margin: 0;
     cursor: pointer;
 }
+
 /*עיצוב לתצוגה של תמונה על התות*/
 .strawberry-preview-img {
     max-width: 80%;
@@ -260,27 +631,24 @@
     transform: translate(14px, -8px);
 }
 
-
 /* הקופסה שמכילה את התוכן של הפריט עצמו  */
 .item-box {
-    position: relative; /* כדי שהאייקונים יישארו בתוך התולעת  */
-    cursor: grab; /* סמן של יד שמרמז שאפשר לגרור */
+    position: relative;
+    cursor: grab;
     width: 98px;
     height: 73px;
-    /*רקע התמונה של גוף התולעת*/
     background-image: url('svg/silkyBody.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    /*הגדרות עיצוב לטקסט כך שיֵרֵד למטה*/
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    white-space: normal;   /*מאפשר לטקסט לרדת שורה*/
-    word-wrap: break-word;  /*שובר מילים ארוכות אם צריך*/
-    line-height: 1.1; /*מצמצם מעט את הרווח שבין השורות*/
-    padding: 5px 10px; /* שומר שהטקסט לא יגע ממש בקבצוות של הצורה */
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.1;
+    padding: 5px 10px;
     font-weight: bold;
     color: #333;
 }
@@ -290,15 +658,15 @@
     cursor: grabbing;
 }
 
-/* 2. המעטפת של האייקונים - מוסתרת כברירת מחדל */
+/* המעטפת של האייקונים - מוסתרת כברירת מחדל */
 .action-icons-overlay {
     position: absolute;
-    bottom: 5px; /* מרחק קטן מהלמעלה של הפריט */
-    right: 5px; /* מרחק קטן מהצד הימני של הפריט */
+    bottom: 5px;
+    right: 5px;
     display: flex;
-    gap: 5px; /* רווח בין אייקון לאייקון */
-    opacity: 0; /* שקיפות 0 = מוסתר! */
-    transition: opacity 0.3s ease; /* עושה שההופעה תהיה רכה ולא קופצנית */
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
     z-index: 10;
 }
 
@@ -307,9 +675,9 @@
     opacity: 1;
 }
 
-/* 4עיצוב האייקונים מ-Figma */
+/* עיצוב האייקונים מ-Figma */
 .action-icon {
-    width:120%; 
+    width:120%;
     height: 120%;
     cursor: pointer;
     padding: 3px;
@@ -322,10 +690,38 @@
     transform: scale(1.15);
 }
 
-/* המחלקה לתמונה האמיתית של הפריט (במקום ה-width=100) */
+/* המחלקה לתמונה האמיתית של הפריט */
 .worm-image {
     width: 100px;
     height: auto;
-    border-radius: 8px; /* מעגל קצת את הפינות של התמונה */
-    object-fit: cover; /* מוודא שהתמונה לא נמעכת או נמתחת אם הפרופורציות שלה שונות */
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* 
+   תוספות נגישות לעמידה בתקן WCAG 2.1
+   */
+
+/* פוקוס נגיש למקלדת (Tab) עבור כל האייקונים הלחיצים */
+.toggle-icon:focus-visible,
+.delete-icon:focus-visible,
+.edit-icon:focus-visible,
+.action-icon:focus-visible,
+.item-box:focus-visible {
+    outline: 3px solid #005FCC; /* כחול כהה עם ניגודיות תקנית */
+    outline-offset: 4px; /* מרחיק את המסגרת מהאלמנט */
+    border-radius: 4px; /* מעגל קצת את מסגרת הפוקוס */
+}
+
+/* חיווי ברור בעת הקלדה בתוך התות */
+::deep .inner-strawberry-input:focus {
+    outline: none; /* מסירים את הדיפולט של הדפדפן */
+    border: 2px solid #005FCC !important; /* מסגרת כחולה עבה */
+    box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2); /* הילה כחולה מסביב למראה רך */
+}
+
+/* העברת מסגרת הפוקוס מהצ'קבוקס המוסתר אל הרקע של המתג הנראה */
+.toggle-checkbox:focus-visible + .toggle-slider {
+    outline: 3px solid #005FCC;
+    outline-offset: 3px;
 }
