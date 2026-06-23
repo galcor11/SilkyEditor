@@ -223,7 +223,7 @@ else
     <GenericDeletePopup OnUserConfirm="ConfirmDelete">
 
         <h2>אוי לא!</h2>
-        <p>האם אתה בטוח שברצונך למחוק את התמונה הזו מהתולעת?</p>
+        <p>בטוח שברצונך למחוק את התמונה הזו מהתולעת?</p>
         <img src="uploadedFiles/@itemToDelete.content" width="100" style="border-radius: 8px; margin: 10px 0;" />
 
     </GenericDeletePopup>
@@ -250,13 +250,13 @@ else
 // הפונקציה שמקבלת את "הצלצול" מהקומפוננטה
     void ConfirmDelete(bool isConfirmed)
     {
-        // אם המשתמשת לחצה על "מחיקה" (הגיע true)
+        // אם המשתמש לחץ על "מחיקה" (הגיע true)
         if (isConfirmed == true)
         {
             ExecuteDeletion(itemToDelete); // שולחים את הפריט לפונקציית המחיקה מול השרת
         }
 
-        // בכל מקרה (גם אם לחצה לא, וגם אחרי מחיקה), אנחנו סוגרים את הפופ-אפ ומנקים את המשתנה
+        // בכל מקרה  אנחנו סוגרים את הפופ-אפ ומנקים את המשתנה
         showDeletePopup = false;
         itemToDelete = null;
     }
@@ -277,19 +277,49 @@ else
         }
     }
 
-//  פונקציית המחיקה האמיתית מול השרת 
-    void ExecuteDeletion(SilkyItem item)
+    
+    //פונקציה א-סינכרונית שמטפלת במחיקת פריט ופונה לקונטרולר של המחיקה
+    async Task ExecuteDeletion(SilkyItem item) 
     {
-        // כאן יהיה קוד המחיקה מול השרת
+        //  אם מדובר בתמונה, אנחנו קודם כול מוחקים את התמונה עצמה 
+        if (item.isImage == true)
+        {
+            List<string> imageToDelete = new List<string>();
+            imageToDelete.Add(item.content); 
+        
+            var deleteImageRes = await Http.PostAsJsonAsync("api/Media/deleteImages", imageToDelete);
+        
+            if (deleteImageRes.IsSuccessStatusCode == false)
+            {
+                errorMsg = "שגיאה במחיקת קובץ התמונה מהשרת";
+            }
+        }
+        // אנחנו מוחקים את הפריט מבסיס הנתונים 
+        var deleteDbRes = await Http.DeleteAsync("api/Questions/deleteItem/" + item.answerID); 
+
+        // כדי להסיר מהתצוגה 
+        if (deleteDbRes.IsSuccessStatusCode == true) 
+        { 
+            // לולאת FOREACH שעוברת לנו על כל השאלות במשחק כדי למצוא איפה הפריט נמצא 
+                foreach (var question in gameData.Questions)
+                {
+                    // אם השאלה הנוכחית מכילה את הפריט שאנחנו רוצים למחוק
+                    if (question.Items.Contains(item))
+                    {
+                        // אנחנו מסירים אותו מהרשימה הפנימית של השאלה הזו 
+                        question.Items.Remove(item);
+                        break; 
+                    }
+                }
+            
+                errorMsg = "הפריט נמחק בהצלחה!"; 
+        }
+        else 
+        {
+            errorMsg = deleteDbRes.Content.ReadAsStringAsync().Result; 
+        }
     }
     
-    
-    
-    
-    
-    
-    
-
 // פונקציה לפתיחה ולסגירה של האקורדיון בטבלה
     void ToggleAccordion(int questionId)
     {
