@@ -247,6 +247,69 @@ public async Task<IActionResult> AddSilkyItem(int authUserId,  SilkyItemToAdd it
     return Unauthorized("user is not authenticated");
 }
 
+      // שיטת מחיקה שתפקידה למחוק פריט בודד מגוף התולעת מתוך טבלת הפריטים שבבסיס הנתונים 
+        [HttpDelete("deleteItem/{itemId}")]
+        public async Task<IActionResult> DeleteItem(int authUserId, int itemId)
+        {
+            // בדיקה שהמשתמש מחובר למערכת
+            if (authUserId > 0)
+            {
+                //  אנחנו שולפים את ה-questionID של הפריט כדי לדעת לאיזו שאלה הוא שייך 
+                object itemOwnerParam = new { ItemId = itemId };
+                string getQuestionQuery = "SELECT questionID FROM Items WHERE answerID = @ItemId"; 
+                var questionRecords = await _db.GetRecordsAsync<int>(getQuestionQuery, itemOwnerParam);
+                int questionId = questionRecords.FirstOrDefault();
+
+                // אם הפריט נמצא ויש לו שאלה מקושרת
+                if (questionId > 0)
+                {
+                    // אנחנו שולפים את ה-gameID של השאלה כדי לדעת לאיזה משחק היא שייכת 
+                    object qParam = new { QId = questionId };
+                    string getGameQuery = "SELECT gameID FROM Questions WHERE questionID = @QId";
+                    var gameRecords = await _db.GetRecordsAsync<int>(getGameQuery, qParam);
+                    int gameId = gameRecords.FirstOrDefault();
+
+                    // אם השאלה נמצאה ויש לה משחק מקושר
+                    if (gameId > 0)
+                    {
+                        //  בודקים אם המשחק שייך למשתמש המחובר 
+                        object authParam = new { GId = gameId, UId = authUserId };
+                        string authQuery = "SELECT gameID FROM Games WHERE gameID = @GId AND userID = @UId";
+                        var authRecords = await _db.GetRecordsAsync<int>(authQuery, authParam);
+                        int isOwner = authRecords.FirstOrDefault();
+
+                        // אם המשחק אכן שייך למשתמש
+                        if (isOwner > 0)
+                        {
+                            // אובייקט הפרמטרים למחיקה
+                            object itemParam = new { ItemId = itemId };
+
+                            // שאילתת SQL שמוחקת לנו את הפריט הספציפי מטבלת Items 
+                            string deleteQuery = "DELETE FROM Items WHERE answerID=@ItemId"; 
+                
+                            // ביצוע הפעולה מול בסיס הנתונים ושמירת מספר השורות שהושפעו
+                            int isDeleted = await _db.SaveDataAsync(deleteQuery, itemParam);
+
+                            // בדיקה אם המחיקה הצליחה 
+                            if (isDeleted > 0)
+                            {
+                                return Ok(); 
+                            }
+                
+                            return BadRequest("Delete Failed"); 
+                        }
+                        return BadRequest("It's Not Your Game");
+                    }
+                    return BadRequest("Game not found");
+                }
+                return BadRequest("Item not found"); 
+            }
+            return Unauthorized("user is not authenticated");
+        }
+
+
+
+
 
 
     }
