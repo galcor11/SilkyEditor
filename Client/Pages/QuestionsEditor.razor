@@ -255,10 +255,11 @@ else
     // משתנה בוליאני שפתחנו לצורך התצוגה של הטוסט
     bool showToast = false;
 
-    // הפונקציה שתופעל כשהקומפוננטה "תצלצל בפעמון" (לחיצה על X)
-    void HideToast()
+    // הפונקציה שמקבלת את ה"צלצול" ומאפשרת לסגור את הטוסט
+    void HideToast(bool isClosed)
     {
         showToast = false;
+        StateHasChanged(); 
     }
 // הפונקציה שמקבלת את "הצלצול" מהקומפוננטה
     void ConfirmDelete(bool isConfirmed)
@@ -328,7 +329,7 @@ else
             //עדכון הטוסט (גילינו בחקירה עצמית)
             errorMsg = ""; 
             showToast = true; // מדליקים את הטוסט
-            StateHasChanged(); // מודיעים ל-Blazor לרענן את המסך מייד כדי שהטוסט יופיע
+            StateHasChanged(); //פונקציית רענון שגילינו בחקירה עצמית
 
             await Task.Delay(10000); // השהייה של 10 שניות 
 

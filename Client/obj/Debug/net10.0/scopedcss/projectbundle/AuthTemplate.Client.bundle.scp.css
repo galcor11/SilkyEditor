@@ -90,7 +90,9 @@
     padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 1000;
+    z-index: 99999999;
+    pointer-events: auto; /* מוודא ששום אלמנט עוטף לא מונע ממנו לקבל קליקים של עכבר */
+
     display: flex;
     align-items: center;
     gap: 20px;
