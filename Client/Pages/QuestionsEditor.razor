@@ -139,62 +139,77 @@
                                 {
                                     @* משתנה עזר שפתחנו כדי לשמור את הפריט הנוכחי *@
                                     var currentItemForAction = question.Items[i];
- 
                                     
-                                    
-                                    <div class="item-wrapper">
-                                        @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
-                                        @if (i == 0)
-                                        {
-                                            <div class="item-label">
-                                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
-                                                @question.startLabel
-                                            </div>
-                                        }
-                                        else if (i == itemsCount - 1)
-                                        {
-                                            <div class="item-label">
-                                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
-                                                @question.endLabel
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="item-label-spacer">&nbsp;</div>
-                                        }
+                                 <div class="item-wrapper">
+    @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
+    @if (i == 0)
+    {
+        <div class="item-label">
+            <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
+            @question.startLabel
+        </div>
+    }
+    else if (i == itemsCount - 1)
+    {
+        <div class="item-label">
+            <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
+            @question.endLabel
+        </div>
+    }
+    else
+    {
+        <div class="item-label-spacer">&nbsp;</div>
+    }
 
-                                        <div class="item-box">
-                                            <!-- אזור האייקונים שלנו שמופיעים בריחוף -->
-                                            <div class="action-icons-overlay">
+    @* כדי שהחצים והקופסה ישבו באותה שורה *@
+    <div style="display: flex; align-items: center;">
 
-                                                @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
-                                                @if (question.Items[i].isImage == true)
-                                                {
-                                                    <!-- אייקון זכוכית מגדלת המפעיל את הפופ-אפ עם פונקציית חץ  -->
-                                                    <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)" />
+        @*  חץ ימינה - מקרב לראש התולעת (מקטין אינדקס). מופיע רק אם זה לא הפריט הראשון  *@
+        @if (i > 0)
+        {
+            @* שימוש בפונקציית חץ להעברת הפריט הנוכחי לשיטה  *@
+            <button type="button" class="arrow-btn" @onclick="() => MoveRight(currentItemForAction, question.Items)">➡</button>
+        }
 
-                                                }
+        <div class="item-box">
+            <!-- אזור האייקונים שלנו שמופיעים בריחוף -->
+            <div class="action-icons-overlay">
 
-                                                <!-- אייקון עיפרון לעריכה -->
-                                                <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
+                @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
+                @if (question.Items[i].isImage == true)
+                {
+                    <!-- אייקון זכוכית מגדלת המפעיל את הפופ-אפ עם פונקציית חץ  -->
+                    <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)" />
+                }
 
-                                                <!-- אייקון פח למחיקה -->
-                                                <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
+                <!-- אייקון עיפרון לעריכה -->
+                <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
 
-                                            </div>
+                <!-- אייקון פח למחיקה -->
+                <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
 
-                                            <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
-                                            @if (question.Items[i].isImage == false)
-                                            {
-                                                @question.Items[i].content
-                                            }
-                                            else
-                                            {
-                                                @*  אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה  *@
-                                                <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
-                                            }
-                                        </div>
-                                    </div>
+            </div>
+
+            <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
+            @if (question.Items[i].isImage == false)
+            {
+                @question.Items[i].content
+            }
+            else
+            {
+                @* אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה *@
+                <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
+            }
+        </div>
+
+        @*  חץ שמאלה - מרחיק מראש התולעת (מגדיל אינדקס). מופיע רק אם זה לא הפריט האחרון *@
+        @if (i < itemsCount - 1)
+        {
+            <button type="button" class="arrow-btn" @onclick="() => MoveLeft(currentItemForAction, question.Items)">⬅</button>
+        }
+
+    </div>
+</div>
                                 }
                             </div>
                         </td>
@@ -693,6 +708,46 @@ else
             string error = insertResponse.Content.ReadAsStringAsync().Result;
         }
     }
+    
+    // פונקציה שאחראית לגרור את הפריט ימינה (התקרבות לראש התולעת = אינדקס קטן יותר)
+    // הפונקציה מקבלת עכשיו גם את הפריט וגם את הרשימה עצמה 
+    void MoveRight(SilkyItem item, List<SilkyItem> currentList)
+    {
+        // מחפשים את המיקום של הפריט בתוך הרשימה הספציפית שקיבלנו 
+        int index = currentList.IndexOf(item);
+        
+        if (index > 0) 
+        {
+            var temp = currentList[index - 1];
+            currentList[index - 1] = item;
+            currentList[index] = temp;
+        }
+    }
+
+    // פונקציה שאחראית לגרור את הפריט שמאלה (התרחקות מראש התולעת = אינדקס גדול יותר)
+    void MoveLeft(SilkyItem item, List<SilkyItem> currentList)
+    {
+        int index = currentList.IndexOf(item);
+        
+        if (index < currentList.Count - 1) 
+        {
+            var temp = currentList[index + 1];
+            currentList[index + 1] = item;
+            currentList[index] = temp;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     //פונקציה שמופעלת בעת לחיצה על העיפרון שעל גוף התולעת. בעת לחיצה על העיפרון התוכן של הפריט "משוכפל" ומופיע גם על התות שבצד ימין
     void EditItem(SilkyItem itemToEdit)
