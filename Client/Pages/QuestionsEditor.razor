@@ -360,30 +360,41 @@ else
     // פונקציה שמופעלת בלחיצה על כפתור "אישור" הראשי
     async Task ConfirmNewQuestion()
     {
-//בדיקת תקינוּת         
+        //בדיקת תקינוּת         
         if (string.IsNullOrWhiteSpace(questionToAdd.instruction))
         {
             errorMsg = "יש להזין הנחיה לשאלה";
             return;
         }
 
-        //אנחנו קוראים לשיטת העדכון בקונטרולר שמטפלת בהוספת שאלה
+        // קריאה לשיטת העדכון בקונטרולר שמטפלת בהוספת שאלה
         var addRes = await Http.PostAsJsonAsync("api/Questions/addQuestion", questionToAdd);
 
+        // אם הקריאה הצליחה
         if (addRes.IsSuccessStatusCode == true)
         {
-            // קריאת השאלה החדשה שחזרה מהשרת 
+            //  קריאת השאלה החדשה שחזרה מהשרת 
             var createdQuestion = addRes.Content.ReadFromJsonAsync<Question>().Result;
-                //מאחר שבפעם הראשונה הרשימה היא NULL, אנחנו נמנעים ממצב שבו נרצה להוסיף שאלה לתוך NULL
+            
+            //  שכבת הגנה ראשונה (לפריטים של השאלה החדשה)
+            if (createdQuestion.Items == null)
+            {
+                // אתחול רשימת הפריטים
+                createdQuestion.Items = new List<SilkyItem>(); 
+            }
+
+            //  שכבת הגנה שנייה (לשאלות של המשחק)
+            // מאחר שבפעם הראשונה הרשימה היא NULL, אנחנו נמנעים ממצב שבו נרצה להוסיף שאלה לתוך NULL
             if (gameData.Questions == null)
             {
-                //מאתחל את הרשימה
+                // מאתחל את הרשימה
                 gameData.Questions = new List<Question>(); 
             }
-            // הוספת השאלה החדשה לרשימה 
+            
+            //  הוספת השאלה החדשה לרשימה 
             gameData.Questions.Add(createdQuestion);
 
-            // סגירת שורת ההוספה והעלמת הודעות שגיאה
+            //  סגירת שורת ההוספה והעלמת הודעות שגיאה
             isAddingQuestion = false;
             errorMsg = "";
         }
@@ -392,8 +403,6 @@ else
             errorMsg = "שגיאה ביצירת השאלה בשרת";
         }
     }
-
-
 
 
 
