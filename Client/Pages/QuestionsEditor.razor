@@ -14,7 +14,7 @@
     <h1>@gameData.gameName</h1>
 
     @* בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה *@
-    @if (gameData.Questions.Count > 0)
+    @if (gameData.Questions != null && gameData.Questions.Count > 0)
     {
         <table class="questions-table">
             <thead>
@@ -206,7 +206,7 @@
         @* כפתור המשני שפותח את חלונית ההוספה *@
         @if (isAddingQuestion == false)
         {
-            @* קוראים לקומפוננטה ומעבירים לה את כל הפרמטרים שהגדרת  *@
+            @* קוראים לקומפוננטה ומעבירים לה את כל הפרמטרים *@
             <MyButton ButtonStyle="secondary"
                       ButtonText="+ ליצור שאלה"
                       OnClickAction="StartAddingQuestion" />
@@ -217,14 +217,14 @@
         {
             <div class="new-question-row">
                 @* תיבת טקסט להזנת ההנחיה *@
-                <input type="text" @bind="questionToAdd.instruction" maxlength="20" placeholder="הקלידי הנחיה (עד 20 תווים)..." />
+                <input type="text" @bind="questionToAdd.instruction" maxlength="20" placeholder="הקלידו הנחיה (עד 20 תווים)..." />
 
-                @* כפתור האישור הראשי המעוצב שלך *@
+                @* כפתור האישור הראשי המעוצב *@
                 <MyButton ButtonStyle="primary"
                           ButtonText="אישור"
                           OnClickAction="ConfirmNewQuestion" />
             </div>
-        } @* <--- כאן הוספתי את הסוגר שהיה חסר! *@
+        } 
 
         @if (showQuestionDeletePopup)
         {
@@ -374,7 +374,12 @@ else
         {
             // קריאת השאלה החדשה שחזרה מהשרת 
             var createdQuestion = addRes.Content.ReadFromJsonAsync<Question>().Result;
-
+                //מאחר שבפעם הראשונה הרשימה היא NULL, אנחנו נמנעים ממצב שבו נרצה להוסיף שאלה לתוך NULL
+            if (gameData.Questions == null)
+            {
+                //מאתחל את הרשימה
+                gameData.Questions = new List<Question>(); 
+            }
             // הוספת השאלה החדשה לרשימה 
             gameData.Questions.Add(createdQuestion);
 
