@@ -410,3 +410,20 @@
     outline: 3px solid #005FCC;
     outline-offset: 3px;
 }
+
+/* עיצוב כפתורי החצים  שלנו */
+.arrow-btn {
+    background-color: transparent; /* רקע שקוף */
+    border: none; /* הסרת המסגרת הרגילה של כפתור */
+    font-size: 22px; /* גודל החץ */
+    cursor: pointer; /* סמן של כף יד ברחיפה */
+    color: #ff9800; /* צבע כתום */
+    padding: 0 5px;
+    transition: transform 0.2s ease, color 0.2s ease; /* אנימציה חלקה לגדילה */
+}
+
+/* אפקט ריחוף עכבר: החץ גדל ונהיה כתום כהה יותר */
+.arrow-btn:hover {
+    transform: scale(1.3); /* הגדלה ב-30% */
+    color: #e65100; /* כתום כהה יותר */
+}
