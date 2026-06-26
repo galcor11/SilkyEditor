@@ -765,6 +765,48 @@
 .not-allowed-cursor[b-0ine4pvf37] {
     cursor: not-allowed;
 }
+
+
+/* המכל שעוטף את הטבלה ויוצר את הגלילה */
+.table-scroll-container[b-0ine4pvf37] {
+    width: 95%; /* רספונסיביות - תופס כמעט את כל רוחב העמוד  */
+    max-width: 1200px; /* מונע מהטבלה להימתח מדי במסכּים רחבים */
+    max-height: 60vh; /* גובה יחסי רספונסיבי התופס כ-60% מגובה המסך */
+    overflow-y: auto; /* מוסיף פס גלילה אנכי רק כשהתוכן חורג מהגובה */
+    direction: ltr; /* מעביר את פס הגלילה לצד ימין */
+    margin: 0 auto; /* ממרכז את הקונטיינר באמצע העמוד */
+    border: 1px solid #e0e0e0; /* מסגרת עדינה מסביב לכל האזור */
+    border-radius: 8px;
+}
+
+/*  מחזיר את הטבלה הפנימית לעברית (בגלל שהפכנו את המכל לאנגלית) */
+.table-scroll-container .questions-table[b-0ine4pvf37] {
+    direction: rtl;
+    width: 100%;
+}
+
+/*  עיצוב פס הגלילה עצמו */
+/* העובי של פס הגלילה */
+.table-scroll-container[b-0ine4pvf37]::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* הרקע של פס הגלילה */
+.table-scroll-container[b-0ine4pvf37]::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+/* המילוי של פס הגלילה */
+.table-scroll-container[b-0ine4pvf37]::-webkit-scrollbar-thumb {
+    background: #ff8c00; /* כתום תואם לכפתור הראשי */
+    border-radius: 4px;
+}
+
+/* אפקט בעת ריחוף עם העכבר על פס הגלילה */
+.table-scroll-container[b-0ine4pvf37]::-webkit-scrollbar-thumb:hover {
+    background: #e67e22;
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .content[b-4ffzppdsc7]{
     padding: 1rem;
