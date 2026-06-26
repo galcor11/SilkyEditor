@@ -201,7 +201,7 @@ public async Task<IActionResult> AddQuestion([FromBody] QuestionToAdd questionTo
         return BadRequest("יש להזין הנחיה לשאלה");
     }
 
-    // 2. הכנת האובייקט לשאילתת ההוספה נטו לפי חומרי הקורס
+    //  הכנת האובייקט לשאילתת ההוספה נטו לפי חומרי הקורס
     object insertParam = new {
         instruction = questionToAdd.instruction,
         gameID = questionToAdd.gameID,

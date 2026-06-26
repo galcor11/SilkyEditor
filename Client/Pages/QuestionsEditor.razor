@@ -161,54 +161,51 @@
         <div class="item-label-spacer">&nbsp;</div>
     }
 
-    @* כדי שהחצים והקופסה ישבו באותה שורה *@
-    <div style="display: flex; align-items: center;">
+                                     @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו אחד מתחת לשני *@
+                                     <div style="display: flex; flex-direction: column; align-items: center;">
 
-        @*  חץ ימינה - מקרב לראש התולעת (מקטין אינדקס). מופיע רק אם זה לא הפריט הראשון  *@
-        @if (i > 0)
-        {
-            @* שימוש בפונקציית חץ להעברת הפריט הנוכחי לשיטה  *@
-            <button type="button" class="arrow-btn" @onclick="() => MoveRight(currentItemForAction, question.Items)">➡</button>
-        }
+                                         <div class="item-box">
+                                             <div class="action-icons-overlay">
 
-        <div class="item-box">
-            <!-- אזור האייקונים שלנו שמופיעים בריחוף -->
-            <div class="action-icons-overlay">
+                                                 @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
+                                                 @if (question.Items[i].isImage == true)
+                                                 {
+                                                     <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)" />
+                                                 }
 
-                @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
-                @if (question.Items[i].isImage == true)
-                {
-                    <!-- אייקון זכוכית מגדלת המפעיל את הפופ-אפ עם פונקציית חץ  -->
-                    <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)" />
-                }
+                                                 <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
 
-                <!-- אייקון עיפרון לעריכה -->
-                <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
+                                                 <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
 
-                <!-- אייקון פח למחיקה -->
-                <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
+                                             </div>
 
-            </div>
+                                             @if (question.Items[i].isImage == false)
+                                             {
+                                                 @question.Items[i].content
+                                             }
+                                             else
+                                             {
+                                                 @* אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה *@
+                                                 <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
+                                             }
+                                         </div>
 
-            <!-- תנאי שבודק איזה סוג פריט יש לנו על גוף התולעת -->
-            @if (question.Items[i].isImage == false)
-            {
-                @question.Items[i].content
-            }
-            else
-            {
-                @* אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה *@
-                <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
-            }
-        </div>
+                                         @* אזור החיצים שיושב מתחת לקופסה בשורה נפרדת *@
+                                         <div style="display: flex;">
+                                             @* חץ ימינה - מקרב לראש התולעת (מקטין אינדקס). מופיע רק אם זה לא הפריט הראשון  *@
+                                             @if (i > 0)
+                                             {
+                                                 <button type="button" class="arrow-btn" @onclick="() => MoveRight(currentItemForAction, question.Items)">➡</button>
+                                             }
 
-        @*  חץ שמאלה - מרחיק מראש התולעת (מגדיל אינדקס). מופיע רק אם זה לא הפריט האחרון *@
-        @if (i < itemsCount - 1)
-        {
-            <button type="button" class="arrow-btn" @onclick="() => MoveLeft(currentItemForAction, question.Items)">⬅</button>
-        }
+                                             @* חץ שמאלה - מרחיק מראש התולעת (מגדיל אינדקס). מופיע רק אם זה לא הפריט האחרון *@
+                                             @if (i < itemsCount - 1)
+                                             {
+                                                 <button type="button" class="arrow-btn" @onclick="() => MoveLeft(currentItemForAction, question.Items)">⬅</button>
+                                             }
+                                         </div>
 
-    </div>
+                                     </div>
 </div>
                                 }
                             </div>
@@ -711,33 +708,69 @@ else
     
     // פונקציה שאחראית לגרור את הפריט ימינה (התקרבות לראש התולעת = אינדקס קטן יותר)
     // הפונקציה מקבלת עכשיו גם את הפריט וגם את הרשימה עצמה 
-    void MoveRight(SilkyItem item, List<SilkyItem> currentList)
+    async Task MoveRight(SilkyItem item, List<SilkyItem> currentList)
     {
-        // מחפשים את המיקום של הפריט בתוך הרשימה הספציפית שקיבלנו 
+        //מחפשים את המיקום הנוכחי של הפריט מתוך הרשימה
         int index = currentList.IndexOf(item);
         
         if (index > 0) 
         {
             var temp = currentList[index - 1];
+            
+            // החלפה מקומית כדי שהמשתמש ייראה את התוצאה מייד על המסך
             currentList[index - 1] = item;
             currentList[index] = temp;
+
+            // אנחנו קוראים לפונקציית השמירה לשני הפריטים שהחליפו מקום
+            await SaveItemOrderToServer(item, index - 1);
+            await SaveItemOrderToServer(temp, index);
         }
     }
 
-    // פונקציה שאחראית לגרור את הפריט שמאלה (התרחקות מראש התולעת = אינדקס גדול יותר)
-    void MoveLeft(SilkyItem item, List<SilkyItem> currentList)
+    // גרירה שמאלה (מרחיק מראש התולעת = מגדיל אינדקס)
+    async Task MoveLeft(SilkyItem item, List<SilkyItem> currentList)
     {
         int index = currentList.IndexOf(item);
         
         if (index < currentList.Count - 1) 
         {
             var temp = currentList[index + 1];
+            
+            // החלפה מקומית על המסך
             currentList[index + 1] = item;
             currentList[index] = temp;
+
+            // אנחנו קוראים לפונקציית השמירה לשני הפריטים
+            await SaveItemOrderToServer(item, index + 1);
+            await SaveItemOrderToServer(temp, index);
         }
     }
     
+    // פונקציית עזר שמעדכנת מול הקונטרולר את הסדר הֶחדש של פריט בודד 
+    async Task SaveItemOrderToServer(SilkyItem itemToSave, int newIndex)
+    {
+        //מופע שמכיל את הפריט המעודכן
+        SilkyItemToUpdate itemToUpdate = new SilkyItemToUpdate
+        {
+            content = itemToSave.content,     
+            isImage = itemToSave.isImage,
+            orderIndex = newIndex                  
+        };
+
+        // שליחת המידע לשרת עם שרשור מחרוזות תקני
+        var updateRes = await Http.PostAsJsonAsync("api/Questions/updateItem/" + itemToSave.answerID, itemToUpdate);
+
+        // בדיקה אם העדכון נכשל
+        if (updateRes.IsSuccessStatusCode == false)
+        {
+            errorMsg = "שגיאה בשמירת הסדר החדש בשרת";
+        }
+        else
+        {
+            errorMsg = "";
     
+        }
+    }
     
     
     
