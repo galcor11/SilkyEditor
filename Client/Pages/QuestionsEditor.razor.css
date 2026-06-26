@@ -427,3 +427,40 @@
     transform: scale(1.3); /* הגדלה ב-30% */
     color: #e65100; /* כתום כהה יותר */
 }
+
+/* עיצוב שורת ההוספה החדשה בטבלה */
+.new-question-row {
+    background-color: #f9f9f9;
+}
+
+/* עיצוב שדה הקלט של ההנחיה */
+.instruction-input {
+    width: 100%; /* מתפרס על כל התא - רספונסיבי */
+    max-width: 300px; /* חוסם את ההתרחבות במסכּים גדולים כדי להתאים ל-20 תווים */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* אִפְרוּר וביטול הלחיצות על התולעת */
+.disabled-area {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(50%);
+}
+
+/* עיצוב המרווח לכפתור המשני מתחת לטבלה */
+.add-button-wrapper {
+    margin-top: 15px;
+}
+/* מאגד את תיבת הטקסט וכפתור האישור לאותה שורה צמודה */
+.input-action-wrapper {
+    display: flex;
+    gap: 15px; /* המרווח המדויק בין תיבת הטקסט לכפתור */
+    align-items: center; /* יישור לאמצע הגובה */
+}
+
+/* מחלקה עוטפת שיוצרת את סמן העכבר חסום */
+.not-allowed-cursor {
+    cursor: not-allowed;
+}

@@ -12,10 +12,7 @@
 @if (gameData != null)
 {
     <h1>@gameData.gameName</h1>
-
-    @* בדיקה נוספת כדי לוודא שאכן יש שאלות בתוך הרשימה *@
-    @if (gameData.Questions != null && gameData.Questions.Count > 0)
-    {
+    
         <table class="questions-table">
             <thead>
             <tr>
@@ -25,8 +22,59 @@
             </tr>
             </thead>
             <tbody>
-            @* לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות *@
-            @foreach (Question question in gameData.Questions)
+            @* בשביל שורת ההוספה *@
+            @if (isAddingQuestion == true)
+            {
+                @* שורה 1: הזנת הטקסט וכפתור האישור מאוחדים יחד באותו תא *@
+                <tr class="new-question-row">
+                    <td colspan="3">
+                        <div class="input-action-wrapper">
+                            @* תיבת טקסט המקושרת למודל ומיישמת הגבלת תווים *@
+                            <input type="text" class="instruction-input" @bind="questionToAdd.instruction" maxlength="20" placeholder="הקלידו הנחיה (עד 20 תווים)..." />
+
+                            @* שימוש בקומפוננטה *@
+                            <MyButton ButtonStyle="primary"
+                                      ButtonText="אישור"
+                                      OnClickAction="ConfirmNewQuestion" />
+                        </div>
+                    </td>
+                </tr>
+
+                @* שורה 2: תצוגת דמה של התולעת הממתינה במצב חסום *@
+                <tr class="not-allowed-cursor">
+                    <td colspan="3" class="accordion-cell">
+                        <div class="items-container disabled-area">
+                            <!-- תצוגת "דמה" של התות (כדי שהמשתמש יראה מה מחכה לו) -->
+                            <div class="strawberry-container">
+                                <h3>הוספת פריט</h3>
+
+                                <div class="strawberry-input-wrapper">
+                                    <textarea placeholder="הקלידו כאן..." class="inner-strawberry-input" disabled></textarea>
+                                </div>
+
+                                <!-- אזור הטוגל המעוצב (דמה) -->
+                                <div class="toggle-container">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" disabled class="toggle-checkbox" />
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span class="toggle-label">תמונה</span>
+                                </div>
+
+                                <button type="button" disabled>אישור</button>
+                            </div>
+
+                            <!-- ראש התולעת הריק שמחכה לפריטים -->
+                            <div class="silky-head"></div>
+                        
+                        </div>
+                    </td>
+                </tr>  
+            }
+                
+        
+                @* לולאת FOREACH שעוברת לנו על כל שאלה ברשימת השאלות *@
+                @foreach (Question question in gameData.Questions)
             {
                 int itemsCount = question.Items.Count;
 
@@ -71,22 +119,22 @@
                                     else
                                     {
                                         <h3>הוספת פריט</h3>
-                                    } 
-                                    
+                                    }
+
 
                                     <!-- פתיחת הטופס והגדרת הפונקציה שתפעל בשליחה -->
                                     <EditForm Model="currentStrawberryItem" OnValidSubmit="() => HandleStrawberrySubmit(question)">
 
                                         <!--  הפעלת ולידציות -->
-                                        <DataAnnotationsValidator />
+                                        <DataAnnotationsValidator/>
                                         <!-- תנאי שקובע מה יוצג בהתאם לטוגל -->
                                         @if (currentStrawberryItem.isImage == false)
                                         {
                                             @* מצב טקסט: תיבת הטקסט במרכז התות *@
                                             <div class="strawberry-input-wrapper">
-                                                <InputTextArea @bind-Value="currentStrawberryItem.content" placeholder="הקלידו כאן..." class="inner-strawberry-input" maxlength="30" />
+                                                <InputTextArea @bind-Value="currentStrawberryItem.content" placeholder="הקלידו כאן..." class="inner-strawberry-input" maxlength="30"/>
                                             </div>
-                                            <ValidationMessage For="@(() => currentStrawberryItem.content)" />
+                                            <ValidationMessage For="@(() => currentStrawberryItem.content)"/>
                                         }
                                         else
                                         {
@@ -101,18 +149,18 @@
                                                 else
                                                 {
                                                     @* אם יש תמונה, אנחנו מציגים אותה על התות *@
-                                                    <img src="uploadedFiles/@currentStrawberryItem.content" class="strawberry-preview-img" />
+                                                    <img src="uploadedFiles/@currentStrawberryItem.content" class="strawberry-preview-img"/>
                                                 }
                                             </div>
 
                                             @* פקד מוסתר להעלאת הקובץ האמיתי  *@
-                                            <InputFile id="FileInputID" OnChange="UploadFile" hidden />
+                                            <InputFile id="FileInputID" OnChange="UploadFile" hidden/>
                                         }
-                                        
+
                                         <!-- אזור הטוגל המעוצב -->
                                         <div class="toggle-container">
                                             <label class="toggle-switch">
-                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" @onclick="ClearContent" class="toggle-checkbox" />
+                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" @onclick="ClearContent" class="toggle-checkbox"/>
 
                                                 <span class="toggle-slider"></span>
                                             </label>
@@ -127,86 +175,86 @@
                                         {
                                             <button type="submit">אישור</button>
                                         }
-                                        
+
                                     </EditForm>
 
                                 </div>
-                                
+
                                 <div class="silky-head"></div>
-                                
+
                                 @* לולאת FOR שמייצרת את גוף התולעת *@
                                 @for (int i = 0; i < itemsCount; i++)
                                 {
                                     @* משתנה עזר שפתחנו כדי לשמור את הפריט הנוכחי *@
                                     var currentItemForAction = question.Items[i];
-                                    
-                                 <div class="item-wrapper">
-    @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
-    @if (i == 0)
-    {
-        <div class="item-label">
-            <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
-            @question.startLabel
-        </div>
-    }
-    else if (i == itemsCount - 1)
-    {
-        <div class="item-label">
-            <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
-            @question.endLabel
-        </div>
-    }
-    else
-    {
-        <div class="item-label-spacer">&nbsp;</div>
-    }
 
-                                     @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו אחד מתחת לשני *@
-                                     <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div class="item-wrapper">
+                                        @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
+                                        @if (i == 0)
+                                        {
+                                            <div class="item-label">
+                                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
+                                                @question.startLabel
+                                            </div>
+                                        }
+                                        else if (i == itemsCount - 1)
+                                        {
+                                            <div class="item-label">
+                                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
+                                                @question.endLabel
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item-label-spacer">&nbsp;</div>
+                                        }
 
-                                         <div class="item-box">
-                                             <div class="action-icons-overlay">
+                                        @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו אחד מתחת לשני *@
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
 
-                                                 @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
-                                                 @if (question.Items[i].isImage == true)
-                                                 {
-                                                     <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)" />
-                                                 }
+                                            <div class="item-box">
+                                                <div class="action-icons-overlay">
 
-                                                 <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)" />
+                                                    @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
+                                                    @if (question.Items[i].isImage == true)
+                                                    {
+                                                        <img src="/svg/zoomIcon.svg" class="action-icon zoom-icon" alt="הגדלה" @onclick="() => OpenImagePreview(currentItemForAction.content)"/>
+                                                    }
 
-                                                 <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)" />
+                                                    <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)"/>
 
-                                             </div>
+                                                    <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)"/>
 
-                                             @if (question.Items[i].isImage == false)
-                                             {
-                                                 @question.Items[i].content
-                                             }
-                                             else
-                                             {
-                                                 @* אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה *@
-                                                 <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
-                                             }
-                                         </div>
+                                                </div>
 
-                                         @* אזור החיצים שיושב מתחת לקופסה בשורה נפרדת *@
-                                         <div style="display: flex;">
-                                             @* חץ ימינה - מקרב לראש התולעת (מקטין אינדקס). מופיע רק אם זה לא הפריט הראשון  *@
-                                             @if (i > 0)
-                                             {
-                                                 <button type="button" class="arrow-btn" @onclick="() => MoveRight(currentItemForAction, question.Items)">➡</button>
-                                             }
+                                                @if (question.Items[i].isImage == false)
+                                                {
+                                                    @question.Items[i].content
+                                                }
+                                                else
+                                                {
+                                                    @* אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה *@
+                                                    <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
+                                                }
+                                            </div>
 
-                                             @* חץ שמאלה - מרחיק מראש התולעת (מגדיל אינדקס). מופיע רק אם זה לא הפריט האחרון *@
-                                             @if (i < itemsCount - 1)
-                                             {
-                                                 <button type="button" class="arrow-btn" @onclick="() => MoveLeft(currentItemForAction, question.Items)">⬅</button>
-                                             }
-                                         </div>
+                                            @* אזור החיצים שיושב מתחת לקופסה בשורה נפרדת *@
+                                            <div style="display: flex;">
+                                                @* חץ ימינה - מקרב לראש התולעת (מקטין אינדקס). מופיע רק אם זה לא הפריט הראשון  *@
+                                                @if (i > 0)
+                                                {
+                                                    <button type="button" class="arrow-btn" @onclick="() => MoveRight(currentItemForAction, question.Items)">➡</button>
+                                                }
 
-                                     </div>
-</div>
+                                                @* חץ שמאלה - מרחיק מראש התולעת (מגדיל אינדקס). מופיע רק אם זה לא הפריט האחרון *@
+                                                @if (i < itemsCount - 1)
+                                                {
+                                                    <button type="button" class="arrow-btn" @onclick="() => MoveLeft(currentItemForAction, question.Items)">⬅</button>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </td>
@@ -215,28 +263,17 @@
             }
             </tbody>
         </table>
-        @* כפתור המשני שפותח את חלונית ההוספה *@
-        @if (isAddingQuestion == false)
-        {
+
+    @* הכפתור המשני שפותח את חלונית ההוספה *@
+    @if (isAddingQuestion == false)
+    {
+        <div class="add-button-wrapper">
             @* קוראים לקומפוננטה ומעבירים לה את כל הפרמטרים *@
             <MyButton ButtonStyle="secondary"
                       ButtonText="+ ליצור שאלה"
                       OnClickAction="StartAddingQuestion" />
-        }
-
-        @* שורת ההוספה שנפתחת  *@
-        @if (isAddingQuestion == true)
-        {
-            <div class="new-question-row">
-                @* תיבת טקסט להזנת ההנחיה *@
-                <input type="text" @bind="questionToAdd.instruction" maxlength="20" placeholder="הקלידו הנחיה (עד 20 תווים)..." />
-
-                @* כפתור האישור הראשי המעוצב *@
-                <MyButton ButtonStyle="primary"
-                          ButtonText="אישור"
-                          OnClickAction="ConfirmNewQuestion" />
-            </div>
-        } 
+        </div>
+    }
 
         @if (showQuestionDeletePopup)
         {
@@ -252,16 +289,6 @@
         {
             <ImagePreviewPopup ImageUrl="@currentImageUrl" OnClosePopup="CloseImagePreview" />
         }
-
-    }
-    else
-    {
-        @* כאשר הרשימה ריקה משאלות *@
-        <div style="text-align: center; margin-top: 20px;">
-            <h3>עדיין אין שאלות במשחק זה ️</h3>
-            <p>זה הזמן להתחיל ליצור שאלות!</p>
-        </div>
-    }
 }
 else if (errorMsg != "")
 {
@@ -306,7 +333,8 @@ else
     string currentImageUrl = "";
 
     //משתנים לצורך הוספה של שאלה חדשה 
-    bool isAddingQuestion = false;
+    //בכוונה הגדרנו כ-TRUE כדי ששורת ההוספה תופיע תמיד
+    bool isAddingQuestion = true;
     QuestionToAdd questionToAdd = new QuestionToAdd();
 
     //מופע של מחלקה שנועד לשמור את רשימת השאלות ואת שם המשחק מהקונטרולר   
