@@ -644,6 +644,21 @@
     cursor: grabbing;
 }
 
+/* עיצוב הפלייסהולדר המקווקו של גוף התולעת */
+.placeholder-segment[b-0ine4pvf37] {
+    width: 100px;
+    height: auto;
+    margin-left: 5px; /* מרווח קל בין הגופיפים */
+}
+
+  /* עיצוב הפלייסהולדר שמראה למשתמש היכן יתווסף הפריט הבא */
+  .floating-preview[b-0ine4pvf37] {
+      opacity: 0.4; 
+      transform: scale(0.95); 
+      transition: all 0.3s ease-in-out; 
+      }
+
+
 /* המעטפת של האייקונים - מוסתרת כברירת מחדל */
 .action-icons-overlay[b-0ine4pvf37] {
     position: absolute;
