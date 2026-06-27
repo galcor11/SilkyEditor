@@ -716,6 +716,28 @@
      color: #333; 
       }
 
+.segment-wrapper[b-0ine4pvf37] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: flex-start;
+}
+
+.label-container[b-0ine4pvf37] {
+    min-height: 32px; /* שומר על גובה אחיד גם כשאין תגית */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.arrows-wrapper[b-0ine4pvf37] {
+    display: flex;
+    margin-top: 5px;
+}
+ 
+ 
+ 
+
 /* 
    תוספות נגישות לעמידה בתקן WCAG 2.1
    */

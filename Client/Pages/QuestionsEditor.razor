@@ -47,7 +47,6 @@
                         <!-- תצוגת "דמה" של התות (כדי שהמשתמש יראה מה מחכה לו) -->
                         <div class="strawberry-container">
                             <h3>הוספת פריט</h3>
-
                             <div class="strawberry-input-wrapper">
                                 <textarea placeholder="הקלידו כאן..." class="inner-strawberry-input" disabled></textarea>
                             </div>
@@ -63,24 +62,30 @@
 
                             <button type="button" disabled>אישור</button>
                         </div>
-                        @* הקצה הימני *@
-                        <div class="glass-edge-label">
-                            <span class="edit-icon"> ✏️ </span>
-                            @questionToAdd.startLabel
+                        <div class="segment-wrapper">
+                            <div class="label-container"></div> <div class="silky-head"></div>
                         </div>
-                        <!-- ראש התולעת הריק שמחכה לפריטים -->
-                        <div class="silky-head"></div>
+                       
                         <!--  שני הפלייסהולדרים הסטטיים של התולעת -->
-                        <img src="SVG/strokeBody.svg" class="placeholder-segment" />
-                        <img src="SVG/strokeBody.svg" class="placeholder-segment" />
-                        <div style="display: flex; flex-direction: column; align-items: center; align-self: flex-start;">
-                            @* הקצה השמאלי *@
-                            <div class="glass-edge-label">
-                                <span class="edit-icon"> ✏️ </span>
-                                @questionToAdd.endLabel
+                        <div class="segment-wrapper">
+                            <div class="label-container">
+                                <div class="glass-edge-label">
+                                    <span class="edit-icon"> ✏️ </span>
+                                    @questionToAdd.startLabel
+                                </div>
+                            </div>
+                            <img src="SVG/strokeBody.svg" class="placeholder-segment" alt=""/>
+                        </div>
+                        <div class="segment-wrapper">
+                            <div class="label-container">
+                                <div class="glass-edge-label">
+                                    <span class="edit-icon"> ✏️ </span>
+                                    @questionToAdd.endLabel
+                                </div>
+                            </div>
+                            <img src="SVG/strokeBody.svg" class="placeholder-segment" alt=""/>
                             </div>
                         </div>
-                    </div>
                 </td>
             </tr>  
         }
@@ -192,16 +197,10 @@
                                     }
 
                                 </EditForm>
-
-                            </div>
-                            @* בשביל שהקצה לא יהיה בצדדים *@
-                            <div style="display: flex; flex-direction: column; align-items: center;">
-                            @* הקצה הימני של השאלה הקיימת (לפני הראש) *@
-                            <div class="glass-edge-label">
-                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
-                                @question.startLabel
                             </div>
 
+                            <div class="segment-wrapper">
+                                <div class="label-container"></div>
                                 <div class="silky-head"></div>
                             </div>
                                 @* לולאת FOR שמייצרת את גוף התולעת *@
@@ -209,14 +208,28 @@
                                 {
                                     @* משתנה עזר שפתחנו כדי לשמור את הפריט הנוכחי *@
                                     var currentItemForAction = question.Items[i];
-
-                                    <div class="item-wrapper">
+                                    <div class="segment-wrapper">
                                         @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו זה מתחת לזה *@
-                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                        <div class="label-container">
+                                              @* מופיע מעל הפריט האמיתי הראשון  *@
+                                            @if (i == 0)
+                                            {
+                                                <div class="glass-edge-label">
+                                                    <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
+                                                    @question.startLabel
+                                                </div>   
+                                            }
+                                                    @* מופיע מעל הפריט האמיתי האחרון *@
+                                            @if (i == itemsCount - 1 && itemsCount >= 2)
+                                            {
+                                                <div class="glass-edge-label">
+                                                    <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
+                                                    @question.endLabel
+                                                </div>  
+                                            }
 
-                                            <div class="item-box">
+                                        </div><div class="item-box">
                                                 <div class="action-icons-overlay">
-
                                                     @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
                                                     @if (question.Items[i].isImage == true)
                                                     {
@@ -224,7 +237,6 @@
                                                     }
 
                                                     <img src="/svg/editIcon.svg" class="action-icon edit-icon" alt="עריכה" @onclick="() => EditItem(currentItemForAction)"/>
-
                                                     <img src="/svg/deleteIcon.svg" class="action-icon delete-icon" alt="מחיקה" @onclick="() => DeleteItemFromSilky(currentItemForAction)"/>
 
                                                 </div>
@@ -236,12 +248,12 @@
                                                 else
                                                 {
                                                     @* אם התוכן הוא תמונה, אנחנו מציגים את התמונה מתוך התיקייה *@
-                                                    <img src="uploadedFiles/@question.Items[i].content" class="worm-image"/>
+                                                    <img src="uploadedFiles/@question.Items[i].content" class="worm-image" alt=""/>
                                                 }
                                             </div>
 
                                             @* אזור החיצים שיושב מתחת לקופסה בשורה נפרדת *@
-                                            <div style="display: flex;">
+                                            <div class="arrows-wrapper">
                                                 @* חץ ימינה - מקרב לראש התולעת (מקטין אינדקס). מופיע רק אם זה לא הפריט הראשון  *@
                                                 @if (i > 0)
                                                 {
@@ -253,8 +265,6 @@
                                                 {
                                                     <button type="button" class="arrow-btn" @onclick="() => MoveLeft(currentItemForAction, question.Items)">⬅</button>
                                                 }
-                                            </div>
-
                                         </div>
                                     </div>
                                 }
@@ -262,20 +272,40 @@
                                 @* לולאת for שפתחנו בשביל להציג את הפלייסהוֹלְדרים *@
                                 @for (int p = 0; p < (2 - question.Items.Count); p++)
                                 {
-                                    <img src="SVG/strokeBody.svg" class="placeholder-segment"/>
-                                }
+                                    <div class="segment-wrapper">
+                                        <div class="label-container">
+                                        @* מופיע מעל הפלייסהולדר הראשון רק אם אין בכלל פריטים אמיתיים  *@
+                                        @if (question.Items.Count == 0 && p == 0)
+                                        {
+                                            <div class="glass-edge-label">
+                                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
+                                                @question.startLabel
+                                            </div>
+                                        }
 
+                                        @*  תמיד יופיע מעל הפלייסהולדר האחרון כי הוא חותם את התולעת  *@
+                                        @if (p == (2 - question.Items.Count) - 1)
+                                        {
+                                            <div class="glass-edge-label">
+                                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
+                                                @question.endLabel
+                                            </div>
+                                        }
+                                        </div>
+                                        <img src="SVG/strokeBody.svg" class="placeholder-segment" alt=""/>
+                                    </div>
+
+                            }
+                                  
                             @*  הפלייסהוֹלדר שמופיע אם העכבר ב-HOVER על הוספת פריט *@
                             @*  הוא מופיע רק כשהעורך ב-HOVER וגם כאשר שני הפלייסהולדרים כבר התמלאו *@
                               @if (isHoveringAddItem == true && question.Items.Count >= 2)
                                   {
-                                      <img src="SVG/strokeBody.svg" class="placeholder-segment floating-preview" />
-                                     }
-                            @* הקצה השמאלי של השאלה הקיימת *@
-                            <div class="glass-edge-label">
-                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
-                                @question.endLabel
-                            </div>
+                                      <div class="segment-wrapper">
+                                          <div class="label-container"></div>
+                                          <img src="SVG/strokeBody.svg" class="placeholder-segment floating-preview" alt=""/>
+                                      </div>
+                                  }
                         </div>
                     </td>
                 </tr>
