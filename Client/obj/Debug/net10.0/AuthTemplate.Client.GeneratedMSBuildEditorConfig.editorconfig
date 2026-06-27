@@ -36,10 +36,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXV0aFBhZ2VzXE5vdEFsbG93ZWQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/GeneralSettings.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2VuZXJhbFNldHRpbmdzLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -75,6 +71,10 @@ build_metadata.AdditionalFiles.CssScope = b-hck949jsb7
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/GamesList.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXNMaXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-gihezm0wsz
+
+[C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/GeneralSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2VuZXJhbFNldHRpbmdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-0gckienizp
 
 [C:/Users/galgr/Downloads/PortelemTemplate_net10 (1)/Client/Pages/QuestionsEditor.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlc3Rpb25zRWRpdG9yLnJhem9y

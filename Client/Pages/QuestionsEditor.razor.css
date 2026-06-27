@@ -398,6 +398,22 @@
     object-fit: cover;
 }
 
+
+  /* עיצוב לקצוות התולעת */
+ .glass-edge-label {
+     background-image: url('SVG/tagit.svg'); 
+     background-size: 100% 100%; /* מותח את ה-SVG בדיוק לגודל התווית */
+     background-repeat: no-repeat;
+     background-position: center;
+     display: inline-flex;
+     align-items: center; /* ממרכז את הטקסט לגובה */
+     justify-content: center; /* ממרכז את הטקסט לרוחב */
+     padding: 8px 15px; /* מרווח פנימי שקובע את הגודל של המלבן סביב הטקסט */
+     margin: 0 10px; /* מרווח חיצוני קל מהתולעת עצמה */
+     font-weight: bold;
+     color: #333; 
+      }
+
 /* 
    תוספות נגישות לעמידה בתקן WCAG 2.1
    */

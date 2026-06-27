@@ -63,12 +63,23 @@
 
                             <button type="button" disabled>אישור</button>
                         </div>
-
+                        @* הקצה הימני *@
+                        <div class="glass-edge-label">
+                            <span class="edit-icon"> ✏️ </span>
+                            @questionToAdd.startLabel
+                        </div>
                         <!-- ראש התולעת הריק שמחכה לפריטים -->
                         <div class="silky-head"></div>
                         <!--  שני הפלייסהולדרים הסטטיים של התולעת -->
                         <img src="SVG/strokeBody.svg" class="placeholder-segment" />
                         <img src="SVG/strokeBody.svg" class="placeholder-segment" />
+                        <div style="display: flex; flex-direction: column; align-items: center; align-self: flex-start;">
+                            @* הקצה השמאלי *@
+                            <div class="glass-edge-label">
+                                <span class="edit-icon"> ✏️ </span>
+                                @questionToAdd.endLabel
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>  
@@ -113,78 +124,86 @@
                     <td colspan="3" class="accordion-cell">
                         <div class="items-container">
                             <!-- אזור הוספת פריט ( התות) -->
-                              <div class="strawberry-container" @onmouseover="() => isHoveringAddItem = true" @onmouseout="() => isHoveringAddItem = false">
-                            @if (currentStrawberryItem.answerID > 0)
+                            @* השתמשנו באירועים של בלייזור שגילינו בחקירה עצמית *@
+                            <div class="strawberry-container" @onmouseover="() => isHoveringAddItem = true" @onmouseout="() => isHoveringAddItem = false">
+                                @if (currentStrawberryItem.answerID > 0)
+                                {
+                                    <h3>עריכת פריט</h3>
+                                }
+                                else
+                                {
+
+                                    <h3>הוספת פריט</h3>
+                                }
+
+
+                                <!-- פתיחת הטופס והגדרת הפונקציה שתפעל בשליחה -->
+                                <EditForm Model="currentStrawberryItem" OnValidSubmit="() => HandleStrawberrySubmit(question)">
+
+                                    <!--  הפעלת ולידציות -->
+                                    <DataAnnotationsValidator/>
+                                    <!-- תנאי שקובע מה יוצג בהתאם לטוגל -->
+                                    @if (currentStrawberryItem.isImage == false)
                                     {
-                                        <h3>עריכת פריט</h3>
+                                        @* מצב טקסט: תיבת הטקסט במרכז התות *@
+                                        <div class="strawberry-input-wrapper">
+                                            <InputTextArea @bind-Value="currentStrawberryItem.content" placeholder="הקלידו כאן..." class="inner-strawberry-input" maxlength="30"/>
+                                        </div>
+                                        <ValidationMessage For="@(() => currentStrawberryItem.content)"/>
                                     }
                                     else
                                     {
+                                        @* מצב תמונה: התות משמש בתור כפתור שפותח את סייר הקבצים *@
+                                        <div class="strawberry-input-wrapper clickable-wrapper" @onclick="TriggerFileInput">
+                                            @* בודקים אם המשתנה שלנו קיבל שם של תמונה מהשרת *@
+                                            @if (string.IsNullOrEmpty(currentStrawberryItem.content))
+                                            {
+                                                @* אם אין עדיין תמונה, אנחנו מציגים את טקסט ברירת המחדל *@
+                                                <p class="inner-strawberry-input upload-text">לחצו להעלאת תמונה</p>
+                                            }
+                                            else
+                                            {
+                                                @* אם יש תמונה, אנחנו מציגים אותה על התות *@
+                                                <img src="uploadedFiles/@currentStrawberryItem.content" class="strawberry-preview-img"/>
+                                            }
+                                        </div>
 
-                                        <h3>הוספת פריט</h3>
+                                        @* פקד מוסתר להעלאת הקובץ האמיתי  *@
+                                        <InputFile id="FileInputID" OnChange="UploadFile" hidden/>
                                     }
 
+                                    <!-- אזור הטוגל המעוצב -->
+                                    <div class="toggle-container">
+                                        <label class="toggle-switch">
+                                            <InputCheckbox @bind-Value="currentStrawberryItem.isImage" @onclick="ClearContent" class="toggle-checkbox"/>
 
-                                    <!-- פתיחת הטופס והגדרת הפונקציה שתפעל בשליחה -->
-                                    <EditForm Model="currentStrawberryItem" OnValidSubmit="() => HandleStrawberrySubmit(question)">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span class="toggle-label">תמונה</span>
+                                    </div>
+                                    <!-- כפתור ה-SUBMIT של התות שמשנה את הטקסט שלו -->
+                                    @if (currentStrawberryItem.answerID > 0)
+                                    {
+                                        <button type="submit">שמירת שינויים</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit">אישור</button>
+                                    }
 
-                                        <!--  הפעלת ולידציות -->
-                                        <DataAnnotationsValidator/>
-                                        <!-- תנאי שקובע מה יוצג בהתאם לטוגל -->
-                                        @if (currentStrawberryItem.isImage == false)
-                                        {
-                                            @* מצב טקסט: תיבת הטקסט במרכז התות *@
-                                            <div class="strawberry-input-wrapper">
-                                                <InputTextArea @bind-Value="currentStrawberryItem.content" placeholder="הקלידו כאן..." class="inner-strawberry-input" maxlength="30"/>
-                                            </div>
-                                            <ValidationMessage For="@(() => currentStrawberryItem.content)"/>
-                                        }
-                                        else
-                                        {
-                                            @* מצב תמונה: התות משמש בתור כפתור שפותח את סייר הקבצים *@
-                                            <div class="strawberry-input-wrapper clickable-wrapper" @onclick="TriggerFileInput">
-                                                @* בודקים אם המשתנה שלנו קיבל שם של תמונה מהשרת *@
-                                                @if (string.IsNullOrEmpty(currentStrawberryItem.content))
-                                                {
-                                                    @* אם אין עדיין תמונה, אנחנו מציגים את טקסט ברירת המחדל *@
-                                                    <p class="inner-strawberry-input upload-text">לחצו להעלאת תמונה</p>
-                                                }
-                                                else
-                                                {
-                                                    @* אם יש תמונה, אנחנו מציגים אותה על התות *@
-                                                    <img src="uploadedFiles/@currentStrawberryItem.content" class="strawberry-preview-img"/>
-                                                }
-                                            </div>
+                                </EditForm>
 
-                                            @* פקד מוסתר להעלאת הקובץ האמיתי  *@
-                                            <InputFile id="FileInputID" OnChange="UploadFile" hidden/>
-                                        }
-
-                                        <!-- אזור הטוגל המעוצב -->
-                                        <div class="toggle-container">
-                                            <label class="toggle-switch">
-                                                <InputCheckbox @bind-Value="currentStrawberryItem.isImage" @onclick="ClearContent" class="toggle-checkbox"/>
-
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                            <span class="toggle-label">תמונה</span>
-                                        </div>
-                                        <!-- כפתור ה-SUBMIT של התות שמשנה את הטקסט שלו -->
-                                        @if (currentStrawberryItem.answerID > 0)
-                                        {
-                                            <button type="submit">שמירת שינויים</button>
-                                        }
-                                        else
-                                        {
-                                            <button type="submit">אישור</button>
-                                        }
-
-                                    </EditForm>
-
-                                </div>
+                            </div>
+                            @* בשביל שהקצה לא יהיה בצדדים *@
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                            @* הקצה הימני של השאלה הקיימת (לפני הראש) *@
+                            <div class="glass-edge-label">
+                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
+                                @question.startLabel
+                            </div>
 
                                 <div class="silky-head"></div>
-
+                            </div>
                                 @* לולאת FOR שמייצרת את גוף התולעת *@
                                 @for (int i = 0; i < itemsCount; i++)
                                 {
@@ -192,27 +211,7 @@
                                     var currentItemForAction = question.Items[i];
 
                                     <div class="item-wrapper">
-                                        @* תנאי להצגת לייבל מעל הפריט הראשון והאחרון *@
-                                        @if (i == 0)
-                                        {
-                                            <div class="item-label">
-                                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
-                                                @question.startLabel
-                                            </div>
-                                        }
-                                        else if (i == itemsCount - 1)
-                                        {
-                                            <div class="item-label">
-                                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
-                                                @question.endLabel
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="item-label-spacer">&nbsp;</div>
-                                        }
-
-                                        @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו אחד מתחת לשני *@
+                                        @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו זה מתחת לזה *@
                                         <div style="display: flex; flex-direction: column; align-items: center;">
 
                                             <div class="item-box">
@@ -272,6 +271,11 @@
                                   {
                                       <img src="SVG/strokeBody.svg" class="placeholder-segment floating-preview" />
                                      }
+                            @* הקצה השמאלי של השאלה הקיימת *@
+                            <div class="glass-edge-label">
+                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
+                                @question.endLabel
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -405,7 +409,7 @@ else
         questionToAdd = new QuestionToAdd
         {
             instruction = "",
-            //הוסםנו את המילה this מכיוון שגם לתכונה במודל קוראים gameID. נעזרנו בחקירה עצמית
+            //הוספנו את המילה this מכיוון שגם לתכונה במודל קוראים gameID. נעזרנו בחקירה עצמית
             gameID = this.gameID,
             startLabel = "ראשון",
             endLabel = "אחרון",
@@ -515,7 +519,7 @@ else
             ExecuteDeletion(itemToDelete); // שולחים את הפריט לפונקציית המחיקה מול השרת
         }
 
-        // בכל מקרה  אנחנו סוגרים את הפופ-אפ ומנקים את המשתנה
+        // בכל מקרה אנחנו סוגרים את הפופ-אפ ומנקים את המשתנה
         showDeletePopup = false;
         itemToDelete = null;
     }
@@ -608,12 +612,12 @@ else
         }
     }
 
-
+    //עם טעינת העמוד
     protected override async Task OnInitializedAsync()
     {
-        // הוספנו את השורה הזו כדי לאתחל את אובייקט השאלה החדשה עם ה-ID של המשחק מהנתיב
+        // אנחנו מאתחלים את אובייקט השאלה החדשה עם ה-ID של המשחק מהנתיב
         StartAddingQuestion();
-        //אנחנו קוראים לשיטה בקונטולר של עריכת השאלות ומשרשרים את gameID שיתקבל בנתיב
+        //אנחנו קוראים לשיטה בקונטולר של עריכת השאלות ומשרשרים את gameID בנתיב
         var response = await Http.GetAsync("api/Questions/getQuestions/" + gameID);
         //בדיקה אם סטטוס התשובה תקין
         if (response.IsSuccessStatusCode == true)
@@ -696,7 +700,7 @@ else
         else
         {
             // אם משהו השתבש, נשלוף את הודעת השגיאה
-            string error = updateResponse.Content.ReadAsStringAsync().Result;
+             errorMsg = updateResponse.Content.ReadAsStringAsync().Result;
         }
     }
 
@@ -748,15 +752,15 @@ else
         }
         else
         {
-            string error = insertResponse.Content.ReadAsStringAsync().Result;
+             errorMsg = insertResponse.Content.ReadAsStringAsync().Result;
         }
     }
     
-    // פונקציה שאחראית לגרור את הפריט ימינה (התקרבות לראש התולעת = אינדקס קטן יותר)
-    // הפונקציה מקבלת עכשיו גם את הפריט וגם את הרשימה עצמה 
+    // פונקציה שאחראית לגרור את הפריט ימינה  לכיוון ראש התולעת (אינדקס קטן יותר)
+    // הפונקציה מקבלת גם את הפריט וגם את הרשימה עצמה 
     async Task MoveRight(SilkyItem item, List<SilkyItem> currentList)
     {
-        //מחפשים את המיקום הנוכחי של הפריט מתוך הרשימה
+        //אנחנו מחפשים את המיקום הנוכחי של הפריט מתוך הרשימה
         int index = currentList.IndexOf(item);
         
         if (index > 0) 
@@ -817,15 +821,6 @@ else
     
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 
     //פונקציה שמופעלת בעת לחיצה על העיפרון שעל גוף התולעת. בעת לחיצה על העיפרון התוכן של הפריט "משוכפל" ומופיע גם על התות שבצד ימין

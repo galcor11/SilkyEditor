@@ -59,7 +59,7 @@
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
                 @* צ'קבוקס שמקושר ישירות לשדה של השיקוי בבסיס הנתונים *@
                 <input type="checkbox" id="potion" @bind="gameSettings.hasPotion" style="width: 18px; height: 18px;" />
-                <label for="potion">השחקן זכאי לשיקוי הצלה במהלך המשחק</label>
+                <label for="potion">השחקן יקבל שיקוי הצלה במשחק</label>
             </div>
         </div>
 
@@ -119,8 +119,7 @@ else
         if (updateResponse.IsSuccessStatusCode == true)
         {
             msg = "השינויים נשמרו בהצלחה!";
-            // בהמשך נוסיף לכאן את פקודת הניווט לעמוד הבא של עריכת השאלות
-            // Nav.NavigateTo("./QuestionsPage/" + gameID.ToString());
+            Nav.NavigateTo("./QuestionsEditor/" + gameID.ToString());
         }
         else 
         {
