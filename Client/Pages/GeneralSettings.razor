@@ -4,11 +4,13 @@
 @inject HttpClient Http
 @using AuthTemplate.Shared.Models;
 @inject NavigationManager Nav;
-<a href="./GamesList">בחזרה למשחקים שלי</a>
-<h3>⚙️הגדרות כלליות️</h3>
 
-
+@* העוטף הראשי שמכיל את הדשא *@
+<div class="settings-page-wrapper">
+   
     
+<a href="./GamesList">בחזרה למשחקים שלי</a>
+<h1>⚙️הגדרות כלליות️</h1>
 
 @if (gameSettings != null)
 {
@@ -28,24 +30,25 @@
         }
     </div>
     
-    @* אזור הכרטיסים - מוגדר כ-flex כדי שישבו באותה שורה *@
-    <div style="display: flex; gap: 20px; margin-top: 30px; margin-bottom: 20px;">
+    @* אזור הכרטיסים *@
+    <div class="cards-container">
 
         @* כרטיס 1: זמן מענה *@
-        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-            <h4 style="margin-top: 0;">זמן מענה לשאלה</h4>
+        <div class="setting-card">
+            <h2 class="card-title">זמן מענה לשאלה</h2>
         
-            <div style="display: flex; align-items: center; gap: 15px; margin-top: 15px;">
+            <div class="input-row">
                 @* פקד מספר: מקושר לזמן, עם מינימום, מקסימום וקפיצות של 5. ננעל (disabled) אם סומן "ללא הגבלה" *@
                 <input type="number" 
                        @bind="gameSettings.time" 
                        min="45" max="180" step="5" 
-                       disabled="@isUnlimitedTime" 
-                       style="width: 80px; padding: 5px;" />
+                       disabled="@isUnlimitedTime"
+                       class="time-input"
+                       />
                 <span>שניות</span>
 
                 @* צ'קבוקס ללא הגבלה *@
-                <div style="margin-right: 20px;">
+                <div class="checkbox-wrapper">
                     <input type="checkbox" id="unlimited" @bind="isUnlimitedTime" />
                     <label for="unlimited">ללא הגבלה</label>
                 </div>
@@ -53,12 +56,11 @@
         </div>
 
         @* כרטיס 2: שיקוי הצלה *@
-        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-            <h4 style="margin-top: 0;">שיקוי הצלה</h4>
-        
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+        <div class="setting-card">
+            <h2 class="card-title">שיקוי הצלה</h2>
+            <div class="input-row">
                 @* צ'קבוקס שמקושר ישירות לשדה של השיקוי בבסיס הנתונים *@
-                <input type="checkbox" id="potion" @bind="gameSettings.hasPotion" style="width: 18px; height: 18px;" />
+                <input type="checkbox" id="potion" @bind="gameSettings.hasPotion" class="potion-checkbox" />
                 <label for="potion">השחקן יקבל שיקוי הצלה במשחק</label>
             </div>
         </div>
@@ -73,9 +75,17 @@ else
 
 <br />
 @* כפתור השמירה שיפעיל את פונקציית העדכון מול הקונטרולר *@
-<input type="button" value="שמור" @onclick="SaveSettingsAndMove" />
+<input type="button" value="שמירה" @onclick="SaveSettingsAndMove" />
 
 <p>@msg</p>
+    <div class="worm-area" aria-hidden="true">
+        <div class="speech-bubble">
+            ההגדרות האלה יעזרו לי,<br/> והן לכל המשחק
+        </div>
+    @* הוספנו את התולעת והסתרנו מקוראי מסך לטובת נגישות *@
+        <img src="SVG/SilkyForSettings.svg" class="worm-character" alt="" aria-hidden="true" />
+    </div>
+</div> <!-- סגירת העוטף הראשי של העמוד -->
 
 @code
 {
@@ -96,13 +106,11 @@ else
     {
         // קריאה לקונטרולר שיביא את המשחק הספציפי
         var response = await Http.GetAsync("api/Games/byId/" + gameID.ToString());
-        
         if (response.IsSuccessStatusCode == true)
         {
             gameSettings = response.Content.ReadFromJsonAsync<GameToAddDto>().Result;
         }
     }
-    
     
     string msg = "";
 //פונקציה שפונה לקונטרולר שמעדכן את הפרטים שקשורים להגדרות הכלליות: שם המשחק, זמן, שיקוי
