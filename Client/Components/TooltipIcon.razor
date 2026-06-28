@@ -1,0 +1,13 @@
+@* קומפוננטה שפתחנו בשביל ה-TOOLTIPים שלנו *@
+<div class="tooltip-container">
+    @* האייקון של סימן השאלה *@
+    <img src="SVG/questionIcon.svg" class="question-icon" alt="הסבר נוסף" />
+
+    @* הטקסט שיופיע בריחוף, מקבל את הערך שלו מהפרמטר *@
+    <span class="tooltip-text">@ExplanationText</span>
+</div>
+@code {
+    // פרמטר שמאפשר לנו להעביר טקסט שונה לכל אייקון של TOOLTIP 
+    [Parameter]
+    public string ExplanationText { get; set; }  
+}

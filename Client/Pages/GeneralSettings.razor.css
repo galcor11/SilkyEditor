@@ -78,18 +78,18 @@
 .speech-bubble {
     font-family: 'Playpen Sans Hebrew', cursive, sans-serif; /* פונט כתב היד שלנו */
     background-color: white;
-    border: 2px solid #555; /* מסגרת אפורה כהה כמו בקומיקס */
-    border-radius: 30px;
-    padding: 15px 25px;
-    font-size: 1.2rem;
+    border: 1px solid #555; /* מסגרת אפורה כהה כמו בקומיקס */
+    border-radius: 24px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #222;
     text-align: center;
     position: relative;
-
-    /* מיקומים כדי שהבועה תרחף מעל הראש של התולעת */
+    max-width: 200px; /* מגביל את רוחב הבועה כדי שהטקסט הדו-שורתי יישב יפה */
+    /* מיקומים אופקיים כדי שהבועה תרחף מעל הראש של התולעת */
     margin-bottom: 150px;
-    margin-left: -80px; /* מושך את הבועה ימינה (בגלל שזה RTL) אל כיוון הראש */
+    margin-left: -60px; /* מושך את הבועה ימינה (בגלל שזה RTL) אל כיוון הראש */
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* הצללה עדינה מאוד */
 }
@@ -98,11 +98,11 @@
 .speech-bubble::after {
     content: '';
     position: absolute;
-    bottom: -12px; /* מוריד את המשולש אל מחוץ לבועה */
-    right: 40px; /* מכוון את המשולש אל הראש של התולעת */
+    bottom: -10px; /* מוריד את המשולש אל מחוץ לבועה */
+    right: 35px; /* מכוון את המשולש אל הראש של התולעת */
 
     /* משולש אפור למסגרת */
-    border-width: 12px 12px 0;
+    border-width: 10px 8px 0;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
 }
@@ -112,10 +112,10 @@
     content: '';
     position: absolute;
     bottom: -8px;
-    right: 42px;
+    right: 36px;
 
     /* משולש לבן פנימי */
-    border-width: 10px 10px 0;
+    border-width: 9px 7px 0;
     border-style: solid;
     border-color: white transparent transparent transparent;
     z-index: 1;

@@ -104,3 +104,59 @@
     background-repeat: repeat; /* משכפל את העלה לכל עבר */
     background-size:500px; /* קובע את הגודל של כל עלה בתוך הפאטרן */
 }
+
+
+
+/* בועת הדיבור של הפרפר */
+.butterfly-bubble {
+    font-family: 'Playpen Sans Hebrew', cursive, sans-serif; /* שימוש בפונט כתב היד */
+    background-color: white;
+    border: 1px solid #555; /* קו דק ועדין */
+    border-radius: 20px;
+    padding: 10px 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #222;
+    text-align: center;
+    position: absolute;
+
+    /* מיקום אבסולוטי מעל הפרפר - משחק עם הערכים לפי המיקום המדויק של הפרפר שלך */
+    top: -90px; /* מרים את הבועה מעל לגובה הפרפר */
+    right: 260px; /* ממרכז את הבועה יחסית לפרפר שיושב ב-right: 195px */
+
+    max-width: 180px; /* שומר על הבועה ברוחב קומפקטי כדי שהטקסט יישבר יפה */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    z-index: 2;
+}
+
+/* המשולש החיצוני (הקו הדק של הזנב) */
+.butterfly-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; /* מצמיד לתחתית הבועה */
+    right: 15px; /* מכוון את הזנב לכיוון הפרפר */
+
+    border-width: 8px 7px 0;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* המשולש הפנימי הלבן (יוצר את פתח הבועה הנקי) */
+.butterfly-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 16px;
+
+    border-width: 7px 6px 0;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    z-index: 1;
+}
+
+.header-with-tooltip {
+    display: flex;
+    align-items: center; /* מיישר את האייקון בדיוק לאמצע הגובה של הטקסט */
+    gap: 5px; /* מרווח בין הטקסט לאייקון */
+}
+   

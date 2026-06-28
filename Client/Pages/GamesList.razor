@@ -11,17 +11,49 @@
 @if (MyGamesList != null)
 {
     <div class="table-wrapper">
+        <div class="butterfly-bubble">
+            בא לי תותים<br /> 
+        </div>
         <div class="butterfly-container">
         </div>
         <table class="games-table">
             <thead>
             <tr>
-                <th>ID</th>
+                <th>
+                <div class="header-with-tooltip">
+                    <span>ID</span>
+                    <TooltipIcon ExplanationText="מזהה ייחודי למשחק" />
+                </div>
+                </th>
                 <th>שם המשחק</th>
-                <th>קוד המשחק</th>
-                <th>מספר שאלות</th>
-                <th> עריכה</th>
-                <th>פרסום</th>
+                <th>
+                <div class="header-with-tooltip">
+                    <span>קוד המשחק</span>
+                    <TooltipIcon ExplanationText="קוד המשחק יוזן במסך הכניסה בהתאם למשחק הרצוי" />
+                </div>
+                </th>
+
+                <th>
+                <div class="header-tooltip-container">
+                    <span>מספר השאלות</span>
+                    <TooltipIcon ExplanationText="יכולות להיות במשחק לפחות שלוש שאלות" />
+                </div>
+                </th>
+
+                <th>
+                <div class="header-with-tooltip">
+                    <span>עריכה</span>
+                    <TooltipIcon ExplanationText="מעבר למסך עריכת המשחק" />
+                </div>
+                </th>
+
+                <th>
+                <div class="header-with-tooltip">
+                    <span>פרסום</span>
+                    <TooltipIcon ExplanationText="כדי שהפרסום יתאפשר, המשחק חייב להכיל לפחות שלוש שאלות" />
+                </div>
+                </th>
+
                 <th>מחיקה</th>
             </tr>
             </thead>
@@ -33,7 +65,7 @@
                     <td>@game.gameName</td>
                     <td>@game.gameCode</td>
                     <td>@game.questionCount</td>
-                    <td><input type="button" value="✏️" @onclick="(()=>EditGame(game))"class="action-btn"/></td>
+                    <td><input type="button" value="✏️" @onclick="(() => EditGame(game))"class="action-btn"/></td>
 
                     <td>
                         @if (game.canPublish == false)
@@ -43,11 +75,11 @@
                         else
                         {
                             <input type="checkbox" checked=@game.isPublish
-                                                                      @onchange="(()=>changePublish(game))" />
+                                                                                                                                            @onchange="(() => changePublish(game))"/>
 
                         }
                     </td>
-                    <td><input type="button" value="🗑️" @onclick="(()=>ShowDeleteConfirmation(game))" class="action-btn" /></td>
+                    <td><input type="button" value="🗑️" @onclick="(() => ShowDeleteConfirmation(game))" class="action-btn"/></td>
                 </tr>
             }
             </tbody>

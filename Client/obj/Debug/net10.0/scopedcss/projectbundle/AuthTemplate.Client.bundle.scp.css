@@ -191,6 +191,64 @@
     padding: 0;
     color: #000;
 }
+/* /Components/TooltipIcon.razor.rz.scp.css */
+/* המעטפת של האייקון והTOOLTIP */
+.tooltip-container[b-xrm5z0kert] {
+    position: relative;
+    display: inline-block;
+    margin-right: 5px; /* מרווח קל בין הטקסט של העמודה לאייקון */
+}
+
+/* עיצוב אייקון סימן השאלה */
+.question-icon[b-xrm5z0kert] {
+    width: 18px;
+    cursor: pointer;
+}
+
+/* עיצוב הטקסט הקופץ (מוסתר כברירת מחדל) */
+.tooltip-text[b-xrm5z0kert] {
+    visibility: hidden;
+    width: 150px; /* רוחב הבועה */
+    background-color: #ffffff; /* צבע רקע */
+    color: #633c21;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+
+    /* החלת פונט כתב היד  */
+    font-family: 'Playpen Sans Hebrew', cursive, sans-serif;
+    font-size: 14px;
+
+    /* מיקום הטולטיפ בדיוק מעל האייקון */
+    position: absolute;
+    z-index: 1;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%); /* ממרכז את הבועה לאייקון */
+
+    /* אפקט כניסה */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* הוספת המשולש הקטן שמצביע למטה  */
+.tooltip-text[b-xrm5z0kert]::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #ffffff transparent transparent transparent; /* צבע המשולש צריך להיות תואם לרקע הבועה */
+}
+
+/* מציג את הTOOLTIP כשמרחפים עם העכבר על המעטפת */
+.tooltip-container:hover .tooltip-text[b-xrm5z0kert] {
+    visibility: visible;
+    opacity: 1;
+}
 /* /Pages/GamesList.razor.rz.scp.css */
 /* עיצוב כללי לטבלת המשחקים */
 .games-table[b-gihezm0wsz] {
@@ -298,6 +356,62 @@
     background-repeat: repeat; /* משכפל את העלה לכל עבר */
     background-size:500px; /* קובע את הגודל של כל עלה בתוך הפאטרן */
 }
+
+
+
+/* בועת הדיבור של הפרפר */
+.butterfly-bubble[b-gihezm0wsz] {
+    font-family: 'Playpen Sans Hebrew', cursive, sans-serif; /* שימוש בפונט כתב היד */
+    background-color: white;
+    border: 1px solid #555; /* קו דק ועדין */
+    border-radius: 20px;
+    padding: 10px 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #222;
+    text-align: center;
+    position: absolute;
+
+    /* מיקום אבסולוטי מעל הפרפר - משחק עם הערכים לפי המיקום המדויק של הפרפר שלך */
+    top: -90px; /* מרים את הבועה מעל לגובה הפרפר */
+    right: 260px; /* ממרכז את הבועה יחסית לפרפר שיושב ב-right: 195px */
+
+    max-width: 180px; /* שומר על הבועה ברוחב קומפקטי כדי שהטקסט יישבר יפה */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    z-index: 2;
+}
+
+/* המשולש החיצוני (הקו הדק של הזנב) */
+.butterfly-bubble[b-gihezm0wsz]::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; /* מצמיד לתחתית הבועה */
+    right: 15px; /* מכוון את הזנב לכיוון הפרפר */
+
+    border-width: 8px 7px 0;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* המשולש הפנימי הלבן (יוצר את פתח הבועה הנקי) */
+.butterfly-bubble[b-gihezm0wsz]::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 16px;
+
+    border-width: 7px 6px 0;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    z-index: 1;
+}
+
+.header-with-tooltip[b-gihezm0wsz] {
+    display: flex;
+    align-items: center; /* מיישר את האייקון בדיוק לאמצע הגובה של הטקסט */
+    gap: 5px; /* מרווח בין הטקסט לאייקון */
+}
+   
 /* /Pages/GeneralSettings.razor.rz.scp.css */
 /* העוטף הראשי */
 .settings-page-wrapper[b-0gckienizp] {
@@ -379,18 +493,18 @@
 .speech-bubble[b-0gckienizp] {
     font-family: 'Playpen Sans Hebrew', cursive, sans-serif; /* פונט כתב היד שלנו */
     background-color: white;
-    border: 2px solid #555; /* מסגרת אפורה כהה כמו בקומיקס */
-    border-radius: 30px;
-    padding: 15px 25px;
-    font-size: 1.2rem;
+    border: 1px solid #555; /* מסגרת אפורה כהה כמו בקומיקס */
+    border-radius: 24px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #222;
     text-align: center;
     position: relative;
-
-    /* מיקומים כדי שהבועה תרחף מעל הראש של התולעת */
+    max-width: 200px; /* מגביל את רוחב הבועה כדי שהטקסט הדו-שורתי יישב יפה */
+    /* מיקומים אופקיים כדי שהבועה תרחף מעל הראש של התולעת */
     margin-bottom: 150px;
-    margin-left: -80px; /* מושך את הבועה ימינה (בגלל שזה RTL) אל כיוון הראש */
+    margin-left: -60px; /* מושך את הבועה ימינה (בגלל שזה RTL) אל כיוון הראש */
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* הצללה עדינה מאוד */
 }
@@ -399,11 +513,11 @@
 .speech-bubble[b-0gckienizp]::after {
     content: '';
     position: absolute;
-    bottom: -12px; /* מוריד את המשולש אל מחוץ לבועה */
-    right: 40px; /* מכוון את המשולש אל הראש של התולעת */
+    bottom: -10px; /* מוריד את המשולש אל מחוץ לבועה */
+    right: 35px; /* מכוון את המשולש אל הראש של התולעת */
 
     /* משולש אפור למסגרת */
-    border-width: 12px 12px 0;
+    border-width: 10px 8px 0;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
 }
@@ -413,10 +527,10 @@
     content: '';
     position: absolute;
     bottom: -8px;
-    right: 42px;
+    right: 36px;
 
     /* משולש לבן פנימי */
-    border-width: 10px 10px 0;
+    border-width: 9px 7px 0;
     border-style: solid;
     border-color: white transparent transparent transparent;
     z-index: 1;

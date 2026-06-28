@@ -1,0 +1,57 @@
+/* המעטפת של האייקון והTOOLTIP */
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 5px; /* מרווח קל בין הטקסט של העמודה לאייקון */
+}
+
+/* עיצוב אייקון סימן השאלה */
+.question-icon {
+    width: 18px;
+    cursor: pointer;
+}
+
+/* עיצוב הטקסט הקופץ (מוסתר כברירת מחדל) */
+.tooltip-text {
+    visibility: hidden;
+    width: 150px; /* רוחב הבועה */
+    background-color: #ffffff; /* צבע רקע */
+    color: #633c21;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+
+    /* החלת פונט כתב היד  */
+    font-family: 'Playpen Sans Hebrew', cursive, sans-serif;
+    font-size: 14px;
+
+    /* מיקום הטולטיפ בדיוק מעל האייקון */
+    position: absolute;
+    z-index: 1;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%); /* ממרכז את הבועה לאייקון */
+
+    /* אפקט כניסה */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* הוספת המשולש הקטן שמצביע למטה  */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #ffffff transparent transparent transparent; /* צבע המשולש צריך להיות תואם לרקע הבועה */
+}
+
+/* מציג את הTOOLTIP כשמרחפים עם העכבר על המעטפת */
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
