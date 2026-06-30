@@ -32,10 +32,13 @@
                         @* תיבת טקסט המקושרת למודל ומיישמת הגבלת תווים *@
                         <input type="text" class="instruction-input" @bind="questionToAdd.instruction" maxlength="20" placeholder="הקלידו הנחיה (עד 20 תווים)..." />
 
-                        @* שימוש בקומפוננטה *@
+                        @* שימוש בקומפוננטה לשני הכפתורים שלנו *@
                         <MyButton ButtonStyle="primary"
                                   ButtonText="אישור"
                                   OnClickAction="ConfirmNewQuestion" />
+                        <MyButton ButtonText="ביטול"
+                                      ButtonStyle="secondary"
+                                      OnClickAction="CancelAddingQuestion" />
                     </div>
                 </td>
             </tr>
@@ -863,6 +866,23 @@ else
             content = itemToEdit.content,
             isImage = itemToEdit.isImage,
             orderIndex = itemToEdit.orderIndex,
+        };
+    }
+    
+    
+    // פונקציה שפתחנו לצור ביטול הוספה של שאלה חדשה
+    void CancelAddingQuestion()
+    {
+        isAddingQuestion = false; // מסתיר את שורת ההוספה 
+        
+        // מאתחל את המופע מחדש עם ערכי ברירת המחדל כדי לנקות נתונים שהוקלדו
+        questionToAdd = new QuestionToAdd
+        {
+            instruction = "",
+            gameID = this.gameID,
+            startLabel = "ראשון",
+            endLabel = "אחרון",
+            Items = new List<SilkyItemToAdd>()
         };
     }
 
