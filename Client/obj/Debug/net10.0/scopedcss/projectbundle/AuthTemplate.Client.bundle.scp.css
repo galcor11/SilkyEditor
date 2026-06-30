@@ -970,9 +970,16 @@
     display: flex;
     margin-top: 5px;
 }
- 
- 
- 
+
+
+/* מחלקה שמוסיפה מסגרת כתומה לפריט שנמצא בעריכה */
+.active-edit-stroke[b-0ine4pvf37] {
+    outline: 3px solid #ff8c00; 
+    outline-offset: 2px; /* מרחיק את המסגרת טיפה מהפריט עצמו  */
+    border-radius: 15px; /* מעגל את הפינות  */
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.4); /* אפקט זוהר (Glow) עדין מסביב */
+    transition: all 0.3s ease; /* אנימציה חלקה כשהמסגרת מופיעה ונעלמת */
+}
 
 /* 
    תוספות נגישות לעמידה בתקן WCAG 2.1

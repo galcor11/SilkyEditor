@@ -211,10 +211,16 @@
                                 {
                                     @* משתנה עזר שפתחנו כדי לשמור את הפריט הנוכחי *@
                                     var currentItemForAction = question.Items[i];
+                                    // אנחנו בודקים אם הפריט הנוכחי הוא זה שנמצא בעריכת התות כדי לתת לו מתאר כתום
+                                    string editStrokeClass = "";
+                                    @if (currentStrawberryItem != null && currentStrawberryItem.answerID == currentItemForAction.answerID && currentStrawberryItem.answerID > 0)
+                                    {
+                                        editStrokeClass = "active-edit-stroke";
+                                    }
                                     <div class="segment-wrapper">
                                         @* עוטפים את הקופסה והחיצים בעמודה כדי שיישבו זה מתחת לזה *@
                                         <div class="label-container">
-                                              @* מופיע מעל הפריט האמיתי הראשון  *@
+                                            @* מופיע מעל הפריט האמיתי הראשון  *@
                                             @if (i == 0)
                                             {
                                                 <div class="glass-edge-label">
@@ -222,7 +228,7 @@
                                                     @question.startLabel
                                                 </div>   
                                             }
-                                                    @* מופיע מעל הפריט האמיתי האחרון *@
+                                            @* מופיע מעל הפריט האמיתי האחרון *@
                                             @if (i == itemsCount - 1 && itemsCount >= 2)
                                             {
                                                 <div class="glass-edge-label">
@@ -231,8 +237,10 @@
                                                 </div>  
                                             }
 
-                                        </div><div class="item-box">
-                                                <div class="action-icons-overlay">
+                                        </div>
+                                        <div class="item-box @editStrokeClass">
+
+                                        <div class="action-icons-overlay">
                                                     @* עוטפים את זכוכית המגדלת בתנאי - תופיע רק אם הפריט הוא תמונה *@
                                                     @if (question.Items[i].isImage == true)
                                                     {

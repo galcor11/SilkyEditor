@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "AuthTemplate.Client",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-dLhhT+BFGVO0QwX3yIU/z6x2LzfO0GuP2RF+xxP1Lbk=",
+    "hash": "sha256-GSQiAo0Ejr6yfiHzSkPotqJxg9gFoJXFH+ZHDJQojl0=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.69poregybn.js"
@@ -1254,28 +1254,28 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "AuthTemplate.Shared.wasm",
-        "name": "AuthTemplate.Shared.mq895qeso2.wasm",
-        "integrity": "sha256-gr7iCH+dbi2TF67WfGQeFf4FT3CueMwmRxgmq+BSoJQ=",
+        "name": "AuthTemplate.Shared.65650zba52.wasm",
+        "integrity": "sha256-prUW1t9mwKCjhke/2tmijcv6oDxfBhf9kKFMQ9r6qts=",
         "cache": "force-cache"
       },
       {
         "virtualPath": "AuthTemplate.Client.wasm",
-        "name": "AuthTemplate.Client.78urwt5ly5.wasm",
-        "integrity": "sha256-OeqWnEVnxUCD48iHUmDtBXqe5wqOzJhl4/duIwKNkxI=",
+        "name": "AuthTemplate.Client.qgpuzgwmgw.wasm",
+        "integrity": "sha256-ap+cBz/AO9cXYGFtAOFXC4hB3/Z85K32YNinyT+OSNM=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "AuthTemplate.Shared.pdb",
-        "name": "AuthTemplate.Shared.cacac687r9.pdb",
-        "integrity": "sha256-TP9Ze+yZIbzze36cn1lU1qSDPuSc+xxTVYqrzm3Ww0Q=",
+        "name": "AuthTemplate.Shared.2h7bcfj8ih.pdb",
+        "integrity": "sha256-aq3+LUiGsti6Td8FFh1+l/f0PatOOCjbnGhbA7m8rR4=",
         "cache": "force-cache"
       },
       {
         "virtualPath": "AuthTemplate.Client.pdb",
-        "name": "AuthTemplate.Client.koes9ymv7f.pdb",
-        "integrity": "sha256-VMqsEXew8Z0Wb0f5OJn61BPojZRPYwRouwwOeE/Xp5E=",
+        "name": "AuthTemplate.Client.242u4mve7b.pdb",
+        "integrity": "sha256-zo0sd4S+wZ3gQcYyAUglAHw4ptzQs6gWKnD8ziLpY9Y=",
         "cache": "force-cache"
       }
     ],
