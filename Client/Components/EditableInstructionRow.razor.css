@@ -12,21 +12,3 @@
     border: 1px solid #ccc;
 }
 
-/* כפתור האישור */
-.btn-save {
-    background-color: #9ee1e7;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-left: 5px;
-    cursor: pointer; /* הוספתי סמן של יד לשיפור חווית המשתמש */
-}
-
-/* כפתור הביטול */
-.btn-cancel {
-    background-color: #ccc;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer; 
-}

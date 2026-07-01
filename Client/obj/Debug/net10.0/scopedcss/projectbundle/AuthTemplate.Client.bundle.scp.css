@@ -85,6 +85,29 @@
     border: none;
     font-size: 14px;
 }
+/* /Components/EditableInstructionRow.razor.rz.scp.css */
+/* המכל שעוטף את השורה כולה */
+.instruction-row-container[b-xtf6ekjz1t] {
+    display: flex;
+    align-items: center;
+}
+
+/* תיבת הטקסט של העריכה */
+.edit-input[b-xtf6ekjz1t] {
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* /Components/EditIcon.razor.rz.scp.css */
+.edit-icon[b-70ydba994l] {
+    cursor: pointer;
+    margin-right: 10px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
 /* /Components/GenericDeletePopup.razor.rz.scp.css */
 
 /* העיצוב של הרקע החצי-שקוף שמכסה את כל המסך */

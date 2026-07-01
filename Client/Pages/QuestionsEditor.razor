@@ -105,7 +105,9 @@
                     <span class="toggle-icon" @onclick="() => ToggleAccordion(question.questionID)">
                         @(openQuestionId == question.questionID ? "▼" : "◀")
                     </span>
-                    @question.instruction
+                    @*  אנחנו משתמשים בקומפוננטה שיצרנו להנחיה  *@
+                    <EditableInstructionRow InstructionText="@question.instruction"
+                                            OnInstructionSaved="@((newText) => SaveInstructionRow(newText, question))" />
                 </td>
                 <td>
                     @itemsCount
@@ -939,5 +941,16 @@ else
     {
         // הפונקציה מנקה את הטקסט או את נתיב התמונה מהשדה 
         currentStrawberryItem.content = "";
+    }
+    
+    // פונקציית עזר שפתחנו לצורך עריכת ההנחיה (השאלה)
+    async Task SaveInstructionRow(string newText, Question currentQuestion)
+    {
+        //אנחנו מעדכנים את התצוה על המסך
+        currentQuestion.instruction = newText; 
+        
+        // אנחנו קוראים לפונקציית העדכון הכללית שלנו בקונטרולר 
+        // מכיוון שהיא לוקחת את כל הנתונים מהשאלה הנוכחית, היא תעדכן את ההנחיה החדשה ותשמור על הקצוות הקיימים.
+        await UpdateQuestionInServer(currentQuestion); 
     }
 }

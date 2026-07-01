@@ -12,8 +12,15 @@
         @* מצב עריכה: תיבת טקסט + כפתורי אישור/ביטול *@
         <input type="text" @bind="tempText" class="edit-input" />
 
-        <button @onclick="Save" class="btn-save">אישור</button>
-        <button @onclick="Cancel" class="btn-cancel">ביטול</button>
+        @* כפתור אישור ראשי *@
+        <MyButton ButtonText="אישור" 
+                  ButtonStyle="primary" 
+                  OnClickAction="Save" />
+
+        @* כפתור ביטול  משני *@
+        <MyButton ButtonText="ביטול" 
+                  ButtonStyle="secondary" 
+                  OnClickAction="Cancel" />
     }
 
 </div>
@@ -22,7 +29,7 @@
     public string InstructionText { get; set; } // ההנחיה הנוכחית שמגיעה מהקונטרולר
 
     [Parameter]
-    public EventCallback<string> OnInstructionSaved { get; set; } // פעמון ששולח את הטקסט החדש החוצה [cite: 238]
+    public EventCallback<string> OnInstructionSaved { get; set; } // פעמון ששולח את הטקסט החדש החוצה 
 
     bool isEditMode = false;
     string tempText = ""; // משתנה זמני לעריכה, כדי שלא נדרוס את הטקסט המקורי אם המשתמש לוחץ "ביטול"
