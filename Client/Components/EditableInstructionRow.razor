@@ -1,0 +1,49 @@
+@* קומפוננטה שפתחנו לצורך העריכה של שורת השאלה/ ההנחיה *@
+<div class="instruction-row-container">
+
+    @if (isEditMode == false)
+    {
+        @* מצב תצוגה רגיל: טקסט + אייקון עיפרון *@
+        <span>@InstructionText</span>
+        <EditIcon OnClick="EnterEditMode" />
+    }
+    else
+    {
+        @* מצב עריכה: תיבת טקסט + כפתורי אישור/ביטול *@
+        <input type="text" @bind="tempText" class="edit-input" />
+
+        <button @onclick="Save" class="btn-save">אישור</button>
+        <button @onclick="Cancel" class="btn-cancel">ביטול</button>
+    }
+
+</div>
+@code {
+    [Parameter]
+    public string InstructionText { get; set; } // ההנחיה הנוכחית שמגיעה מהקונטרולר
+
+    [Parameter]
+    public EventCallback<string> OnInstructionSaved { get; set; } // פעמון ששולח את הטקסט החדש החוצה [cite: 238]
+
+    bool isEditMode = false;
+    string tempText = ""; // משתנה זמני לעריכה, כדי שלא נדרוס את הטקסט המקורי אם המשתמש לוחץ "ביטול"
+
+    // מעבר למצב עריכה
+    void EnterEditMode()
+    {
+        tempText = InstructionText; // מעתיקים את הטקסט הקיים לתוך תיבת העריכה
+        isEditMode = true;
+    }
+
+    // ביטול עריכה
+    void Cancel()
+    {
+        isEditMode = false;
+    }
+
+    // אישור עריכה
+    async Task Save()
+    {
+        isEditMode = false;
+        await OnInstructionSaved.InvokeAsync(tempText); // צלצול בפעמון ושליחת הטקסט הֶחדש לעמוד הראשי 
+    }
+}

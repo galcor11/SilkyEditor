@@ -822,7 +822,7 @@ else
 
         if (insertResponse.IsSuccessStatusCode == true)
         {
-            // אם השמירה בשרת הצליחה, השרת אמור להחזיר לנו את הפריט הֶחדש 
+            // אם השמירה בקונטרולר הצליחה, הקונטרולר אמור להחזיר לנו את הפריט הֶחדש 
             SilkyItem savedItem = insertResponse.Content.ReadFromJsonAsync<SilkyItem>().Result;
 
             // אנחנו מוסיפים את הפריט שחזר מהקונטרולר אל התולעת שלנו כדי שהמשתמש יראה אותו
@@ -888,7 +888,7 @@ else
             orderIndex = newIndex                  
         };
 
-        // שליחת המידע לשרת עם שרשור מחרוזות תקני
+        // אנחנו פונים לשיטה בקונטרולר
         var updateRes = await Http.PostAsJsonAsync("api/Questions/updateItem/" + itemToSave.answerID, itemToUpdate);
 
         // בדיקה אם העדכון נכשל

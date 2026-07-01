@@ -1,0 +1,32 @@
+/* המכל שעוטף את השורה כולה */
+.instruction-row-container {
+    display: flex;
+    align-items: center;
+}
+
+/* תיבת הטקסט של העריכה */
+.edit-input {
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* כפתור האישור */
+.btn-save {
+    background-color: #9ee1e7;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer; /* הוספתי סמן של יד לשיפור חווית המשתמש */
+}
+
+/* כפתור הביטול */
+.btn-cancel {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer; 
+}
