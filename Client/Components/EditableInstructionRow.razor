@@ -3,9 +3,9 @@
 
     @if (isEditMode == false)
     {
-        @* מצב תצוגה רגיל: טקסט + אייקון עיפרון *@
-        <span>@InstructionText</span>
+        @* מצב תצוגה רגיל: אייקון עיפרון וטקסט  *@
         <EditIcon OnClick="EnterEditMode" />
+        <span>@InstructionText</span>
     }
     else
     {
