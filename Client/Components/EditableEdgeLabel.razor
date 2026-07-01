@@ -1,0 +1,55 @@
+@* קומפוננטה שפתחנו בשביל תגיות הקצֶה *@
+<div class="glass-edge-container">
+    <div class="content-wrapper">
+        @if (isEditing)
+        {
+            <!-- מצב עריכה: תיבת טקסט קטנה וכפתור שמירה -->
+            <input type="text" @bind="tempText" class="edge-edit-input" />
+            <button type="button" class="icon-btn" title="שמור" @onclick="SaveLabel">✔️</button>
+        }
+        else
+        {
+            <!-- מצב תצוגה: העיפרון והטקסט הרגיל -->
+            <span class="edit-icon" title="עריכה" @onclick="StartEditing"> ✏️ </span>
+            <span>@LabelText</span>
+        }
+    </div>
+</div>
+
+@code {
+    // הטקסט הנוכחי שמגיע מהעמוד הראשי ("ראשון"/"אחרון")
+    [Parameter]
+    public string LabelText { get; set; }
+
+    // טקסט ברירת המחדל למקרה של מחיקה
+    [Parameter]
+    public string DefaultText { get; set; }
+
+    // הפעמון שמעדכן את העמוד הראשי בטקסט החדש לאחר השמירה
+    [Parameter]
+    public EventCallback<string> OnLabelSaved { get; set; }
+
+    bool isEditing = false;
+    string tempText = "";
+
+    // מפעיל את מצב העריכה
+    void StartEditing()
+    {
+        tempText = LabelText; 
+        isEditing = true;
+    }
+
+    // שומר את הטקסט או מחזיר לברירת מחדל אם נמחק
+    async Task SaveLabel()
+    {
+        if (string.IsNullOrWhiteSpace(tempText))
+        {
+            tempText = DefaultText;
+        }
+        
+        isEditing = false;
+        
+        // צלצול בפעמון ושליחת הטקסט המעודכן החוצה לעמוד הראשי
+        await OnLabelSaved.InvokeAsync(tempText);
+    }
+}

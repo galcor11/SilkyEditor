@@ -72,19 +72,19 @@
                         <!--  שני הפלייסהולדרים הסטטיים של התולעת -->
                         <div class="segment-wrapper">
                             <div class="label-container">
-                                <div class="glass-edge-label">
-                                    <span class="edit-icon"> ✏️ </span>
-                                    @questionToAdd.startLabel
-                                </div>
+                                @* שימוש בקומפוננטה לתגית הראשונה של תולעת הדמה *@
+                                <EditableEdgeLabel LabelText="@questionToAdd.startLabel"
+                                                   DefaultText="ראשון"
+                                                   OnLabelSaved="@((newText) => questionToAdd.startLabel = newText)" />
                             </div>
                             <img src="SVG/strokeBody.svg" class="placeholder-segment" alt=""/>
                         </div>
                         <div class="segment-wrapper">
                             <div class="label-container">
-                                <div class="glass-edge-label">
-                                    <span class="edit-icon"> ✏️ </span>
-                                    @questionToAdd.endLabel
-                                </div>
+                                @* שימוש בקומפוננטה לתגית האחרונה של תולעת הדמה *@
+                                <EditableEdgeLabel LabelText="@questionToAdd.endLabel"
+                                                   DefaultText="אחרון"
+                                                   OnLabelSaved="@((newText) => questionToAdd.endLabel = newText)" />
                             </div>
                             <img src="SVG/strokeBody.svg" class="placeholder-segment" alt=""/>
                             </div>
@@ -223,18 +223,19 @@
                                             @* מופיע מעל הפריט האמיתי הראשון  *@
                                             @if (i == 0)
                                             {
-                                                <div class="glass-edge-label">
-                                                    <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
-                                                    @question.startLabel
-                                                </div>   
+
+                                                // אנחנו משתמשים בקומפוננטה של הקצוות, וכן נעזרים בפונקציית עזר בשם SaveStartLabel כדי שיהיה אפשר לערוך ולשמור שינויים
+                                                <EditableEdgeLabel LabelText="@question.startLabel"
+                                                                   DefaultText="ראשון"
+                                                                   OnLabelSaved="@((newText) => SaveStartLabel(newText, question))"/>
                                             }
+
                                             @* מופיע מעל הפריט האמיתי האחרון *@
                                             @if (i == itemsCount - 1 && itemsCount >= 2)
                                             {
-                                                <div class="glass-edge-label">
-                                                    <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
-                                                    @question.endLabel
-                                                </div>  
+                                                <EditableEdgeLabel LabelText="@question.endLabel"
+                                                                   DefaultText="אחרון"
+                                                                   OnLabelSaved="@((newText) => SaveEndLabel(newText, question))" />
                                             }
 
                                         </div>
@@ -288,19 +289,17 @@
                                         @* מופיע מעל הפלייסהולדר הראשון רק אם אין בכלל פריטים אמיתיים  *@
                                         @if (question.Items.Count == 0 && p == 0)
                                         {
-                                            <div class="glass-edge-label">
-                                                <span class="edit-icon" title="עריכת תגית התחלה"> ✏️ </span>
-                                                @question.startLabel
-                                            </div>
+                                            <EditableEdgeLabel LabelText="@question.startLabel" 
+                                                               DefaultText="ראשון" 
+                                                               OnLabelSaved="@((newText) => question.startLabel = newText)" />
                                         }
 
                                         @*  תמיד יופיע מעל הפלייסהולדר האחרון כי הוא חותם את התולעת  *@
                                         @if (p == (2 - question.Items.Count) - 1)
                                         {
-                                            <div class="glass-edge-label">
-                                                <span class="edit-icon" title="עריכת תגית סוף"> ✏️ </span>
-                                                @question.endLabel
-                                            </div>
+                                            <EditableEdgeLabel LabelText="@question.endLabel" 
+                                                               DefaultText="אחרון" 
+                                                               OnLabelSaved="@((newText) => question.endLabel = newText)" />
                                         }
                                         </div>
                                         <img src="SVG/strokeBody.svg" class="placeholder-segment" alt=""/>
@@ -736,6 +735,8 @@ else
         //בדיקת תקינוּת
         if (updateResponse.IsSuccessStatusCode == true)
         {
+            //אנחנו מאתחלים את המופע 
+            currentStrawberryItem = new SilkyItem(); 
             // כאן תהיה הודעת "נשמר בהצלחה" 
         }
         else
@@ -762,6 +763,45 @@ else
 
         }
     }
+    // פונקציה עזר לשמירת הקצה הראשון
+    async Task SaveStartLabel(string newText, Question currentQuestion)
+    {
+        currentQuestion.startLabel = newText; // עדכון מקומי
+        await UpdateQuestionInServer(currentQuestion); // שליחה לפונקציה שפונה לקונטרולר
+    }
+
+    // פונקציה עזר לשמירת הקצה האחרון
+    async Task SaveEndLabel(string newText, Question currentQuestion)
+    {
+        currentQuestion.endLabel = newText; // עדכון מקומי
+        await UpdateQuestionInServer(currentQuestion); // שליחה לפונקציה שפונה לקונטרולר
+    }
+    
+    //פונקציה שתפקידה לפנות לשיטה בקונטרולר לעדכון כללי של שאלה כדי לעדכן לנו את הקצוות
+    async Task UpdateQuestionInServer(Question currentQuestion) 
+    {
+        //  המרת השאלה ל-DTO הרלוונטי
+        QuestionToUpdate dto = new QuestionToUpdate
+        {
+            instruction = currentQuestion.instruction,
+            startLabel = currentQuestion.startLabel,
+            endLabel = currentQuestion.endLabel
+        };
+
+        //אנחנו פונים לקונטרולר
+      var response = await Http.PostAsJsonAsync("api/Questions/updateQuestion/" + currentQuestion.questionID.ToString(), dto);
+
+        if (response.IsSuccessStatusCode == false)
+        {
+            errorMsg = await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            successMsg = "הקצה נשמר בהצלחה!";
+        }
+    }
+    
+    
 
     async Task AddNewItemToServer(Question currentQuestion)
     {

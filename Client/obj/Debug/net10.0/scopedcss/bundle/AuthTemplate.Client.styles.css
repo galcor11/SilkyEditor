@@ -48,6 +48,43 @@
 .default-input.danger-input:focus[b-ke5wxkj6ev] {
     outline: 5px solid red !important;
 }
+/* /Components/EditableEdgeLabel.razor.rz.scp.css */
+/* מכל הרקע שמכיל את הזכוכית שמאחורה */
+.glass-edge-container[b-9lx4p56ig2] {
+    background-image: url('./SVG/tagit.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 8px 10px; /* ריווח הרבה יותר עדין שלא דוחף את הזכוכית לצדדים */
+    /* מרווחים כדי שהטקסט יהיה במרכז הזכוכית */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* מסדר את הטקסט והעיפרון זה לצד זה */
+.content-wrapper[b-9lx4p56ig2] {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* עיצוב לתיבת העריכה הקטנה */
+.edge-edit-input[b-9lx4p56ig2] {
+    width: 90px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* עיצוב לכפתורים */
+.icon-btn[b-9lx4p56ig2], .edit-icon[b-9lx4p56ig2] {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 14px;
+}
 /* /Components/GenericDeletePopup.razor.rz.scp.css */
 
 /* העיצוב של הרקע החצי-שקוף שמכסה את כל המסך */

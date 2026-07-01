@@ -1,0 +1,36 @@
+/* מכל הרקע שמכיל את הזכוכית שמאחורה */
+.glass-edge-container {
+    background-image: url('./SVG/tagit.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 8px 10px; /* ריווח הרבה יותר עדין שלא דוחף את הזכוכית לצדדים */
+    /* מרווחים כדי שהטקסט יהיה במרכז הזכוכית */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* מסדר את הטקסט והעיפרון זה לצד זה */
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* עיצוב לתיבת העריכה הקטנה */
+.edge-edit-input {
+    width: 90px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* עיצוב לכפתורים */
+.icon-btn, .edit-icon {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 14px;
+}
